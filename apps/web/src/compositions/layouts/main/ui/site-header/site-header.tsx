@@ -58,8 +58,10 @@ export const SiteHeader = ({ locale }: SiteHeaderProps): JSX.Element => {
             </a>
           </Tooltip>
           <span className={styles.divider} aria-hidden="true" />
-          <LanguageMenu locale={locale} />
-          <ThemeMenu locale={locale} />
+          <div className={styles.controls}>
+            <LanguageMenu locale={locale} />
+            <ThemeMenu locale={locale} />
+          </div>
         </nav>
       </div>
     </header>

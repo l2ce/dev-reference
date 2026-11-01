@@ -3,7 +3,7 @@
   padding-inline: 0.625rem;
   border: 1px solid transparent;
   border-radius: var(--mantine-radius-sm);
-  color: var(--app-muted);
+  color: var(--header-control-color);
 
   &:hover,
   &[aria-expanded='true'] {

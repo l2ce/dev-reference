@@ -1,5 +1,5 @@
 .root {
-  color: var(--app-muted);
+  color: var(--header-control-color);
   border: 1px solid transparent;
   border-radius: var(--mantine-radius-sm);
 
