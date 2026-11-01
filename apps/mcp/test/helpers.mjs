@@ -1,5 +1,6 @@
 import { mkdtemp, rm, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
+import { tmpdir } from 'node:os';
 import { execFileSync } from 'node:child_process';
 import { openDatabase, exportDatabase } from '@l2ce/database';
 import { sharedFixture } from '../../../packages/database/test/fixtures/shared.mjs';
@@ -8,7 +9,7 @@ import { sharedFixture } from '../../../packages/database/test/fixtures/shared.m
  * Создаёт независимую базу и её табличный экспорт для синхронизации MCP.
  */
 export async function datasetFixture(t) {
-  const directory = await mkdtemp('/tmp/opencode/l2ce-mcp-test-');
+  const directory = await mkdtemp(join(tmpdir(), 'l2ce-mcp-test-'));
   const database = openDatabase({ database: join(directory, 'source.sqlite') });
   database.replaceSnapshot(sharedFixture());
   const repo = join(directory, 'repository');

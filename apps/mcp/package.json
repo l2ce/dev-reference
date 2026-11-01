@@ -2,7 +2,6 @@
   "name": "@l2ce/dev-reference-mcp",
   "version": "0.1.0",
   "description": "MCP-доступ к базе знаний L2CE Dev Reference",
-  "private": true,
   "type": "module",
   "bin": {
     "protocols-mcp": "./dist/index.js"
@@ -15,8 +14,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/l2ce/dev-reference.git",
+    "url": "git+https://github.com/l2ce/dev-reference.git",
     "directory": "apps/mcp"
+  },
+  "homepage": "https://l2ce.github.io/dev-reference/",
+  "bugs": {
+    "url": "https://github.com/l2ce/dev-reference/issues"
+  },
+  "publishConfig": {
+    "directory": "build/package",
+    "linkDirectory": false,
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
   },
   "scripts": {
     "build": "node scripts/build.mjs",
@@ -24,7 +33,7 @@
     "start": "node dist/index.js",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "node --test test/*.test.mjs",
-    "prepack": "pnpm --workspace-root exec turbo run build --filter=@l2ce/dev-reference-mcp"
+    "package:prepare": "node scripts/prepare-package.mjs"
   },
   "dependencies": {
     "@l2ce/core": "workspace:*",

@@ -25,6 +25,7 @@
 - [Стиль TypeScript](development/TYPESCRIPT-STYLEGUIDE.md).
 - [Веб-приложение](../apps/web/README.md).
 - [Проверка сайта](../apps/web/AGENTS.md).
+- [Публикация сайта и npm](development/releases.md) — первый релиз и CI.
 
 ## Исследования
 

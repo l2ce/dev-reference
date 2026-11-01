@@ -59,6 +59,8 @@ Workflow [.github/workflows/ci.yml](../../.github/workflows/ci.yml) после �
 проверок публикует `main` через GitHub Actions. В настройках репозитория Pages
 должен быть выбран источник **GitHub Actions**. `configure-pages` передаёт
 реальные origin и basePath; pull requests выполняют проверки без публикации.
+Первое включение Pages и ручной запуск workflow описаны в
+[руководстве релизов](../../docs/development/releases.md#первый-запуск-github-pages).
 
 Кеш web build отключён, чтобы изменения рабочего SQLite всегда попадали в HTML.
 Dev и build используют Webpack с явными server externals для pnpm workspace

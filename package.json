@@ -21,6 +21,8 @@
     "db": "node apps/cli/dist/index.js",
     "db:local": "node apps/cli/dist/index.js",
     "start:mcp": "node apps/mcp/dist/index.js",
+    "release:pack": "node scripts/release/pack.mjs",
+    "release:check": "node apps/mcp/scripts/check-package.mjs",
     "typecheck": "node scripts/turbo.mjs run typecheck",
     "test": "node scripts/turbo.mjs run test",
     "browser": "agent-browser --config ./agent-browser.json",

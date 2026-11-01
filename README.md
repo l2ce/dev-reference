@@ -38,6 +38,11 @@ pnpm run database status
 Разработка TypeScript подчиняется [стайлгайду](docs/development/TYPESCRIPT-STYLEGUIDE.md).
 Порядок браузерной проверки описан в [apps/web/AGENTS.md](apps/web/AGENTS.md).
 
+## Публикация
+
+Порядок первого ручного релиза, настройка npm Trusted Publishing и GitHub Pages:
+[публикация сайта и npm](docs/development/releases.md).
+
 ## Наполнение
 
 Рабочая база создаётся из JSON текущего Git worktree:

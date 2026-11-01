@@ -2,6 +2,7 @@ import { mkdtemp, rm, mkdir, writeFile } from 'node:fs/promises';
 import { rmSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { tmpdir } from 'node:os';
 import {
   importDatabase,
   exportDatabase,
@@ -21,7 +22,7 @@ export function freshIds(value) {
   );
 }
 
-const root = await mkdtemp('/tmp/opencode/l2ce-v19-fixture-');
+const root = await mkdtemp(join(tmpdir(), 'l2ce-v19-fixture-'));
 process.once('exit', () => rmSync(root, { recursive: true, force: true }));
 export const fixtureSnapshot = sharedFixture();
 export const tableDirectory = join(root, 'tables');
@@ -52,7 +53,7 @@ export const cliFile = fileURLToPath(
  * Создаёт изолированную временную область с автоматической очисткой.
  */
 export async function temporaryDirectory(t) {
-  const directory = await mkdtemp('/tmp/opencode/l2ce-database-test-');
+  const directory = await mkdtemp(join(tmpdir(), 'l2ce-database-test-'));
   t.after(() => rm(directory, { recursive: true, force: true }));
   return directory;
 }

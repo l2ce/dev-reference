@@ -8,6 +8,34 @@ MCP предоставляет **только поиск и чтение** пр�
 
 Требуются Node.js 24 и Git для режима репозитория.
 
+После публикации в npm запуск не требует клонирования репозитория:
+
+```bash
+npx --yes @l2ce/dev-reference-mcp
+```
+
+В npm публикуется только MCP. Локальные `@l2ce/core` и `@l2ce/database`
+включены в его архив; нативный `better-sqlite3` устанавливается под вашу платформу.
+
+Настройка stdio в MCP-клиенте:
+
+```json
+{
+  "mcpServers": {
+    "l2ce": {
+      "command": "npx",
+      "args": ["--yes", "@l2ce/dev-reference-mcp"]
+    }
+  }
+}
+```
+
+Для фиксированной версии укажите `@l2ce/dev-reference-mcp@0.1.0`.
+Первый ручной релиз и последующие публикации через CI описаны в
+[руководстве релизов](../../docs/development/releases.md).
+
+Запуск из исходников:
+
 ```bash
 pnpm --filter @l2ce/dev-reference-mcp... build
 node apps/mcp/dist/index.js

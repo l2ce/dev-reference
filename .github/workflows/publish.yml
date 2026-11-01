@@ -1,0 +1,36 @@
+name: Publish npm
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: npm-publish
+  cancel-in-progress: false
+
+jobs:
+  checks:
+    if: startsWith(github.event.release.tag_name, 'mcp-v') && !github.event.release.prerelease
+    uses: ./.github/workflows/check.yml
+
+  publish:
+    needs: [checks]
+    runs-on: ubuntu-latest
+    environment: npm
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          registry-url: https://registry.npmjs.org
+      - uses: actions/download-artifact@v4
+        with:
+          name: mcp-package
+          path: dist/npm
+      - run: node scripts/release/publish.mjs
