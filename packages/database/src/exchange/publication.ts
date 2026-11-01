@@ -17,6 +17,7 @@ import {
   join,
   relative,
   resolve,
+  sep,
 } from 'node:path';
 import { DatabaseError, hasErrorCode } from '../errors.js';
 import { orderDatabaseJson } from './serializer.js';
@@ -136,6 +137,7 @@ async function replaceDirectory(
 /**
  * Публикует полный экспорт под эксклюзивной файловой блокировкой назначения.
  * SQLite-файл внутри назначения запрещён; неполный staging не подменяет старые данные.
+ * Проверка вложенности учитывает разделитель путей текущей платформы.
  * Коллизии коротких имён проверяются до создания каталога, блокировки и staging-файлов.
  */
 export async function publishDirectory(
@@ -153,7 +155,7 @@ export async function publishDirectory(
   const databaseRelative = relative(canonicalOutput, await realpath(database));
   if (
     databaseRelative === '' ||
-    (!databaseRelative.startsWith('..' + '/') &&
+    (!databaseRelative.startsWith('..' + sep) &&
       databaseRelative !== '..' &&
       !isAbsolute(databaseRelative))
   ) {
