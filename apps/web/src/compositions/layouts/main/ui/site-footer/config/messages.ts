@@ -3,9 +3,9 @@
  */
 export const footerMessages = {
   en: {
-    tagline: 'From packets to understanding.'
+    tagline: 'Lineage II Community Edition — an open protocol reference.'
   },
   ru: {
-    tagline: 'От пакетов — к пониманию.'
+    tagline: 'Lineage II Community Edition — открытый справочник протоколов.'
   }
 } as const

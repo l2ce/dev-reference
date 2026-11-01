@@ -1,5 +1,6 @@
 import { Button, Menu, Tooltip, VisuallyHidden } from '@mantine/core'
-import { IconCheck, IconChevronDown, IconLanguage } from '@tabler/icons-react'
+import { IconCheck, IconChevronDown } from '@tabler/icons-react'
+import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
@@ -21,6 +22,8 @@ export const LanguageMenu = ({ locale }: LanguageMenuProps): JSX.Element => {
   const pathname = usePathname()
   const search = useLocationQuery()
   const messages = languageMessages[locale]
+  const currentCode = locale.toUpperCase()
+  const currentLanguageData = LANGUAGE_OPTIONS.find((option) => option.locale === locale) ?? LANGUAGE_OPTIONS[0]
   const optionItems = LANGUAGE_OPTIONS.map((option) => ({
     ...option,
     href: `${changePathLocale(pathname, option.locale)}${search}`,
@@ -33,8 +36,8 @@ export const LanguageMenu = ({ locale }: LanguageMenuProps): JSX.Element => {
       withinPortal={false}
       withInitialFocusPlaceholder={false}
       position="bottom-end"
-      width={208}
-      offset={10}
+      width={216}
+      offset={8}
       opened={isOpen}
       onChange={setIsOpen}
     >
@@ -45,10 +48,16 @@ export const LanguageMenu = ({ locale }: LanguageMenuProps): JSX.Element => {
         events={{ hover: true, focus: true, touch: false }}
       >
         <Menu.Target>
-          <Button className={styles.root} variant="subtle" color="gray" aria-label={messages.hint}>
-            <IconLanguage size={18} stroke={1.7} aria-hidden="true" />
-            <span className={styles.code}>{locale.toUpperCase()}</span>
-            <IconChevronDown className={styles.chevron} size={12} stroke={1.8} aria-hidden="true" />
+          <Button
+            className={styles.root}
+            classNames={{ label: styles.label }}
+            variant="subtle"
+            color="gray"
+            aria-label={messages.hint}
+          >
+            <Image className={styles.flag} src={currentLanguageData.flag} alt="" width={24} height={16} unoptimized />
+            <span className={styles.code}>{currentCode}</span>
+            <IconChevronDown className={styles.chevron} size={14} stroke={1.8} aria-hidden="true" />
           </Button>
         </Menu.Target>
       </Tooltip>
@@ -63,11 +72,7 @@ export const LanguageMenu = ({ locale }: LanguageMenuProps): JSX.Element => {
             key={option.locale}
             data-selected={option.isSelected}
             data-autofocus={option.autoFocus}
-            leftSection={
-              <span className={styles.languageCode} aria-hidden="true">
-                {option.code}
-              </span>
-            }
+            leftSection={<Image className={styles.flag} src={option.flag} alt="" width={24} height={16} unoptimized />}
             rightSection={option.isSelected && <IconCheck size={16} stroke={2} aria-hidden="true" />}
           >
             {option.label}

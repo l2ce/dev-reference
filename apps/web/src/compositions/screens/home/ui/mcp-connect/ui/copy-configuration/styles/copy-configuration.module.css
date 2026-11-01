@@ -1,0 +1,39 @@
+.root {
+  display: grid;
+  justify-items: end;
+  min-width: 0;
+}
+
+.button {
+  min-height: 2rem;
+  color: var(--app-muted);
+  font-size: 0.75rem;
+  font-weight: 500;
+
+  &._copied {
+    color: var(--app-positive);
+  }
+}
+
+.feedback {
+  position: absolute;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  clip-path: inset(50%);
+  white-space: nowrap;
+
+  &._error {
+    position: static;
+    overflow: visible;
+    width: auto;
+    max-width: 16rem;
+    height: auto;
+    padding: 0.25rem 0.5rem 0.5rem;
+    clip-path: none;
+    color: var(--app-text);
+    font-size: 0.75rem;
+    line-height: 1.6;
+    white-space: normal;
+  }
+}

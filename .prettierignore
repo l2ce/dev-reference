@@ -14,5 +14,6 @@ coverage/
 pnpm-lock.yaml
 apps/web/.templates/ui-component/
 apps/web/.templates/ui-unit/
+apps/web/src/infra/github-api/generated/
 .*.lock/
 .*.transaction/

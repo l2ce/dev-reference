@@ -4,8 +4,8 @@ import type { Locale } from 'shared/localization'
 /**
  * Параметры компонента Home.
  */
-export interface HomeScreenParams {
-  /* Язык витрины и подготовленного каталога. */
+export type HomeScreenParams = {
+  /** Язык знакомства со справочником. */
   readonly locale: Locale
 }
 

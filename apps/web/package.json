@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "create": "npx --yes @gromlab/template-file-generator@0.3.1 --skip-update",
+    "generate:github": "pnpm dlx @gromlab/rest-api-codegen@5.2.4 --input src/infra/github-api/schema/contributors.openapi.json --output src/infra/github-api/generated",
     "browser": "pnpm -w browser",
     "dev": "next dev --webpack",
     "build": "next build --webpack && tsx scripts/finalize-export.ts && node scripts/check-export.mjs",

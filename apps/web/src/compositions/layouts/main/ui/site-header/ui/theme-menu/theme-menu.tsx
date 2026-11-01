@@ -1,5 +1,5 @@
 import { ActionIcon, Menu, Tooltip } from '@mantine/core'
-import { IconCheck, IconDeviceDesktop, IconMoon, IconSun, IconSunMoon } from '@tabler/icons-react'
+import { IconCheck, IconDeviceDesktop, IconMoon, IconSun } from '@tabler/icons-react'
 import { useState } from 'react'
 import type { JSX } from 'react'
 import { useThemeControls } from 'ui/themes/client'
@@ -22,6 +22,7 @@ export const ThemeMenu = ({ locale }: ThemeMenuProps): JSX.Element => {
     { value: 'dark', label: messages.dark, icon: IconMoon },
     { value: 'auto', label: messages.auto, icon: IconDeviceDesktop }
   ] as const
+  const ThemeIcon = optionItems.find((option) => option.value === colorScheme)?.icon ?? IconDeviceDesktop
 
   /**
    * Применяет поддерживаемое значение из радио-группы Mantine.
@@ -38,7 +39,7 @@ export const ThemeMenu = ({ locale }: ThemeMenuProps): JSX.Element => {
       withInitialFocusPlaceholder={false}
       position="bottom-end"
       width={216}
-      offset={10}
+      offset={8}
       opened={isOpen}
       onChange={setIsOpen}
     >
@@ -49,8 +50,8 @@ export const ThemeMenu = ({ locale }: ThemeMenuProps): JSX.Element => {
         events={{ hover: true, focus: true, touch: false }}
       >
         <Menu.Target>
-          <ActionIcon className={styles.root} variant="subtle" color="gray" size={36} aria-label={messages.hint}>
-            <IconSunMoon size={19} stroke={1.7} aria-hidden="true" />
+          <ActionIcon className={styles.root} variant="subtle" color="gray" size={40} aria-label={messages.hint}>
+            <ThemeIcon size={20} stroke={1.8} aria-hidden="true" />
           </ActionIcon>
         </Menu.Target>
       </Tooltip>
@@ -73,7 +74,7 @@ export const ThemeMenu = ({ locale }: ThemeMenuProps): JSX.Element => {
                 rightSection={isSelected && <IconCheck size={16} stroke={2} aria-hidden="true" />}
               >
                 <span className={styles.itemContent}>
-                  <OptionIcon size={18} stroke={1.7} aria-hidden="true" />
+                  <OptionIcon size={20} stroke={1.8} aria-hidden="true" />
                   {option.label}
                 </span>
               </Menu.RadioItem>
