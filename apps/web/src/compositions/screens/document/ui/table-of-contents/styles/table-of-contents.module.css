@@ -1,0 +1,48 @@
+.root {
+  padding: 1rem;
+  border: 1px solid var(--app-border);
+  margin-bottom: 2rem;
+
+  @media (--xl) {
+    position: sticky;
+    top: 6rem;
+    padding: 0 0 0 1.25rem;
+    margin: 0;
+    border: 0;
+    border-left: 1px solid var(--app-border);
+    max-height: calc(100vh - 8rem);
+    overflow: auto;
+  }
+}
+.title {
+  font-size: 0.75rem;
+  color: var(--app-text);
+  cursor: pointer;
+  font-weight: 550;
+}
+.links {
+  display: grid;
+  gap: 0.65rem;
+  margin-top: 1.25rem;
+}
+.link {
+  color: var(--app-muted);
+  text-decoration: none;
+  font-size: 0.7rem;
+  line-height: 1.6;
+  &._nested {
+    padding-left: 0.65rem;
+  }
+  &:hover {
+    color: var(--app-accent);
+  }
+}
+.top {
+  display: inline-block;
+  border-top: 1px solid var(--app-border);
+  padding-top: 1rem;
+  margin-top: 1rem;
+  font-size: 0.68rem;
+  color: var(--app-muted);
+  text-decoration: none;
+}

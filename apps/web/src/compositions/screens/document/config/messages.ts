@@ -1,0 +1,41 @@
+/**
+ * Подписи страницы чтения и сведений об исследовании.
+ */
+export const documentMessages = {
+  ru: {
+    pending: 'Исследование продолжается. Описание пока не добавлено.',
+    outgoing: 'Клиент → Сервер',
+    incoming: 'Сервер → Клиент',
+    back: 'К профилю',
+    sources: 'Источники',
+    noSources: 'Источники для этого перевода пока не указаны.',
+    questions: 'Открытые вопросы',
+    issues: 'Неразрешённые ссылки и вставки',
+    details: 'Контекст материала',
+    protocol: 'Протокол',
+    revision: 'Техническая редакция',
+    server: 'Сервер',
+    direction: 'Направление',
+    opcode: 'Опкод',
+    unknown: 'Не установлен',
+    locale: 'Read this document in English',
+  },
+  en: {
+    pending: 'Research is in progress. A description has not been added yet.',
+    outgoing: 'Client → Server',
+    incoming: 'Server → Client',
+    back: 'Back to profile',
+    sources: 'Sources',
+    noSources: 'No sources have been listed for this translation yet.',
+    questions: 'Open questions',
+    issues: 'Unresolved links and inclusions',
+    details: 'Document context',
+    protocol: 'Protocol',
+    revision: 'Technical revision',
+    server: 'Server',
+    direction: 'Direction',
+    opcode: 'Opcode',
+    unknown: 'Not established',
+    locale: 'Читать документ на русском',
+  },
+} as const;

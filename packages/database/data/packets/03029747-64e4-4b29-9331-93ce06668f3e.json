@@ -1,0 +1,8 @@
+{
+  "id": "03029747-64e4-4b29-9331-93ce06668f3e",
+  "code": "key-packet",
+  "sort_order": 20,
+  "name": "KeyPacket",
+  "server": "game",
+  "direction": "server-to-client"
+}

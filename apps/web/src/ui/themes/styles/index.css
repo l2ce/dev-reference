@@ -1,0 +1,70 @@
+@layer mantine;
+@import '@mantine/core/styles.layer.css';
+@import './variables.css';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  /* Системная палитра выбирается CSS до загрузки React и при каждой навигации. */
+  color-scheme: light dark;
+  --mantine-color-text: var(--app-text);
+  --mantine-color-body: var(--app-canvas);
+  --mantine-color-placeholder: var(--app-muted);
+  --mantine-color-default: var(--app-canvas);
+  --mantine-color-default-hover: var(--app-surface);
+  --mantine-color-default-border: var(--app-border);
+  background: var(--app-canvas);
+  color: var(--app-text);
+  font-family: var(--mantine-font-family);
+  line-height: 1.65;
+}
+
+html[data-mantine-color-scheme='light'] {
+  color-scheme: light;
+}
+
+html[data-mantine-color-scheme='dark'] {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  min-width: min(20rem, 100%);
+  background: var(--app-canvas);
+  color: var(--app-text);
+}
+
+a {
+  color: var(--app-accent);
+  text-underline-offset: 0.2em;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+h1,
+h2,
+h3 {
+  letter-spacing: -0.035em;
+  line-height: 1.25;
+}
+
+[id] {
+  scroll-margin-top: 6rem;
+}
+
+:focus-visible {
+  outline: 3px solid var(--app-accent);
+  outline-offset: 4px;
+}
+
+::selection {
+  background: light-dark(#dfe6ff, #3c456d);
+}

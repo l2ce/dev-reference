@@ -1,0 +1,29 @@
+{
+  "extends": "@l2ce/typescript-config/base.json",
+  "compilerOptions": {
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "noEmit": true,
+    "incremental": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "jsx": "react-jsx",
+    "plugins": [{ "name": "next" }],
+    "paths": {
+      "app/*": ["./src/app/*"],
+      "compositions/*": ["./src/compositions/*"],
+      "domains/*": ["./src/domains/*"],
+      "infra/*": ["./src/infra/*"],
+      "ui/*": ["./src/ui/*"],
+      "shared/*": ["./src/shared/*"]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts"
+  ],
+  "exclude": ["node_modules", ".templates"]
+}

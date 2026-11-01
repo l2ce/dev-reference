@@ -1,0 +1,10 @@
+{
+  "protocol_id": "b9d3b155-db66-4a91-9a71-e28f88bcbbe1",
+  "locale": "en",
+  "title": "Classic · Seven Signs · 152-rev-2",
+  "summary": "Packets, scenarios and exchange mechanisms for Classic · Seven Signs.",
+  "description": "# Classic · Seven Signs\n\n| Property | Value |\n| --- | --- |\n| Game revision | 152 |\n| Reference identifier | `152-rev-2` |\n\n## Documentation\n\nMaterials are selected for this profile. Sharing a game revision with another profile does not establish packet compatibility.\n\nThe exact client build and region require separate evidence.\n",
+  "sources_json": "[{\"id\":\"53459d05-a7a0-4900-860b-c87871fe0d39\",\"url\":\"https://github.com/w001122/L2J_Mobius/blob/bf4bbe4124497f338cb5ce50c88c06c6280ca50a/L2J_Mobius_Classic_2.3_SevenSigns/dist/game/config/Server.ini\",\"title\":\"L2J Mobius — Seven Signs\",\"summary\":\"The configuration specifies revision 152 and the Classic server-list type.\"}]",
+  "translation_status": "ready",
+  "open_questions_json": "[]"
+}

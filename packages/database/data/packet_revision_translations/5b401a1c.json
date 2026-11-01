@@ -1,0 +1,10 @@
+{
+  "packet_revision_id": "a22a32ac-cfd1-4fbd-9df5-574a1c6208bb",
+  "locale": "en",
+  "title": "Initial connection parameters",
+  "summary": "The Game Server response during the initial client exchange.",
+  "description": "# KeyPacket\n\n## Purpose\n\nTransfers initial game connection parameters after the protocol version is handled. Parameter layout and activation of transformations depend on the implementation context.\n\n## Exchange position\n\n1. The client opens a Game Server connection.\n2. Sends {{link packet:protocol-version}}.\n3. Receives the initial parameters.\n4. Continues game session verification.\n\n## Open details\n\n- Full field layout and flag meanings.\n- Message opcode.\n- Unsupported-version handling.\n",
+  "sources_json": "[{\"id\":\"e2d4a624-716e-4b20-a008-cebbd18d7c2e\",\"url\":\"https://gitlab.com/MobiusDevelopment/L2J_Mobius/-/blob/a4c31517cd0c428783650e008e199f2ac42a8434/L2J_Mobius_CT_2.6_HighFive/java/org/l2jmobius/gameserver/network/clientpackets/ProtocolVersion.java\",\"title\":\"L2J Mobius — initial game exchange\",\"summary\":\"The initial revision handler defines the next exchange step.\"}]",
+  "translation_status": "ready",
+  "open_questions_json": "[]"
+}

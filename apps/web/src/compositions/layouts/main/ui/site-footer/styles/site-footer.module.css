@@ -1,0 +1,19 @@
+.root {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  width: 100%;
+  height: var(--app-header-height);
+  border-top: 1px solid var(--app-border);
+}
+
+.message {
+  width: 100%;
+  max-width: var(--app-shell-width);
+  margin: 0 auto;
+  padding-inline: var(--app-shell-gutter);
+  color: var(--app-muted);
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  text-align: center;
+}

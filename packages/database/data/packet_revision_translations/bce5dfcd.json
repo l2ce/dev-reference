@@ -1,0 +1,10 @@
+{
+  "packet_revision_id": "5df9b0ac-03df-41b7-a5bd-128cda1ee200",
+  "locale": "ru",
+  "title": "Информация о персонаже",
+  "summary": "Последовательное описание состояния персонажа в Gracia Epilogue.",
+  "description": "# UserInfo\n\n## Начало структуры\n\nВ исследованной реализации после идентификатора сообщения последовательно записываются координаты, идентификатор транспорта, идентификатор объекта и имя персонажа.\n\nДалее следует набор характеристик. Полное описание типов и порядка полей ещё не завершено.\n\n## Применимость\n\nЭта редакция относится к профилю Gracia Epilogue. Совпадающий номер 152 у Orfen не позволяет использовать для него этот формат.\n",
+  "sources_json": "[{\"id\":\"55247595-63a3-4005-bb81-e9012fd9bf17\",\"url\":\"https://gitlab.com/MobiusDevelopment/L2J_Mobius/-/blob/a4c31517cd0c428783650e008e199f2ac42a8434/L2J_Mobius_CT_2.4_Epilogue/java/org/l2jmobius/gameserver/network/serverpackets/UserInfo.java#L95-L120\",\"title\":\"L2J Mobius — Epilogue UserInfo\",\"summary\":\"Начальная последовательность полей в реализации Epilogue.\"}]",
+  "translation_status": "ready",
+  "open_questions_json": "[]"
+}

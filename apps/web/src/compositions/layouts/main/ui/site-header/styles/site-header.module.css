@@ -1,0 +1,123 @@
+.root {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: var(--app-header-height);
+  border-bottom: 1px solid var(--app-border);
+  background: var(--app-canvas);
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  max-width: var(--app-shell-width);
+  margin: 0 auto;
+  padding: 0 var(--app-shell-gutter);
+  gap: 0.5rem;
+
+  @media (--sm) {
+    gap: 1rem;
+  }
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--app-text);
+  text-decoration: none;
+  font-size: 0.8rem;
+  font-weight: 650;
+  letter-spacing: -0.035em;
+  white-space: nowrap;
+
+  @media (--sm) {
+    font-size: 0.95rem;
+  }
+}
+
+.mark {
+  display: none;
+  place-items: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  border: 1px solid var(--app-border);
+  border-radius: 2px;
+  font-family: var(--mantine-font-family-monospace);
+  font-size: 0.9rem;
+  color: var(--app-accent);
+  background: var(--app-accent-soft);
+
+  @media (--sm) {
+    display: grid;
+  }
+}
+
+.navigation {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 0.15rem;
+
+  @media (--md) {
+    gap: 0.35rem;
+  }
+}
+.documentation {
+  display: none;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--app-muted);
+  text-decoration: none;
+  font-size: 0.85rem;
+  height: 2.25rem;
+  padding: 0 0.6rem;
+  border-radius: 3px;
+
+  &[aria-current='page'],
+  &:hover {
+    color: var(--app-accent);
+  }
+  &:hover {
+    background: var(--app-surface);
+  }
+  @media (--md) {
+    display: inline-flex;
+  }
+}
+.github {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-width: 2.25rem;
+  height: 2.25rem;
+  color: var(--app-muted);
+  text-decoration: none;
+  font-size: 0.85rem;
+  padding: 0 0.5rem;
+  border-radius: 3px;
+
+  &:hover {
+    color: var(--app-text);
+    background: var(--app-surface);
+  }
+}
+.githubLabel {
+  display: none;
+  @media (--md) {
+    display: inline;
+  }
+}
+.divider {
+  display: none;
+  height: 1.1rem;
+  border-left: 1px solid var(--app-border);
+  margin-inline: 0.6rem;
+
+  @media (--sm) {
+    display: block;
+  }
+}

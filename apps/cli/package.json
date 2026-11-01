@@ -1,0 +1,28 @@
+{
+  "name": "@l2ce/dev-reference-cli",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "protocols-db": "./dist/index.js"
+  },
+  "engines": {
+    "node": ">=24 <25"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "node --test test/*.test.mjs"
+  },
+  "dependencies": {
+    "commander": "15.0.0",
+    "@l2ce/core": "workspace:*",
+    "@l2ce/database": "workspace:*",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@l2ce/typescript-config": "workspace:*",
+    "@types/node": "24.19.2",
+    "typescript": "6.0.3"
+  }
+}

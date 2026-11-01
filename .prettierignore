@@ -1,0 +1,18 @@
+node_modules/
+# Установленные skills сохраняют исходное форматирование и шаблонный синтаксис.
+.agents/skills/
+.turbo/
+.playwright-mcp/
+.agent-browser/
+.local/
+.next/
+out/
+next-env.d.ts
+build/
+dist/
+coverage/
+pnpm-lock.yaml
+apps/web/.templates/ui-component/
+apps/web/.templates/ui-unit/
+.*.lock/
+.*.transaction/

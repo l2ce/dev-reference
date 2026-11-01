@@ -1,0 +1,25 @@
+.root {
+  max-width: var(--app-content-width);
+  padding: 3rem 1.5rem 5rem;
+  margin: 0 auto;
+}
+.header {
+  margin-bottom: 2.5rem;
+  max-width: 42rem;
+}
+.eyebrow {
+  color: var(--app-accent);
+  font-size: 0.72rem;
+  font-family: var(--mantine-font-family-monospace);
+  letter-spacing: 0.12em;
+}
+.title {
+  margin: 1rem 0;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 600;
+}
+.description {
+  color: var(--app-muted);
+  font-size: 1rem;
+  line-height: 1.8;
+}

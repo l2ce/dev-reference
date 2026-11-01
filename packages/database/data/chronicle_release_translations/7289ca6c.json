@@ -1,0 +1,10 @@
+{
+  "chronicle_release_id": "49d09ca4-6360-4789-8464-fde522ff42be",
+  "locale": "ru",
+  "title": "High Five",
+  "summary": "Выпуск без уточнения именованной части.",
+  "description": "# High Five\n\n## Протоколы\n\n- `268`\n- `273`\n\nТочное соответствие региональным частям выпуска уточняется.\n",
+  "sources_json": "[]",
+  "translation_status": "ready",
+  "open_questions_json": "[]"
+}

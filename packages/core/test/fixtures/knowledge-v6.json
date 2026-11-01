@@ -1,0 +1,737 @@
+{
+  "schemaVersion": 6,
+  "dataVersion": "0.7.0",
+  "defaultLocale": "ru",
+  "locales": ["en", "ru"],
+  "sources": [
+    {
+      "id": "lineage2ts-introduction",
+      "title": "Lineage2TS — Introduction",
+      "summary": "Заявленная поддержка ревизий High Five.",
+      "description": [],
+      "method": "documentation",
+      "url": "https://gitlab.com/MrTREX/lineage2ts/-/blob/master/Readme.md",
+      "locator": "Introduction: a HighFive server with declared support for revisions 267, 268, 271 and 273.",
+      "revision": null
+    },
+    {
+      "id": "kyber-c4",
+      "title": "KyberPrizrak — Lineage II Packets",
+      "summary": "Описание исследования обмена с клиентом C4.",
+      "description": [],
+      "method": "documentation",
+      "url": "https://la2kings.ru/la2bot/packets.html",
+      "locator": "Final research environment list: C4, ProtocolVersion=656, Protocol=30810.",
+      "revision": null
+    },
+    {
+      "id": "l2ts-login-dispatch",
+      "title": "Lineage2TS — состояния login-соединения",
+      "summary": "Выбор обработчика login-пакета в зависимости от состояния соединения.",
+      "description": [],
+      "method": "implementation",
+      "url": "https://gitlab.com/gromov_io/lineage2ts/-/blob/019363590dc6cde8bc47be177629b4a72eab0081/login-server/source/service/L2LoginClient.ts",
+      "locator": "LoginClientState; onAuthenticatedLogin, строки 151–169: 0x05 вызывает RequestServerList после авторизации.",
+      "revision": "019363590dc6cde8bc47be177629b4a72eab0081"
+    },
+    {
+      "id": "l2ts-request-server-list",
+      "title": "Lineage2TS — обработчик RequestServerList",
+      "summary": "Проверка ключей перед отправкой списка серверов.",
+      "description": [],
+      "method": "implementation",
+      "url": "https://gitlab.com/gromov_io/lineage2ts/-/blob/019363590dc6cde8bc47be177629b4a72eab0081/login-server/source/packets/manager/RequestServerList.ts",
+      "locator": "RequestServerList, строки 7–17: чтение двух login-ключей, сравнение с сессией, ServerList либо LoginFail.",
+      "revision": "019363590dc6cde8bc47be177629b4a72eab0081"
+    },
+    {
+      "id": "l2ts-server-list",
+      "title": "Lineage2TS — сериализация ServerList",
+      "summary": "Порядок записи сведений о серверах и персонажах аккаунта.",
+      "description": [],
+      "method": "implementation",
+      "url": "https://gitlab.com/gromov_io/lineage2ts/-/blob/019363590dc6cde8bc47be177629b4a72eab0081/login-server/source/packets/send/ServerList.ts",
+      "locator": "ServerList, applyServerDataChunk и applyCharacterDataChunk, строки 23–86.",
+      "revision": "019363590dc6cde8bc47be177629b4a72eab0081"
+    },
+    {
+      "id": "l2ts-game-dispatch",
+      "title": "Lineage2TS — начальный обмен с game-сервером",
+      "summary": "Согласование ревизии, выделение кадров и начало игровой сессии.",
+      "description": [],
+      "method": "implementation",
+      "url": "https://gitlab.com/gromov_io/lineage2ts/-/blob/019363590dc6cde8bc47be177629b4a72eab0081/game-server/source/gameService/GameClient.ts",
+      "locator": "processOnConnected, строки 315–395: ProtocolVersion 0x0E, ответ KeyPacket, затем AuthorizedLogin 0x2B; onProcessData, строки 240–262: выделение кадров.",
+      "revision": "019363590dc6cde8bc47be177629b4a72eab0081"
+    },
+    {
+      "id": "l2ts-protocol-version",
+      "title": "Lineage2TS — чтение ProtocolVersion",
+      "summary": "Чтение игровой ревизии из начального запроса клиента.",
+      "description": [],
+      "method": "implementation",
+      "url": "https://gitlab.com/gromov_io/lineage2ts/-/blob/019363590dc6cde8bc47be177629b4a72eab0081/game-server/source/gameService/packets/receive/ProtocolVersion.ts",
+      "locator": "ProtocolVersion, строки 10–25: чтение revision; дополнительный блок относится к настройке интеграции прокси.",
+      "revision": "019363590dc6cde8bc47be177629b4a72eab0081"
+    },
+    {
+      "id": "l2ts-key-packet",
+      "title": "Lineage2TS — сериализация KeyPacket",
+      "summary": "Запись статуса согласования ревизии и параметров ключа.",
+      "description": [],
+      "method": "implementation",
+      "url": "https://gitlab.com/gromov_io/lineage2ts/-/blob/019363590dc6cde8bc47be177629b4a72eab0081/game-server/source/gameService/packets/send/KeyPacket.ts",
+      "locator": "KeyPacketStatus и KeyPacket, строки 3–19: опкод 0x2E, флаг, восемь байтов ключа и константы.",
+      "revision": "019363590dc6cde8bc47be177629b4a72eab0081"
+    },
+    {
+      "id": "l2ts-game-writer",
+      "title": "Lineage2TS — запись игрового кадра",
+      "summary": "Запись длины кадра и числовых полей.",
+      "description": [],
+      "method": "implementation",
+      "url": "https://gitlab.com/gromov_io/lineage2ts/-/blob/019363590dc6cde8bc47be177629b4a72eab0081/game-server/source/packets/DeclaredServerPacket.ts",
+      "locator": "assignBuffer, строки 21–24: длина uint16 LE включает заголовок; writeD, строки 42–45: int32 LE.",
+      "revision": "019363590dc6cde8bc47be177629b4a72eab0081"
+    },
+    {
+      "id": "l2ts-game-reader",
+      "title": "Lineage2TS — чтение полей игрового пакета",
+      "summary": "Примитивы чтения полей после опкода.",
+      "description": [],
+      "method": "implementation",
+      "url": "https://gitlab.com/gromov_io/lineage2ts/-/blob/019363590dc6cde8bc47be177629b4a72eab0081/game-server/source/packets/ReadableClientPacket.ts",
+      "locator": "Конструктор, строки 28–30: пропуск опкода; readD, строки 54–57: int32 LE.",
+      "revision": "019363590dc6cde8bc47be177629b4a72eab0081"
+    },
+    {
+      "id": "l2ts-game-crypt",
+      "title": "Lineage2TS — включение шифрования game-соединения",
+      "summary": "Переход от открытого начального ответа к защищённому обмену.",
+      "description": [],
+      "method": "implementation",
+      "url": "https://gitlab.com/gromov_io/lineage2ts/-/blob/019363590dc6cde8bc47be177629b4a72eab0081/game-server/source/gameService/packets/GameCrypt.ts",
+      "locator": "encrypt, строки 33–47: первый исходящий пакет пропускается, затем шифрование включается.",
+      "revision": "019363590dc6cde8bc47be177629b4a72eab0081"
+    }
+  ],
+  "chronicles": [
+    {
+      "id": "c4",
+      "title": "Chronicle 4",
+      "summary": "Хроники C4 основной ветки Lineage II.",
+      "description": [],
+      "stages": [],
+      "sourceIds": ["kyber-c4"]
+    },
+    {
+      "id": "high-five",
+      "title": "High Five",
+      "summary": "Хроники High Five основной ветки Lineage II.",
+      "description": [],
+      "stages": [],
+      "sourceIds": ["lineage2ts-introduction"]
+    }
+  ],
+  "protocols": [
+    {
+      "title": "High Five · 273",
+      "summary": "Ревизия High Five, поддержка которой заявлена в Lineage2TS.",
+      "description": [
+        "## Основание идентификации",
+        "",
+        "В разделе Introduction проекта [Lineage2TS](https://gitlab.com/MrTREX/lineage2ts/-/blob/master/Readme.md)",
+        "заявлена поддержка High Five с игровыми ревизиями `267`, `268`, `271` и `273`.",
+        "Этот профиль предназначен для отдельного исследования ревизии **273**.",
+        "",
+        "Заявленная поддержка серверного эмулятора подтверждает область его применения.",
+        "Проверка официальным клиентом, точная сборка, регион и login revision для этого",
+        "профиля пока не зафиксированы.",
+        "",
+        "## Следующие шаги исследования",
+        "",
+        "Начать с выделения пакетов из TCP-потока, кодирования и начального обмена с",
+        "login server. Затем последовательно описать авторизацию, переход на game server,",
+        "выбор персонажа и вход в мир. Для каждого установленного факта требуется источник."
+      ],
+      "id": "273",
+      "number": 273,
+      "variant": null,
+      "chronicle": "high-five",
+      "stage": null,
+      "family": "main",
+      "region": null,
+      "loginRevisions": [],
+      "sourceIds": ["lineage2ts-introduction"]
+    },
+    {
+      "title": "Chronicle 4 · 656",
+      "summary": "Профиль C4 по статье KyberPrizrak: игровая ревизия 656 и login-ревизия 30810.",
+      "description": [
+        "## Что установлено",
+        "",
+        "В статье [KyberPrizrak «Lineage II Packets»](https://la2kings.ru/la2bot/packets.html)",
+        "описано исследование C4. В заключительном списке условий указаны игровая ревизия",
+        "`656` и login revision `30810` (`0x785A`). Автор сообщает об исследовании C4 ПТС",
+        "без RSA, с отключённым GameGuard и без дополнительных антиботов.",
+        "",
+        "Это сведения об окружении автора статьи. Регион и точная сборка клиента здесь",
+        "ещё не установлены. Автор отдельно отмечает неполные пакеты и неуверенные трактовки.",
+        "",
+        "## Следующие шаги исследования",
+        "",
+        "Предстоит перенести подтверждённые сведения об обмене с точными ссылками на",
+        "разделы источника, затем описать ветки ошибок, состояния соединений и игровые",
+        "сценарии. Пока форматы пакетов в этот профиль не внесены."
+      ],
+      "id": "656",
+      "number": 656,
+      "variant": null,
+      "chronicle": "c4",
+      "stage": null,
+      "family": "main",
+      "region": null,
+      "loginRevisions": [30810],
+      "sourceIds": ["kyber-c4"]
+    }
+  ],
+  "entities": [
+    {
+      "id": "key-packet",
+      "title": "KeyPacket — ответ с параметрами защиты обмена",
+      "summary": "Результат проверки ревизии и восемь байтов ключа игрового соединения.",
+      "description": [],
+      "order": 103,
+      "parentId": null,
+      "kind": "packet",
+      "name": "KeyPacket",
+      "server": "game",
+      "direction": "server-to-client",
+      "bindings": [
+        {
+          "protocolIds": ["273"],
+          "documentVersionId": "packet.key-packet.v1",
+          "status": "partial",
+          "sourceIds": ["l2ts-key-packet", "l2ts-game-dispatch"],
+          "opcode": [
+            {
+              "type": "u8",
+              "value": "0x2E"
+            }
+          ],
+          "states": ["CONNECTED"]
+        }
+      ]
+    },
+    {
+      "id": "protocol-version",
+      "title": "ProtocolVersion — согласование игровой ревизии",
+      "summary": "Первый запрос game-соединения, по которому сервер проверяет поддержку ревизии клиента.",
+      "description": [],
+      "order": 102,
+      "parentId": null,
+      "kind": "packet",
+      "name": "ProtocolVersion",
+      "server": "game",
+      "direction": "client-to-server",
+      "bindings": [
+        {
+          "protocolIds": ["273"],
+          "documentVersionId": "packet.protocol-version.v1",
+          "status": "partial",
+          "sourceIds": ["l2ts-game-dispatch", "l2ts-protocol-version"],
+          "opcode": [
+            {
+              "type": "u8",
+              "value": "0x0E"
+            }
+          ],
+          "states": ["CONNECTED"]
+        }
+      ]
+    },
+    {
+      "id": "request-server-list",
+      "title": "RequestServerList — запрос списка серверов",
+      "summary": "Проверка login-ключей и запрос доступных игровых серверов после входа в аккаунт.",
+      "description": [],
+      "order": 100,
+      "parentId": null,
+      "kind": "packet",
+      "name": "RequestServerList",
+      "server": "login",
+      "direction": "client-to-server",
+      "bindings": [
+        {
+          "protocolIds": ["273"],
+          "documentVersionId": "packet.request-server-list.v1",
+          "status": "partial",
+          "sourceIds": ["l2ts-login-dispatch", "l2ts-request-server-list"],
+          "opcode": [
+            {
+              "type": "u8",
+              "value": "0x05"
+            }
+          ],
+          "states": ["AUTHED_LOGIN"]
+        }
+      ]
+    },
+    {
+      "id": "server-list",
+      "title": "ServerList — список игровых серверов",
+      "summary": "Адреса, состояние и параметры игровых серверов, а также сведения о персонажах аккаунта.",
+      "description": [],
+      "order": 101,
+      "parentId": null,
+      "kind": "packet",
+      "name": "ServerList",
+      "server": "login",
+      "direction": "server-to-client",
+      "bindings": [
+        {
+          "protocolIds": ["273"],
+          "documentVersionId": "packet.server-list.v1",
+          "status": "partial",
+          "sourceIds": ["l2ts-server-list"],
+          "opcode": [
+            {
+              "type": "u8",
+              "value": "0x04"
+            }
+          ],
+          "states": ["AUTHED_LOGIN"]
+        }
+      ]
+    },
+    {
+      "id": "game-connection",
+      "title": "Подключение к game server",
+      "summary": "Согласование ревизии, установка шифрования и авторизация игровой сессии.",
+      "description": [],
+      "order": 5,
+      "parentId": null,
+      "kind": "scenario",
+      "servers": ["game"],
+      "bindings": [
+        {
+          "protocolIds": ["273"],
+          "documentVersionId": "scenario.game-connection.v1",
+          "status": "partial",
+          "sourceIds": ["l2ts-game-dispatch", "l2ts-game-crypt"]
+        }
+      ]
+    },
+    {
+      "id": "server-selection",
+      "title": "Выбор игрового сервера",
+      "summary": "Получение списка серверов, выбор сервера и подготовка перехода.",
+      "description": [],
+      "order": 4,
+      "parentId": null,
+      "kind": "scenario",
+      "servers": ["login"],
+      "bindings": [
+        {
+          "protocolIds": ["273"],
+          "documentVersionId": "scenario.server-selection.v1",
+          "status": "partial",
+          "sourceIds": [
+            "l2ts-login-dispatch",
+            "l2ts-request-server-list",
+            "l2ts-server-list"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "game-framing",
+      "title": "Кадр игрового соединения",
+      "summary": "Как Lineage2TS отделяет игровой пакет от TCP-потока и сохраняет открытым поле длины.",
+      "description": [],
+      "order": 90,
+      "parentId": null,
+      "kind": "article",
+      "servers": ["game"],
+      "scope": "protocol",
+      "bindings": [
+        {
+          "protocolIds": ["273"],
+          "documentVersionId": "article.game-framing.v1",
+          "status": "partial",
+          "sourceIds": [
+            "l2ts-game-writer",
+            "l2ts-game-dispatch",
+            "l2ts-game-crypt"
+          ]
+        }
+      ],
+      "documentVersionId": null
+    }
+  ],
+  "documents": [
+    {
+      "id": "article.game-framing.v1",
+      "title": "Выделение игрового пакета из TCP-потока",
+      "summary": "Короткая заметка по GameClient, DeclaredServerPacket и GameCrypt в Lineage2TS.",
+      "description": [
+        "## Границы игрового кадра",
+        "",
+        "В Lineage2TS первые два байта содержат полную длину кадра как `uint16 LE`, включая само поле длины. После заголовка идут опкод и содержимое. Получатель накапливает неполный кадр и может обработать несколько кадров из одного TCP-чтения.",
+        "",
+        "## Начало защищённого обмена",
+        "",
+        "GameClient передаёт шифратору байты после двухбайтового заголовка. Первый вызов `GameCrypt.encrypt` оставляет содержимое открытым и включает шифрование следующих пакетов. Поэтому начальный KeyPacket в описанной последовательности передаётся открыто; поле длины остаётся вне шифрования."
+      ],
+      "entity": {
+        "kind": "article",
+        "id": "game-framing"
+      },
+      "status": "partial",
+      "sourceIds": [
+        "l2ts-game-writer",
+        "l2ts-game-dispatch",
+        "l2ts-game-crypt"
+      ],
+      "previousVersionId": null,
+      "requires": [],
+      "changes": [],
+      "openQuestions": [
+        "Сверить правила на захвате обмена официального клиента 273."
+      ]
+    },
+    {
+      "id": "packet.key-packet.v1",
+      "title": "Ответ на согласование ревизии",
+      "summary": "Формат KeyPacket, записываемый Lineage2TS.",
+      "description": [
+        "## Назначение",
+        "",
+        "Ответ на {{link packet:protocol-version}}. Опкод: {{value packet:key-packet field=opcode}}. Передаёт результат проверки ревизии и первые восемь байтов ключа.",
+        "",
+        "## Поля после опкода",
+        "",
+        "| Поле | Тип | Значение в реализации |",
+        "| --- | --- | --- |",
+        "| status | uint8 | 0 — ревизия не поддержана; 1 — успех |",
+        "| key | byte[8] | Первые восемь байтов ключа |",
+        "| constant1 | int32 LE | 1 |",
+        "| constant2 | int32 LE | 1 |",
+        "| constant3 | uint8 | 1 |",
+        "| constant4 | int32 LE | 0 |",
+        "",
+        "Названия `constant1`–`constant4` условны: назначение этих полей пока не установлено. В сериализаторе 23 байта, включая опкод, и отдельный двухбайтовый заголовок длины.",
+        "",
+        "{{include article:game-framing}}"
+      ],
+      "entity": {
+        "kind": "packet",
+        "id": "key-packet"
+      },
+      "status": "partial",
+      "sourceIds": ["l2ts-key-packet", "l2ts-game-writer", "l2ts-game-crypt"],
+      "previousVersionId": null,
+      "requires": [
+        {
+          "kind": "article",
+          "id": "game-framing"
+        }
+      ],
+      "changes": [],
+      "openQuestions": [
+        "Уточнить смысл констант после ключа по дополнительным источникам и официальному клиенту."
+      ]
+    },
+    {
+      "id": "packet.protocol-version.v1",
+      "title": "Согласование игровой ревизии",
+      "summary": "Начальный запрос game-соединения по реализации Lineage2TS.",
+      "description": [
+        "## Назначение",
+        "",
+        "Клиент сообщает игровую ревизию в начале game-соединения. Опкод выбранного профиля: {{value packet:protocol-version field=opcode}}. Обработчик Lineage2TS называется `ProtocolVersion`.",
+        "",
+        "## Поля после опкода",
+        "",
+        "| Поле | Тип | Значение |",
+        "| --- | --- | --- |",
+        "| revision | int32 LE | Запрошенная игровая ревизия; для этого профиля — 273 |",
+        "",
+        "Дополнительный блок адреса в исходнике обрабатывается только при включённой интеграции прокси. Его принадлежность официальному протоколу этим кодом не подтверждена.",
+        "",
+        "{{include article:game-framing}}",
+        "",
+        "## Ответ",
+        "",
+        "При поддерживаемой ревизии сервер отправляет {{link packet:key-packet}} с успешным статусом. При неподдерживаемой — тот же тип ответа со статусом отказа и закрывает соединение. Повторный запрос после включения шифрования в этой реализации завершает соединение."
+      ],
+      "entity": {
+        "kind": "packet",
+        "id": "protocol-version"
+      },
+      "status": "partial",
+      "sourceIds": [
+        "l2ts-protocol-version",
+        "l2ts-game-reader",
+        "l2ts-game-dispatch"
+      ],
+      "previousVersionId": null,
+      "requires": [
+        {
+          "kind": "article",
+          "id": "game-framing"
+        }
+      ],
+      "changes": [],
+      "openQuestions": [
+        "Зафиксировать полный начальный запрос официального клиента 273 и отделить его поля от расширения прокси."
+      ]
+    },
+    {
+      "id": "packet.request-server-list.v1",
+      "title": "Запрос списка серверов",
+      "summary": "Краткий разбор обработчика Lineage2TS для High Five 273.",
+      "description": [
+        "## Назначение",
+        "",
+        "Клиент запрашивает список игровых серверов после авторизации аккаунта. Опкод: {{value packet:request-server-list field=opcode}}. Сведения получены из реализации Lineage2TS; отдельная проверка официальным клиентом не выполнена.",
+        "",
+        "## Читаемые поля",
+        "",
+        "После однобайтового опкода обработчик читает два четырёхбайтовых значения: `loginOk1`, затем `loginOk2`. Они сопоставляются с login-частью ключа текущей сессии. Полная структура оставшегося содержимого здесь ещё не установлена.",
+        "",
+        "## Обработка",
+        "",
+        "В состоянии `AUTHED_LOGIN` сервер сравнивает ключи. При совпадении включает обновления списка и возвращает {{link packet:server-list}}. При несовпадении возвращает `LoginFail` с причиной `accessFailed`."
+      ],
+      "entity": {
+        "kind": "packet",
+        "id": "request-server-list"
+      },
+      "status": "partial",
+      "sourceIds": ["l2ts-request-server-list", "l2ts-login-dispatch"],
+      "previousVersionId": null,
+      "requires": [],
+      "changes": [],
+      "openQuestions": [
+        "Проверить полный запрос официального клиента, включая данные после двух login-ключей."
+      ]
+    },
+    {
+      "id": "packet.server-list.v1",
+      "title": "Список игровых серверов",
+      "summary": "Краткий разбор сериализатора ServerList в Lineage2TS.",
+      "description": [
+        "## Назначение",
+        "",
+        "Login-сервер передаёт клиенту доступные игровые серверы. Опкод: {{value packet:server-list field=opcode}}. Описание основано на сериализаторе эмулятора.",
+        "",
+        "## Состав",
+        "",
+        "После опкода записываются число серверов и ID последнего сервера — по одному байту. Далее идут записи серверов по 21 байту: ID, IPv4, порт, возрастное ограничение, PvP-флаг, текущая и предельная численность, флаг доступности, тип сервера и оформление названия.",
+        "",
+        "После списка сериализатор записывает двухбайтовый ноль и блок персонажей аккаунта: число записей, ID сервера, число персонажей и список сроков удаления. Это краткий обзор; полная таблица полей пока не составлена."
+      ],
+      "entity": {
+        "kind": "packet",
+        "id": "server-list"
+      },
+      "status": "partial",
+      "sourceIds": ["l2ts-server-list"],
+      "previousVersionId": null,
+      "requires": [],
+      "changes": [],
+      "openQuestions": [
+        "Проверить значения флагов и полный формат на официальном клиенте выбранной ревизии."
+      ]
+    },
+    {
+      "id": "scenario.game-connection.v1",
+      "title": "Согласование ревизии при подключении к game-серверу",
+      "summary": "Первый обмен и переход к защищённой игровой сессии по Lineage2TS.",
+      "description": [
+        "## Предусловия",
+        "",
+        "Открыто TCP-соединение с game-сервером. Клиент находится в начальном состоянии, шифрование в реализации ещё выключено.",
+        "",
+        "## Последовательность",
+        "",
+        "1. Получите {{link packet:protocol-version}} и прочитайте запрошенную ревизию.",
+        "2. Проверьте, поддерживает ли её сервер.",
+        "3. При успехе установите ключ и отправьте {{link packet:key-packet}} со статусом 1.",
+        "4. Первый исходящий пакет проходит без шифрования; последующий обмен обрабатывается игровым шифратором.",
+        "5. Следующий этап — авторизация игровой сессии запросом `AuthLogin` (`AuthorizedLogin` в этой реализации). Его поля пока не описаны.",
+        "",
+        "Правила выделения пакетов: {{link article:game-framing}}.",
+        "",
+        "## Отказы",
+        "",
+        "Неподдерживаемая ревизия: ответ KeyPacket со статусом 0 и закрытие соединения. Повторное согласование после включения шифрования или преждевременная игровая авторизация: разрыв соединения в исследованной реализации."
+      ],
+      "entity": {
+        "kind": "scenario",
+        "id": "game-connection"
+      },
+      "status": "partial",
+      "sourceIds": ["l2ts-game-dispatch", "l2ts-game-crypt"],
+      "previousVersionId": null,
+      "requires": [
+        {
+          "kind": "packet",
+          "id": "protocol-version"
+        },
+        {
+          "kind": "packet",
+          "id": "key-packet"
+        },
+        {
+          "kind": "article",
+          "id": "game-framing"
+        }
+      ],
+      "changes": [],
+      "openQuestions": [
+        "Разобрать AuthLogin и проверку игровых ключей как следующий этап подключения."
+      ]
+    },
+    {
+      "id": "scenario.server-selection.v1",
+      "title": "Получение списка серверов после авторизации",
+      "summary": "Начальная часть выбора игрового сервера по Lineage2TS.",
+      "description": [
+        "## Предусловия",
+        "",
+        "Login-соединение авторизовано, сервер хранит ключи сессии; состояние обработчика — `AUTHED_LOGIN`. Последовательность описана по коду эмулятора.",
+        "",
+        "## Последовательность",
+        "",
+        "1. Клиент отправляет {{link packet:request-server-list}} с login-ключами.",
+        "2. Сервер сравнивает их с текущей сессией.",
+        "3. При успехе сервер отправляет {{link packet:server-list}} и разрешает обновления списка.",
+        "4. При несовпадении ключей возвращается `LoginFail(accessFailed)`.",
+        "",
+        "Сам выбор сервера и переход на game-соединение в этом кратком описании ещё не разобраны."
+      ],
+      "entity": {
+        "kind": "scenario",
+        "id": "server-selection"
+      },
+      "status": "partial",
+      "sourceIds": [
+        "l2ts-login-dispatch",
+        "l2ts-request-server-list",
+        "l2ts-server-list"
+      ],
+      "previousVersionId": null,
+      "requires": [
+        {
+          "kind": "packet",
+          "id": "request-server-list"
+        },
+        {
+          "kind": "packet",
+          "id": "server-list"
+        }
+      ],
+      "changes": [],
+      "openQuestions": [
+        "Описать следующий запрос RequestServerLogin и передачу игровой сессии."
+      ]
+    }
+  ],
+  "translations": [
+    {
+      "title": "Lineage II protocols",
+      "summary": "Game client and server communication, from the first connection to the game world.",
+      "description": [],
+      "locale": "en",
+      "entities": [
+        {
+          "title": "Chronicle 4",
+          "summary": "Chronicle 4",
+          "description": [],
+          "kind": "chronicle",
+          "id": "c4"
+        },
+        {
+          "title": "High Five",
+          "summary": "High Five",
+          "description": [],
+          "kind": "chronicle",
+          "id": "high-five"
+        },
+        {
+          "title": "High Five · 273",
+          "summary": "A research outline for High Five revision 273, identified through Lineage2TS's declared support.",
+          "description": [
+            "## Identification basis",
+            "",
+            "The Introduction in [Lineage2TS](https://gitlab.com/MrTREX/lineage2ts/-/blob/master/Readme.md)",
+            "declares support for High Five game revisions `267`, `268`, `271` and `273`.",
+            "This profile is dedicated to investigating revision **273** independently.",
+            "",
+            "The emulator's declared support establishes its intended scope. Verification",
+            "with an official client, an exact client build, a region and a login revision",
+            "have not yet been recorded for this profile.",
+            "",
+            "## Next research steps",
+            "",
+            "Start with packet framing in the TCP stream, data encoding and the initial login",
+            "server exchange. Continue with authentication, the handoff to the game server,",
+            "character selection and world entry. Each established fact needs a source."
+          ],
+          "kind": "protocol",
+          "id": "273"
+        },
+        {
+          "title": "Chronicle 4 · 656",
+          "summary": "A C4 research outline based on KyberPrizrak's article: game revision 656 and login revision 30810.",
+          "description": [
+            "## Established information",
+            "",
+            "[KyberPrizrak's “Lineage II Packets”](https://la2kings.ru/la2bot/packets.html)",
+            "describes research into C4. The final environment list identifies game revision",
+            "`656` and login revision `30810` (`0x785A`). The author reports using a C4 PTS",
+            "server without RSA, with GameGuard disabled and no additional anti-bot software.",
+            "",
+            "These details describe the author's research environment. The region and exact",
+            "client build have not been identified here. The article explicitly marks",
+            "incomplete packets and uncertain interpretations.",
+            "",
+            "## Next research steps",
+            "",
+            "The navigation follows the client's lifecycle. Confirmed communication details",
+            "still need to be recorded with precise source references, followed by failure",
+            "branches, connection states and gameplay flows. Packet formats have not yet",
+            "been added to this profile."
+          ],
+          "kind": "protocol",
+          "id": "656"
+        },
+        {
+          "title": "Connecting to the game server",
+          "summary": "Revision negotiation, encryption setup and game session authentication.",
+          "description": [],
+          "kind": "scenario",
+          "id": "game-connection"
+        },
+        {
+          "title": "Selecting a game server",
+          "summary": "Retrieving the server list, choosing a server and preparing the handoff.",
+          "description": [],
+          "kind": "scenario",
+          "id": "server-selection"
+        }
+      ],
+      "documents": []
+    },
+    {
+      "title": "Протоколы Lineage II",
+      "summary": "Взаимодействие игрового клиента с серверами: от первого соединения до игрового мира.",
+      "description": [],
+      "locale": "ru",
+      "entities": [],
+      "documents": []
+    }
+  ]
+}

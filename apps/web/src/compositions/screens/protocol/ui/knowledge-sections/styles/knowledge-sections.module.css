@@ -1,0 +1,40 @@
+.root {
+  display: grid;
+  gap: 1rem;
+  @media (--xl) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+.card {
+  display: block;
+  padding: 1.5rem;
+  border: 1px solid var(--app-border);
+  border-radius: 2px;
+  color: var(--app-text);
+  text-decoration: none;
+  &:hover {
+    background: var(--app-surface);
+    border-color: var(--app-accent);
+  }
+}
+.top {
+  display: flex;
+  justify-content: space-between;
+  color: var(--app-muted);
+}
+.count {
+  color: var(--app-accent);
+  font-family: var(--mantine-font-family-monospace);
+  font-size: 1.4rem;
+}
+.card h3 {
+  margin: 1.5rem 0 0.6rem;
+  font-size: 1.15rem;
+  font-weight: 550;
+}
+.card p {
+  color: var(--app-muted);
+  font-size: 0.8rem;
+  line-height: 1.8;
+  margin: 0;
+}

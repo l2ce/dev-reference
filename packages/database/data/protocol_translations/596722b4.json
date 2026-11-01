@@ -1,0 +1,10 @@
+{
+  "protocol_id": "03735b83-305d-42ce-a1a2-b70355759370",
+  "locale": "ru",
+  "title": "High Five · 268",
+  "summary": "Пакеты, сценарии и механизмы обмена для High Five.",
+  "description": "# High Five\n\n| Признак | Значение |\n| --- | --- |\n| Игровой номер | 268 |\n| Обозначение справочника | `268` |\n\n## Документация\n\nМатериалы выбираются по этому профилю. Совпадение игрового номера с другим профилем не означает совместимость пакетов.\n\nТочная сборка клиента и регион требуют отдельного подтверждения.\n",
+  "sources_json": "[{\"id\":\"61e7a698-26fe-41ab-b6fc-8bfd4e63afaf\",\"url\":\"https://gitlab.com/MobiusDevelopment/L2J_Mobius/-/blob/a4c31517cd0c428783650e008e199f2ac42a8434/L2J_Mobius_CT_2.6_HighFive/dist/game/config/Server.ini#L68-L72\",\"title\":\"L2J Mobius — High Five\",\"summary\":\"Конфигурация перечисляет игровые номера 267, 268, 271 и 273. Это сведения реализации эмулятора.\"}]",
+  "translation_status": "ready",
+  "open_questions_json": "[]"
+}

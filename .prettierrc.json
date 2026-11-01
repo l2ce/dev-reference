@@ -1,0 +1,10 @@
+{
+  "singleQuote": true,
+  "trailingComma": "all",
+  "overrides": [
+    {
+      "files": "packages/database/data/**/*.json",
+      "options": { "parser": "json-stringify" }
+    }
+  ]
+}

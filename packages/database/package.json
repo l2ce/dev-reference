@@ -1,0 +1,46 @@
+{
+  "name": "@l2ce/database",
+  "version": "0.2.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./model": {
+      "types": "./dist/model.d.ts",
+      "import": "./dist/model.js",
+      "default": "./dist/model.js"
+    },
+    "./source": {
+      "types": "./dist/source.d.ts",
+      "import": "./dist/source.js",
+      "default": "./dist/source.js"
+    }
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "schema:generate": "node scripts/build.mjs --write-schema",
+    "database": "tsx src/cli/index.ts",
+    "benchmark": "node scripts/benchmark.mjs",
+    "typecheck": "tsc -p tsconfig.check.json",
+    "test": "node --test test/*.test.mjs"
+  },
+  "dependencies": {
+    "better-sqlite3": "13.0.3",
+    "drizzle-orm": "0.45.4",
+    "mdast-util-from-markdown": "2.1.0",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@l2ce/typescript-config": "workspace:*",
+    "@types/better-sqlite3": "9.6.0",
+    "@types/mdast": "4.0.4",
+    "@types/node": "24.19.2",
+    "drizzle-kit": "0.31.11",
+    "tsx": "4.23.15",
+    "typescript": "6.0.3"
+  }
+}

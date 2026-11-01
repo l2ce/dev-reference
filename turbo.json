@@ -1,0 +1,48 @@
+{
+  "$schema": "https://turborepo.com/schema.json",
+  "tasks": {
+    "@l2ce/web#build": {
+      "dependsOn": ["^build"],
+      "cache": false,
+      "env": ["NEXT_PUBLIC_BASE_PATH", "SITE_URL", "L2CE_SOURCE_GIT_COMMIT"],
+      "outputs": [".next/**", "!.next/cache/**", "out/**"]
+    },
+    "lint": {
+      "outputs": []
+    },
+    "build": {
+      "dependsOn": ["^build"],
+      "env": ["L2CE_SOURCE_GIT_COMMIT"],
+      "outputs": ["build/**", "dist/**", ".next/**", "!.next/cache/**"]
+    },
+    "dev": {
+      "dependsOn": ["^build"],
+      "cache": false,
+      "persistent": true
+    },
+    "typecheck": {
+      "dependsOn": ["^build"],
+      "outputs": []
+    },
+    "test": {
+      "dependsOn": ["^build"],
+      "outputs": []
+    },
+    "@l2ce/dev-reference-mcp#test": {
+      "dependsOn": ["build"],
+      "outputs": []
+    },
+    "@l2ce/core#test": {
+      "dependsOn": ["build"],
+      "outputs": []
+    },
+    "@l2ce/database#test": {
+      "dependsOn": ["build"],
+      "outputs": []
+    },
+    "@l2ce/dev-reference-cli#test": {
+      "dependsOn": ["build"],
+      "outputs": []
+    }
+  }
+}

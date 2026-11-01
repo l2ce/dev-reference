@@ -1,0 +1,10 @@
+{
+  "protocol_id": "03735b83-305d-42ce-a1a2-b70355759370",
+  "locale": "en",
+  "title": "High Five · 268",
+  "summary": "Packets, scenarios and exchange mechanisms for High Five.",
+  "description": "# High Five\n\n| Property | Value |\n| --- | --- |\n| Game revision | 268 |\n| Reference identifier | `268` |\n\n## Documentation\n\nMaterials are selected for this profile. Sharing a game revision with another profile does not establish packet compatibility.\n\nThe exact client build and region require separate evidence.\n",
+  "sources_json": "[{\"id\":\"aa48bbdb-19e7-4b9a-afd4-2fcef4fbd32d\",\"url\":\"https://gitlab.com/MobiusDevelopment/L2J_Mobius/-/blob/a4c31517cd0c428783650e008e199f2ac42a8434/L2J_Mobius_CT_2.6_HighFive/dist/game/config/Server.ini#L68-L72\",\"title\":\"L2J Mobius — High Five\",\"summary\":\"The configuration lists game revisions 267, 268, 271 and 273. This evidence describes the emulator implementation.\"}]",
+  "translation_status": "ready",
+  "open_questions_json": "[]"
+}

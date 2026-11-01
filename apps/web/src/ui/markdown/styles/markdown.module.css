@@ -1,0 +1,56 @@
+.root {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  font-size: 0.95rem;
+  line-height: 1.8;
+}
+
+/* Разметка Markdown не задаёт локальные классы: типографика ограничена его контейнером. */
+.root :where(h2, h3) {
+  margin-block: 2rem 0.75rem;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+}
+
+.root h2:first-child {
+  margin-top: 0;
+}
+.root :where(p, ul, ol) {
+  margin-block: 0 1.25rem;
+}
+
+.root pre {
+  max-width: 100%;
+  overflow-x: auto;
+  padding: 1rem;
+  border: 1px solid var(--app-border);
+  border-radius: var(--mantine-radius-md);
+  background: var(--app-surface);
+}
+
+.root code {
+  font-family: var(--mantine-font-family-monospace);
+  font-size: 0.88em;
+}
+.root table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  margin-block: 1.5rem;
+  border-collapse: collapse;
+  overflow-wrap: normal;
+}
+.root :where(th, td) {
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--app-border);
+  text-align: left;
+}
+.root th {
+  background: var(--app-surface);
+}
+.root blockquote {
+  margin-inline: 0;
+  padding-inline: 1.25rem;
+  border-inline-start: 3px solid var(--app-accent);
+  color: var(--app-muted);
+}

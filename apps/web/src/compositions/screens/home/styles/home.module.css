@@ -1,0 +1,135 @@
+.root {
+  max-width: var(--app-shell-width);
+  padding: 0 var(--app-shell-gutter);
+  margin: 0 auto;
+}
+.hero {
+  display: grid;
+  gap: 3rem;
+  padding: 4rem 0;
+  align-items: center;
+
+  @media (--lg) {
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.9fr);
+    gap: 5rem;
+    padding: 6rem 0;
+  }
+}
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: var(--app-muted);
+  font-family: var(--mantine-font-family-monospace);
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  margin: 0 0 1.75rem;
+}
+.dot {
+  width: 0.4rem;
+  height: 0.4rem;
+  background: var(--app-positive);
+  border-radius: 50%;
+}
+.title {
+  margin: 0;
+  font-size: clamp(2.8rem, 5.5vw, 4.6rem);
+  font-weight: 600;
+  line-height: 1.04;
+  letter-spacing: -0.065em;
+}
+.accent {
+  color: var(--app-accent);
+}
+.description {
+  max-width: 32rem;
+  color: var(--app-muted);
+  line-height: 1.8;
+  margin: 1.75rem 0;
+  font-size: 1rem;
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.5rem;
+}
+.github {
+  color: var(--app-text);
+  text-decoration: none;
+  font-size: 0.85rem;
+}
+.primary {
+  color: var(--mantine-color-white);
+}
+.footnote {
+  color: var(--app-muted);
+  font-size: 0.7rem;
+  margin: 1.25rem 0 0;
+}
+.map {
+  border: 1px solid var(--app-border);
+  border-radius: 2px;
+  background: var(--app-canvas);
+}
+.mapHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: var(--app-surface);
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--app-border);
+  font-family: var(--mantine-font-family-monospace);
+  font-size: 0.6rem;
+  color: var(--app-muted);
+  letter-spacing: 0.06em;
+}
+.mapDot {
+  display: block;
+  width: 6px;
+  height: 6px;
+  border: 1px solid var(--app-muted);
+  border-radius: 50%;
+}
+.mapRow {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  padding: 1.4rem 1.25rem;
+  border-bottom: 1px solid var(--app-border);
+}
+.mapRow h2 {
+  font-size: 1rem;
+  font-weight: 550;
+  margin: 0 0 0.3rem;
+}
+.mapRow p {
+  font-size: 0.75rem;
+  color: var(--app-muted);
+  margin: 0;
+}
+.symbol {
+  display: grid;
+  place-items: center;
+  min-width: 2.25rem;
+  height: 2.25rem;
+  border: 1px solid var(--app-border);
+  color: var(--app-accent);
+  background: var(--app-accent-soft);
+  font-family: var(--mantine-font-family-monospace);
+  font-size: 0.7rem;
+}
+.arrow {
+  color: var(--app-muted);
+  margin-left: auto;
+}
+.mapFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.85rem 1.25rem;
+  color: var(--app-muted);
+  font-family: var(--mantine-font-family-monospace);
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+}

@@ -1,0 +1,35 @@
+{
+  "name": "@l2ce/dev-reference",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/l2ce/dev-reference.git"
+  },
+  "version": "0.0.0",
+  "private": true,
+  "packageManager": "pnpm@11.25.0",
+  "engines": {
+    "node": ">=24 <25"
+  },
+  "scripts": {
+    "build": "node scripts/turbo.mjs run build",
+    "dev": "node scripts/turbo.mjs run dev --filter=@l2ce/web",
+    "dev:web": "node scripts/turbo.mjs run dev --filter=@l2ce/web",
+    "dev:mcp": "node scripts/turbo.mjs run dev --filter=@l2ce/dev-reference-mcp",
+    "data:build": "node scripts/turbo.mjs run build --filter=@l2ce/database",
+    "database": "pnpm --filter @l2ce/database database",
+    "db:build": "node scripts/turbo.mjs run build --filter=@l2ce/dev-reference-cli",
+    "db": "node apps/cli/dist/index.js",
+    "db:local": "node apps/cli/dist/index.js",
+    "start:mcp": "node apps/mcp/dist/index.js",
+    "typecheck": "node scripts/turbo.mjs run typecheck",
+    "test": "node scripts/turbo.mjs run test",
+    "browser": "agent-browser --config ./agent-browser.json",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "agent-browser": "0.39.4",
+    "prettier": "3.9.10",
+    "turbo": "2.11.10"
+  }
+}

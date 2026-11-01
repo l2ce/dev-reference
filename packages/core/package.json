@@ -1,0 +1,43 @@
+{
+  "name": "@l2ce/core",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./markdown": {
+      "types": "./dist/markdown.d.ts",
+      "import": "./dist/markdown.js",
+      "default": "./dist/markdown.js"
+    },
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./reference": {
+      "types": "./dist/reference-api.d.ts",
+      "import": "./dist/reference-api.js",
+      "default": "./dist/reference-api.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "node --test test/*.test.mjs"
+  },
+  "dependencies": {
+    "@l2ce/database": "workspace:*",
+    "remark-parse": "11.0.0",
+    "unified": "11.0.5",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@types/mdast": "4.0.4",
+    "@l2ce/typescript-config": "workspace:*",
+    "@types/node": "24.19.2",
+    "typescript": "6.0.3"
+  }
+}

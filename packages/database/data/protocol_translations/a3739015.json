@@ -1,0 +1,10 @@
+{
+  "protocol_id": "1e278b01-5891-49bf-839d-4a742cf1ad9a",
+  "locale": "en",
+  "title": "Gracia Epilogue · 152",
+  "summary": "Packets, scenarios and exchange mechanisms for Gracia Epilogue.",
+  "description": "# Gracia Epilogue\n\n| Property | Value |\n| --- | --- |\n| Game revision | 152 |\n| Reference identifier | `152` |\n\n## Documentation\n\nMaterials are selected for this profile. Sharing a game revision with another profile does not establish packet compatibility.\n\nThe exact client build and region require separate evidence.\n",
+  "sources_json": "[{\"id\":\"edf7bd4f-b51a-4d76-87f8-8ddf6239e5b3\",\"url\":\"https://gitlab.com/MobiusDevelopment/L2J_Mobius/-/blob/a4c31517cd0c428783650e008e199f2ac42a8434/L2J_Mobius_CT_2.4_Epilogue/dist/game/config/Server.ini#L68-L72\",\"title\":\"L2J Mobius — Gracia Epilogue\",\"summary\":\"The emulator configuration accepts game revision 152.\"}]",
+  "translation_status": "ready",
+  "open_questions_json": "[]"
+}

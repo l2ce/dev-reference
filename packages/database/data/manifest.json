@@ -1,0 +1,420 @@
+{
+  "format": "sqlite-tables",
+  "formatVersion": 1,
+  "tables": [
+    {
+      "name": "article_protocols",
+      "columns": [
+        "article_id",
+        "article_revision_id",
+        "protocol_id",
+        "position"
+      ],
+      "primaryKey": [
+        "article_id",
+        "protocol_id"
+      ],
+      "rows": 7
+    },
+    {
+      "name": "article_revision_translations",
+      "columns": [
+        "article_revision_id",
+        "locale",
+        "title",
+        "summary",
+        "description",
+        "sources_json",
+        "translation_status",
+        "open_questions_json"
+      ],
+      "primaryKey": [
+        "article_revision_id",
+        "locale"
+      ],
+      "rows": 4
+    },
+    {
+      "name": "article_revisions",
+      "columns": [
+        "id",
+        "status",
+        "article_id",
+        "rev"
+      ],
+      "primaryKey": [
+        "id"
+      ],
+      "rows": 2
+    },
+    {
+      "name": "article_servers",
+      "columns": [
+        "article_id",
+        "server",
+        "position"
+      ],
+      "primaryKey": [
+        "article_id",
+        "server"
+      ],
+      "rows": 3
+    },
+    {
+      "name": "articles",
+      "columns": [
+        "id",
+        "code",
+        "sort_order"
+      ],
+      "primaryKey": [
+        "id"
+      ],
+      "rows": 2
+    },
+    {
+      "name": "branch_translations",
+      "columns": [
+        "branch_id",
+        "locale",
+        "title",
+        "summary",
+        "description",
+        "sources_json",
+        "translation_status",
+        "open_questions_json"
+      ],
+      "primaryKey": [
+        "branch_id",
+        "locale"
+      ],
+      "rows": 4
+    },
+    {
+      "name": "branches",
+      "columns": [
+        "id",
+        "code",
+        "sort_order"
+      ],
+      "primaryKey": [
+        "id"
+      ],
+      "rows": 2
+    },
+    {
+      "name": "chronicle_release_protocols",
+      "columns": [
+        "chronicle_release_id",
+        "protocol_id",
+        "position"
+      ],
+      "primaryKey": [
+        "chronicle_release_id",
+        "protocol_id"
+      ],
+      "rows": 5
+    },
+    {
+      "name": "chronicle_release_translations",
+      "columns": [
+        "chronicle_release_id",
+        "locale",
+        "title",
+        "summary",
+        "description",
+        "sources_json",
+        "translation_status",
+        "open_questions_json"
+      ],
+      "primaryKey": [
+        "chronicle_release_id",
+        "locale"
+      ],
+      "rows": 8
+    },
+    {
+      "name": "chronicle_releases",
+      "columns": [
+        "id",
+        "code",
+        "sort_order",
+        "status",
+        "chronicle_id"
+      ],
+      "primaryKey": [
+        "id"
+      ],
+      "rows": 4
+    },
+    {
+      "name": "chronicle_translations",
+      "columns": [
+        "chronicle_id",
+        "locale",
+        "title",
+        "summary",
+        "description",
+        "sources_json",
+        "translation_status",
+        "open_questions_json"
+      ],
+      "primaryKey": [
+        "chronicle_id",
+        "locale"
+      ],
+      "rows": 8
+    },
+    {
+      "name": "chronicles",
+      "columns": [
+        "id",
+        "code",
+        "sort_order",
+        "branch_id"
+      ],
+      "primaryKey": [
+        "id"
+      ],
+      "rows": 4
+    },
+    {
+      "name": "locales",
+      "columns": [
+        "code",
+        "position"
+      ],
+      "primaryKey": [
+        "code"
+      ],
+      "rows": 2
+    },
+    {
+      "name": "metadata",
+      "columns": [
+        "id",
+        "schema_rev",
+        "data_version",
+        "default_locale"
+      ],
+      "primaryKey": [
+        "id"
+      ],
+      "rows": 1
+    },
+    {
+      "name": "packet_protocols",
+      "columns": [
+        "packet_id",
+        "packet_revision_id",
+        "protocol_id",
+        "position"
+      ],
+      "primaryKey": [
+        "packet_id",
+        "protocol_id"
+      ],
+      "rows": 8
+    },
+    {
+      "name": "packet_revision_opcodes",
+      "columns": [
+        "packet_revision_id",
+        "position",
+        "type",
+        "value"
+      ],
+      "primaryKey": [
+        "packet_revision_id",
+        "position"
+      ],
+      "rows": 0
+    },
+    {
+      "name": "packet_revision_states",
+      "columns": [
+        "packet_revision_id",
+        "state",
+        "position"
+      ],
+      "primaryKey": [
+        "packet_revision_id",
+        "state"
+      ],
+      "rows": 0
+    },
+    {
+      "name": "packet_revision_translations",
+      "columns": [
+        "packet_revision_id",
+        "locale",
+        "title",
+        "summary",
+        "description",
+        "sources_json",
+        "translation_status",
+        "open_questions_json"
+      ],
+      "primaryKey": [
+        "packet_revision_id",
+        "locale"
+      ],
+      "rows": 10
+    },
+    {
+      "name": "packet_revisions",
+      "columns": [
+        "id",
+        "status",
+        "packet_id",
+        "rev"
+      ],
+      "primaryKey": [
+        "id"
+      ],
+      "rows": 5
+    },
+    {
+      "name": "packets",
+      "columns": [
+        "id",
+        "code",
+        "sort_order",
+        "name",
+        "server",
+        "direction"
+      ],
+      "primaryKey": [
+        "id"
+      ],
+      "rows": 4
+    },
+    {
+      "name": "protocol_login_revisions",
+      "columns": [
+        "protocol_id",
+        "number",
+        "position"
+      ],
+      "primaryKey": [
+        "protocol_id",
+        "number"
+      ],
+      "rows": 2
+    },
+    {
+      "name": "protocol_regions",
+      "columns": [
+        "protocol_id",
+        "region",
+        "position"
+      ],
+      "primaryKey": [
+        "protocol_id",
+        "region"
+      ],
+      "rows": 0
+    },
+    {
+      "name": "protocol_translations",
+      "columns": [
+        "protocol_id",
+        "locale",
+        "title",
+        "summary",
+        "description",
+        "sources_json",
+        "translation_status",
+        "open_questions_json"
+      ],
+      "primaryKey": [
+        "protocol_id",
+        "locale"
+      ],
+      "rows": 10
+    },
+    {
+      "name": "protocols",
+      "columns": [
+        "id",
+        "status",
+        "number",
+        "variant"
+      ],
+      "primaryKey": [
+        "id"
+      ],
+      "rows": 5
+    },
+    {
+      "name": "scenario_protocols",
+      "columns": [
+        "scenario_id",
+        "scenario_revision_id",
+        "protocol_id",
+        "position"
+      ],
+      "primaryKey": [
+        "scenario_id",
+        "protocol_id"
+      ],
+      "rows": 4
+    },
+    {
+      "name": "scenario_revision_translations",
+      "columns": [
+        "scenario_revision_id",
+        "locale",
+        "title",
+        "summary",
+        "description",
+        "sources_json",
+        "translation_status",
+        "open_questions_json"
+      ],
+      "primaryKey": [
+        "scenario_revision_id",
+        "locale"
+      ],
+      "rows": 4
+    },
+    {
+      "name": "scenario_revisions",
+      "columns": [
+        "id",
+        "status",
+        "scenario_id",
+        "rev"
+      ],
+      "primaryKey": [
+        "id"
+      ],
+      "rows": 2
+    },
+    {
+      "name": "scenario_servers",
+      "columns": [
+        "scenario_id",
+        "server",
+        "position"
+      ],
+      "primaryKey": [
+        "scenario_id",
+        "server"
+      ],
+      "rows": 3
+    },
+    {
+      "name": "scenarios",
+      "columns": [
+        "id",
+        "code",
+        "sort_order"
+      ],
+      "primaryKey": [
+        "id"
+      ],
+      "rows": 2
+    }
+  ]
+}

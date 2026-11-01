@@ -1,0 +1,37 @@
+.root {
+  border-top: 1px solid var(--app-border);
+  padding-top: 1.75rem;
+  margin-top: 3rem;
+}
+.title {
+  font-size: 1.1rem;
+  font-weight: 550;
+  margin: 0 0 1.25rem;
+}
+.sources {
+  padding-left: 1.25rem;
+  font-size: 0.8rem;
+  color: var(--app-muted);
+}
+.sources li {
+  padding-left: 0.25rem;
+  margin-bottom: 1rem;
+}
+.sources a {
+  overflow-wrap: anywhere;
+}
+.sources p {
+  margin-top: 0.4rem;
+  font-size: 0.75rem;
+  line-height: 1.7;
+}
+.empty {
+  color: var(--app-muted);
+  font-size: 0.8rem;
+}
+.revision {
+  color: var(--app-muted);
+  font-size: 0.65rem;
+  overflow-wrap: anywhere;
+  margin-top: 2rem;
+}

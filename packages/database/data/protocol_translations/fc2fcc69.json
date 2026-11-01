@@ -1,0 +1,10 @@
+{
+  "protocol_id": "1e278b01-5891-49bf-839d-4a742cf1ad9a",
+  "locale": "ru",
+  "title": "Gracia Epilogue · 152",
+  "summary": "Пакеты, сценарии и механизмы обмена для Gracia Epilogue.",
+  "description": "# Gracia Epilogue\n\n| Признак | Значение |\n| --- | --- |\n| Игровой номер | 152 |\n| Обозначение справочника | `152` |\n\n## Документация\n\nМатериалы выбираются по этому профилю. Совпадение игрового номера с другим профилем не означает совместимость пакетов.\n\nТочная сборка клиента и регион требуют отдельного подтверждения.\n",
+  "sources_json": "[{\"id\":\"f18d169d-81a6-485e-aee3-ab6624d1fcc9\",\"url\":\"https://gitlab.com/MobiusDevelopment/L2J_Mobius/-/blob/a4c31517cd0c428783650e008e199f2ac42a8434/L2J_Mobius_CT_2.4_Epilogue/dist/game/config/Server.ini#L68-L72\",\"title\":\"L2J Mobius — Gracia Epilogue\",\"summary\":\"Конфигурация эмулятора допускает игровой номер 152.\"}]",
+  "translation_status": "ready",
+  "open_questions_json": "[]"
+}

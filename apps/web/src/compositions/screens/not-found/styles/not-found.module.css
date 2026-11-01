@@ -1,0 +1,19 @@
+.root {
+  display: grid;
+  max-width: 40rem;
+  gap: 1rem;
+  padding-block: 2rem;
+}
+.root h1 {
+  margin: 0;
+  font-size: clamp(2rem, 5vw, 3rem);
+  letter-spacing: -0.04em;
+}
+.root p {
+  color: var(--app-muted);
+}
+.code {
+  color: var(--app-accent);
+  font-family: var(--mantine-font-family-monospace);
+  font-size: 1.25rem;
+}

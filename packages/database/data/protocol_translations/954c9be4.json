@@ -1,0 +1,10 @@
+{
+  "protocol_id": "fa90631d-f4a7-47ec-b1df-6ca3db2e0354",
+  "locale": "ru",
+  "title": "Orfen · 152-rev-1",
+  "summary": "Пакеты, сценарии и механизмы обмена для Orfen.",
+  "description": "# Orfen\n\n| Признак | Значение |\n| --- | --- |\n| Игровой номер | 152 |\n| Обозначение справочника | `152-rev-1` |\n\n## Документация\n\nМатериалы выбираются по этому профилю. Совпадение игрового номера с другим профилем не означает совместимость пакетов.\n\nТочная сборка клиента и регион требуют отдельного подтверждения.\n",
+  "sources_json": "[{\"id\":\"ae540d19-466c-4387-90a6-9e1ab9cfca81\",\"url\":\"https://github.com/w001122/L2J_Mobius/blob/bf4bbe4124497f338cb5ce50c88c06c6280ca50a/L2J_Mobius_5.5_EtinasFate/dist/game/config/Server.ini\",\"title\":\"L2J Mobius — Etina's Fate\",\"summary\":\"Историческая конфигурация задаёт номер 152 для своего клиентского контекста.\"}]",
+  "translation_status": "ready",
+  "open_questions_json": "[]"
+}

@@ -1,0 +1,10 @@
+{
+  "scenario_revision_id": "722321f5-7018-4dc9-b6cb-50ac85bdfb9e",
+  "locale": "en",
+  "title": "Connecting to the Game Server",
+  "summary": "From opening the connection to session verification.",
+  "description": "# Connecting to the Game Server\n\n## Preconditions\n\nThe client has selected a server and received game session parameters.\n\n## Sequence\n\n1. Establish a TCP connection.\n2. Send {{link packet:protocol-version}}.\n3. Process {{link packet:key-packet}}.\n4. Submit game session information.\n5. Await verification and the character list.\n\n## Branches\n\n- Unsupported revision.\n- Invalid session.\n- Connection closed before completion.\n\nMessage boundaries: {{link article:game-framing}}.\n",
+  "sources_json": "[{\"id\":\"41bed2e8-2b9f-403f-a55e-ae5e4791af7c\",\"url\":\"https://npetrovski.github.io/l2js-client/guide/authorizationProcedure.html\",\"title\":\"l2js-client — authorization procedure\",\"summary\":\"The outline of traditional client authorization; details depend on the implementation.\"}]",
+  "translation_status": "ready",
+  "open_questions_json": "[]"
+}

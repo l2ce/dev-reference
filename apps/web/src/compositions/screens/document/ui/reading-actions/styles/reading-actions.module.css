@@ -1,0 +1,21 @@
+.root {
+  border-top: 1px solid var(--app-border);
+  margin-top: 2rem;
+  padding-top: 1.25rem;
+}
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.8rem;
+}
+.actions a {
+  text-decoration: none;
+}
+.feedback {
+  font-size: 0.7rem;
+  color: var(--app-muted);
+  min-height: 1rem;
+}

@@ -1,0 +1,10 @@
+{
+  "$schema": "https://agent-browser.dev/schema.json",
+  "engine": "chrome",
+  "headed": false,
+  "noAutoDialog": true,
+  "session": "l2ce-web",
+  "colorScheme": "light",
+  "hideScrollbars": false,
+  "screenshotDir": ".agent-browser/screenshots"
+}

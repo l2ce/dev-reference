@@ -1,0 +1,9 @@
+{
+  "extends": "@l2ce/typescript-config/node.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist",
+    "declaration": true
+  },
+  "include": ["src/**/*.ts"]
+}

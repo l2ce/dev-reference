@@ -1,0 +1,10 @@
+{
+  "protocol_id": "b9d3b155-db66-4a91-9a71-e28f88bcbbe1",
+  "locale": "ru",
+  "title": "Classic · Seven Signs · 152-rev-2",
+  "summary": "Пакеты, сценарии и механизмы обмена для Classic · Seven Signs.",
+  "description": "# Classic · Seven Signs\n\n| Признак | Значение |\n| --- | --- |\n| Игровой номер | 152 |\n| Обозначение справочника | `152-rev-2` |\n\n## Документация\n\nМатериалы выбираются по этому профилю. Совпадение игрового номера с другим профилем не означает совместимость пакетов.\n\nТочная сборка клиента и регион требуют отдельного подтверждения.\n",
+  "sources_json": "[{\"id\":\"b34b5c37-0aa5-4574-a176-2cbe4338a993\",\"url\":\"https://github.com/w001122/L2J_Mobius/blob/bf4bbe4124497f338cb5ce50c88c06c6280ca50a/L2J_Mobius_Classic_2.3_SevenSigns/dist/game/config/Server.ini\",\"title\":\"L2J Mobius — Seven Signs\",\"summary\":\"Конфигурация указывает номер 152 и тип списка серверов Classic.\"}]",
+  "translation_status": "ready",
+  "open_questions_json": "[]"
+}

@@ -1,0 +1,10 @@
+{
+  "packet_revision_id": "5df9b0ac-03df-41b7-a5bd-128cda1ee200",
+  "locale": "en",
+  "title": "Character information",
+  "summary": "Sequential character state representation in Gracia Epilogue.",
+  "description": "# UserInfo\n\n## Structure opening\n\nIn the studied implementation, the message identifier is followed by coordinates, vehicle identifier, object identifier and character name.\n\nCharacter attributes follow. The complete types and field order remain partially documented.\n\n## Applicability\n\nThis revision belongs to the Gracia Epilogue profile. Orfen sharing revision 152 does not make this layout applicable there.\n",
+  "sources_json": "[{\"id\":\"04faca3e-1405-48b0-beb5-16958912dc4d\",\"url\":\"https://gitlab.com/MobiusDevelopment/L2J_Mobius/-/blob/a4c31517cd0c428783650e008e199f2ac42a8434/L2J_Mobius_CT_2.4_Epilogue/java/org/l2jmobius/gameserver/network/serverpackets/UserInfo.java#L95-L120\",\"title\":\"L2J Mobius — Epilogue UserInfo\",\"summary\":\"The opening field sequence in the Epilogue implementation.\"}]",
+  "translation_status": "ready",
+  "open_questions_json": "[]"
+}
