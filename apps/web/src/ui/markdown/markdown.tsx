@@ -1,11 +1,11 @@
-import cl from 'clsx';
-import type { JSX } from 'react';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
-import { headingAnchors } from './helpers/heading-anchors';
-import type { MarkdownProps } from './types/markdown-props.type';
-import { MarkdownTable } from './ui/markdown-table/markdown-table';
-import styles from './styles/markdown.module.css';
+import cl from 'clsx'
+import type { JSX } from 'react'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
+import { headingAnchors } from './helpers/heading-anchors'
+import type { MarkdownProps } from './types/markdown-props.type'
+import { MarkdownTable } from './ui/markdown-table/markdown-table'
+import styles from './styles/markdown.module.css'
 
 /**
  * Отображает подготовленный Markdown с таблицами и безопасными ссылками.
@@ -14,7 +14,7 @@ import styles from './styles/markdown.module.css';
  *  - чтения документации без выполнения HTML из текста
  */
 export const Markdown = (props: MarkdownProps): JSX.Element => {
-  const { markdown, className, ...rootAttrs } = props;
+  const { markdown, className, ...rootAttrs } = props
 
   return (
     <div {...rootAttrs} className={cl(styles.root, className)}>
@@ -26,5 +26,5 @@ export const Markdown = (props: MarkdownProps): JSX.Element => {
         {markdown}
       </ReactMarkdown>
     </div>
-  );
-};
+  )
+}

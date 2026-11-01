@@ -1,16 +1,13 @@
-import type {
-  ReferenceCatalogSummary,
-  ReferenceSummary,
-} from '@l2ce/core/reference';
+import type { ReferenceCatalogSummary, ReferenceSummary } from '@l2ce/core/reference'
 
 /**
  * Карточка выбора протокола с реальной полнотой его каталога.
  */
 export interface ProtocolCard extends ReferenceCatalogSummary {
   /* Число применимых документов, включая неполные описания. */
-  readonly documentCount: number;
+  readonly documentCount: number
   /* Установленные регионы; пустой список означает отсутствие данных. */
-  readonly regions: readonly string[];
+  readonly regions: readonly string[]
 }
 
 /**
@@ -18,11 +15,11 @@ export interface ProtocolCard extends ReferenceCatalogSummary {
  */
 export interface SearchDocument extends ReferenceSummary {
   /* Нормализованный текст поиска; другие переводы не включаются. */
-  readonly searchText: string;
+  readonly searchText: string
   /* Составной опкод с сохранением разрядности; null для неизвестного. */
-  readonly opcodeLabel: string | null;
+  readonly opcodeLabel: string | null
   /* Локальный URL без префикса публикации. */
-  readonly href: string;
+  readonly href: string
 }
 
 /**
@@ -30,13 +27,13 @@ export interface SearchDocument extends ReferenceSummary {
  */
 export interface ProtocolTarget {
   /* Точный ключ профиля без protocol:. */
-  readonly value: string;
+  readonly value: string
   /* Локализованное название профиля. */
-  readonly label: string;
+  readonly label: string
   /* Документ либо обзор с явной отметкой отсутствия применимости. */
-  readonly href: string;
+  readonly href: string
   /* Явно применимые карточки для контекстного переключения протокола. */
-  readonly documentKeys: readonly string[];
+  readonly documentKeys: readonly string[]
 }
 
 /**
@@ -44,7 +41,7 @@ export interface ProtocolTarget {
  */
 export interface ReferenceLocation {
   /* Выбранный вид материала, отсутствует на обзоре. */
-  readonly kind?: ReferenceSummary['kind'];
+  readonly kind?: ReferenceSummary['kind']
   /* Логическая карточка, отсутствует на странице списка. */
-  readonly documentKey?: string;
+  readonly documentKey?: string
 }

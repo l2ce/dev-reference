@@ -1,9 +1,9 @@
-import cl from 'clsx';
-import type { JSX } from 'react';
-import { isEmptyArray } from 'shared/lib/value-predicates';
-import { documentMessages } from '../../config/messages';
-import type { DocumentDetailsProps } from './types/document-details-props.type';
-import styles from './styles/document-details.module.css';
+import cl from 'clsx'
+import type { JSX } from 'react'
+import { isEmptyArray } from 'shared/lib/value-predicates'
+import { documentMessages } from '../../config/messages'
+import type { DocumentDetailsProps } from './types/document-details-props.type'
+import styles from './styles/document-details.module.css'
 
 /**
  * Показывает источники, на которых основан прочитанный материал.
@@ -18,8 +18,8 @@ export const DocumentDetails = ({
   className,
   ...rootAttrs
 }: DocumentDetailsProps): JSX.Element => {
-  const messages = documentMessages[locale];
-  const hasNoSources = isEmptyArray(sourceItems);
+  const messages = documentMessages[locale]
+  const hasNoSources = isEmptyArray(sourceItems)
   return (
     <aside {...rootAttrs} className={cl(styles.root, className)}>
       <h2 className={styles.title} id="sources">
@@ -38,9 +38,8 @@ export const DocumentDetails = ({
         ))}
       </ol>
       <p className={styles.revision}>
-        {messages.revision}:{' '}
-        <code>{documentData.revisionKey ?? messages.unknown}</code>
+        {messages.revision}: <code>{documentData.revisionKey ?? messages.unknown}</code>
       </p>
     </aside>
-  );
-};
+  )
+}

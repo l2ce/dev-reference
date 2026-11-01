@@ -35,7 +35,8 @@ pnpm run database status
 `http://localhost:3000/`.
 
 Проверки: `pnpm typecheck`, `pnpm test`, `pnpm build`, `pnpm format:check`.
-Разработка TypeScript подчиняется [стайлгайду](docs/development/TYPESCRIPT-STYLEGUIDE.md).
+Разработка TypeScript подчиняется [ts-styleguide](.agents/skills/ts-styleguide/SKILL.md).
+Выбранные skills и их область действия описаны в [профиле знаний проекта](docs/development/skills.md).
 Порядок браузерной проверки описан в [apps/web/AGENTS.md](apps/web/AGENTS.md).
 
 ## Публикация

@@ -3,9 +3,9 @@
  */
 export const footerMessages = {
   en: {
-    tagline: 'From packets to understanding.',
+    tagline: 'From packets to understanding.'
   },
   ru: {
-    tagline: 'От пакетов — к пониманию.',
-  },
-} as const;
+    tagline: 'От пакетов — к пониманию.'
+  }
+} as const

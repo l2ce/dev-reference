@@ -1,6 +1,9 @@
 {
+  "tabWidth": 2,
+  "printWidth": 120,
+  "semi": false,
   "singleQuote": true,
-  "trailingComma": "all",
+  "trailingComma": "none",
   "overrides": [
     {
       "files": "packages/database/data/**/*.json",

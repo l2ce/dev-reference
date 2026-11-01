@@ -1,11 +1,11 @@
-import cl from 'clsx';
-import Link from 'next/link';
-import type { JSX } from 'react';
-import { getKnowledgeIndex } from 'domains/reference/server';
-import { protocolPath, referenceMessages } from 'domains/reference';
-import { SectionBrowser } from 'compositions/screens/section/ui/section-browser/client';
-import type { SectionScreenProps } from './types/section-screen-props.type';
-import styles from './styles/section.module.css';
+import cl from 'clsx'
+import Link from 'next/link'
+import type { JSX } from 'react'
+import { getKnowledgeIndex } from 'domains/reference/server'
+import { protocolPath, referenceMessages } from 'domains/reference'
+import { SectionBrowser } from 'compositions/screens/section/ui/section-browser/client'
+import type { SectionScreenProps } from './types/section-screen-props.type'
+import styles from './styles/section.module.css'
 
 /**
  * Открывает самостоятельный раздел материалов выбранного протокола.
@@ -14,11 +14,9 @@ import styles from './styles/section.module.css';
  *  - поиска и постраничного просмотра статей, сценариев и пакетов
  */
 export const SectionScreen = (props: SectionScreenProps): JSX.Element => {
-  const { protocol, locale, kind, className, ...rootAttrs } = props;
-  const labels = referenceMessages[locale];
-  const documentItems = getKnowledgeIndex(protocol, locale).filter(
-    (document) => document.kind === kind,
-  );
+  const { protocol, locale, kind, className, ...rootAttrs } = props
+  const labels = referenceMessages[locale]
+  const documentItems = getKnowledgeIndex(protocol, locale).filter((document) => document.kind === kind)
 
   return (
     <section {...rootAttrs} className={cl(styles.root, className)}>
@@ -29,12 +27,7 @@ export const SectionScreen = (props: SectionScreenProps): JSX.Element => {
       </p>
       <h1 className={styles.title}>{labels.sections[kind]}</h1>
       <p className={styles.description}>{labels.sectionDescriptions[kind]}</p>
-      <SectionBrowser
-        key={`${protocol}:${kind}:${locale}`}
-        documents={documentItems}
-        locale={locale}
-        kind={kind}
-      />
+      <SectionBrowser key={`${protocol}:${kind}:${locale}`} documents={documentItems} locale={locale} kind={kind} />
     </section>
-  );
-};
+  )
+}

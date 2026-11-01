@@ -1,17 +1,53 @@
 {
   "version": 1,
   "skills": {
-    "react-reference": {
+    "html-styleguide": {
       "source": "gromlab-ru/js-reference",
       "sourceType": "github",
-      "skillPath": "skills/react-reference/SKILL.md",
-      "computedHash": "96649b49ded39349e814295d8511f6cf04061b1231b06352ce1d948002b27638"
+      "skillPath": "skills/html-styleguide/SKILL.md",
+      "computedHash": "4ee383a5388252104b4ffe39f020a9c5cab88be6ab40339fa5043315c69a1a1a"
+    },
+    "nextjs-reference": {
+      "source": "gromlab-ru/js-reference",
+      "sourceType": "github",
+      "skillPath": "skills/nextjs-reference/SKILL.md",
+      "computedHash": "49ba0948dbc8dd13368355a9c0bbc238946897237e4bc1ee999a9f21a628fc90"
+    },
+    "postcss-styleguide": {
+      "source": "gromlab-ru/js-reference",
+      "sourceType": "github",
+      "skillPath": "skills/postcss-styleguide/SKILL.md",
+      "computedHash": "4d6c570bbe5aecf4d2a9724893aff2040a3e34f2b0d5f931ba81d9f0ec105cc5"
+    },
+    "rest-api-codegen-ru": {
+      "source": "gromlab-ru/rest-api-codegen",
+      "sourceType": "github",
+      "skillPath": "skills/rest-api-codegen-ru/SKILL.md",
+      "computedHash": "386581db840e040250979678f579324807e7f35707ce2f7c14bacde9cbc3cb66"
+    },
+    "svg-sprites-ru": {
+      "source": "gromlab-ru/svg-sprites",
+      "sourceType": "github",
+      "skillPath": "skills/svg-sprites-ru/SKILL.md",
+      "computedHash": "199ceac57a32817e08610736349920475d751f559e59d509174897c6fe1fcfed"
     },
     "template-generation-ru": {
       "source": "gromlab-ru/template-file-generator",
       "sourceType": "github",
       "skillPath": "skills/template-generation-ru/SKILL.md",
       "computedHash": "2fe7b3334cb8d17dc04aa8b6d7316b5bee562c9bf11df45c0b3835ce62c2d04c"
+    },
+    "ts-styleguide": {
+      "source": "gromlab-ru/js-reference",
+      "sourceType": "github",
+      "skillPath": "skills/ts-styleguide/SKILL.md",
+      "computedHash": "ee758ab2d5bf192016d16556d79847a3331d8598684de264873a0910d7b4526c"
+    },
+    "tsx-styleguide": {
+      "source": "gromlab-ru/js-reference",
+      "sourceType": "github",
+      "skillPath": "skills/tsx-styleguide/SKILL.md",
+      "computedHash": "01851f00e0c5025cdd81f91c5898b3abef944f1c88d57f99897ac89d02c57def"
     },
     "unit-architecture": {
       "source": "gromlab-ru/unit-architecture",

@@ -1,15 +1,15 @@
-import { createHash } from 'node:crypto';
-import { execFile } from 'node:child_process';
-import { promisify } from 'node:util';
-import { mkdir, lstat, readdir, readFile, rm } from 'node:fs/promises';
-import { join, resolve } from 'node:path';
-import { mcpMessages as messages } from './messages.js';
-import type { DatasetSource, SourceVersion } from './dataset.types.js';
+import { createHash } from 'node:crypto'
+import { execFile } from 'node:child_process'
+import { promisify } from 'node:util'
+import { mkdir, lstat, readdir, readFile, rm } from 'node:fs/promises'
+import { join, resolve } from 'node:path'
+import { mcpMessages as messages } from './messages.js'
+import type { DatasetSource, SourceVersion } from './dataset.types.js'
 
 /**
  * Асинхронный запуск отдельного процесса без shell.
  */
-const execute = promisify(execFile);
+const execute = promisify(execFile)
 
 /**
  * Исполняет Git без shell, с ограничением времени и отключённым запросом учётных данных в stdin.
@@ -20,11 +20,11 @@ async function git(args: readonly string[], cwd?: string): Promise<string> {
       cwd,
       timeout: 30_000,
       maxBuffer: 4 * 1024 * 1024,
-      env: { ...process.env, GIT_TERMINAL_PROMPT: '0' },
-    });
-    return result.stdout.trim();
+      env: { ...process.env, GIT_TERMINAL_PROMPT: '0' }
+    })
+    return result.stdout.trim()
   } catch (error) {
-    throw new Error(messages.gitFailed, { cause: error });
+    throw new Error(messages.gitFailed, { cause: error })
   }
 }
 
@@ -33,18 +33,13 @@ async function git(args: readonly string[], cwd?: string): Promise<string> {
  */
 async function exists(path: string): Promise<boolean> {
   try {
-    await lstat(path);
-    return true;
+    await lstat(path)
+    return true
   } catch (error) {
-    if (
-      error &&
-      typeof error === 'object' &&
-      'code' in error &&
-      error.code === 'ENOENT'
-    ) {
-      return false;
+    if (error && typeof error === 'object' && 'code' in error && error.code === 'ENOENT') {
+      return false
     }
-    throw error;
+    throw error
   }
 }
 
@@ -53,76 +48,51 @@ async function exists(path: string): Promise<boolean> {
  */
 export class GitDatasetSource implements DatasetSource {
   /* Режим источника, отображаемый в статусе MCP. */
-  readonly origin = 'repository';
+  readonly origin = 'repository'
   /* Репозиторий-источник, заданный конфигурацией процесса. */
-  private readonly repository: string;
+  private readonly repository: string
   /* Приватный sparse checkout, не пользовательский worktree. */
-  private readonly checkout: string;
+  private readonly checkout: string
   /* Относительная папка data. */
-  private readonly dataPath: string;
+  private readonly dataPath: string
   /* Удалённая ссылка для предварительной проверки. */
-  private readonly ref: string;
+  private readonly ref: string
 
   /**
    * Фиксирует источник; пути проверены конфигурацией менеджера.
    */
-  constructor(
-    repository: string,
-    checkout: string,
-    dataPath: string,
-    branch?: string,
-  ) {
-    this.repository = repository;
-    this.checkout = checkout;
-    this.dataPath = dataPath;
-    this.ref = branch ? `refs/heads/${branch}` : 'HEAD';
+  constructor(repository: string, checkout: string, dataPath: string, branch?: string) {
+    this.repository = repository
+    this.checkout = checkout
+    this.dataPath = dataPath
+    this.ref = branch ? `refs/heads/${branch}` : 'HEAD'
   }
 
   /**
    * Проверяет коммит и дерево каталога, не выполняя checkout при неизменных данных.
    */
   async check(previous?: SourceVersion): Promise<SourceVersion> {
-    const remote = await git([
-      'ls-remote',
-      '--exit-code',
-      '--',
-      this.repository,
-      this.ref,
-    ]);
-    const commit = remote.split(/\s+/)[0];
+    const remote = await git(['ls-remote', '--exit-code', '--', this.repository, this.ref])
+    const commit = remote.split(/\s+/)[0]
     if (!/^(?:[a-f0-9]{40}|[a-f0-9]{64})$/.test(commit)) {
-      throw new Error(messages.invalidGitHash);
+      throw new Error(messages.invalidGitHash)
     }
     if (previous?.commit === commit) {
-      return previous;
+      return previous
     }
     if (!(await exists(join(this.checkout, '.git')))) {
-      await mkdir(resolve(this.checkout, '..'), { recursive: true });
-      await git([
-        'clone',
-        '--filter=blob:none',
-        '--no-checkout',
-        '--depth=1',
-        '--',
-        this.repository,
-        this.checkout,
-      ]);
+      await mkdir(resolve(this.checkout, '..'), { recursive: true })
+      await git(['clone', '--filter=blob:none', '--no-checkout', '--depth=1', '--', this.repository, this.checkout])
     }
-    await git(
-      ['fetch', '--depth=1', '--filter=blob:none', 'origin', commit],
-      this.checkout,
-    );
-    const hash = await git(
-      ['rev-parse', `${commit}:${this.dataPath}`],
-      this.checkout,
-    );
+    await git(['fetch', '--depth=1', '--filter=blob:none', 'origin', commit], this.checkout)
+    const hash = await git(['rev-parse', `${commit}:${this.dataPath}`], this.checkout)
     if (
       !/^(?:[a-f0-9]{40}|[a-f0-9]{64})$/.test(hash) ||
       (await git(['cat-file', '-t', hash], this.checkout)) !== 'tree'
     ) {
-      throw new Error(messages.invalidGitHash);
+      throw new Error(messages.invalidGitHash)
     }
-    return { hash, commit };
+    return { hash, commit }
   }
 
   /**
@@ -130,24 +100,18 @@ export class GitDatasetSource implements DatasetSource {
    */
   async download(version: SourceVersion): Promise<string> {
     if (!version.commit) {
-      throw new Error(messages.invalidGitHash);
+      throw new Error(messages.invalidGitHash)
     }
-    await git(
-      ['sparse-checkout', 'set', '--no-cone', `/${this.dataPath}/`],
-      this.checkout,
-    );
-    await git(
-      ['checkout', '--force', '--detach', version.commit],
-      this.checkout,
-    );
-    return join(this.checkout, this.dataPath);
+    await git(['sparse-checkout', 'set', '--no-cone', `/${this.dataPath}/`], this.checkout)
+    await git(['checkout', '--force', '--detach', version.commit], this.checkout)
+    return join(this.checkout, this.dataPath)
   }
 
   /**
    * Удаляет только приватный checkout этого экземпляра, не затрагивая поколения SQLite.
    */
   async close(): Promise<void> {
-    await rm(this.checkout, { recursive: true, force: true });
+    await rm(this.checkout, { recursive: true, force: true })
   }
 }
 
@@ -155,29 +119,29 @@ export class GitDatasetSource implements DatasetSource {
  * Хеширует обычные файлы каталога в стабильном порядке; симлинки не принимаются.
  */
 async function directoryHash(directory: string): Promise<string> {
-  const hash = createHash('sha256');
+  const hash = createHash('sha256')
   /**
    * Добавляет путь и точные байты каждого файла; вложенные папки обходятся рекурсивно.
    */
   async function visit(relative: string): Promise<void> {
-    const path = join(directory, relative);
-    const stat = await lstat(path);
+    const path = join(directory, relative)
+    const stat = await lstat(path)
     if (stat.isSymbolicLink()) {
-      throw new Error(messages.invalidSource);
+      throw new Error(messages.invalidSource)
     }
     if (stat.isDirectory()) {
       for (const name of (await readdir(path)).sort()) {
-        await visit(relative ? `${relative}/${name}` : name);
+        await visit(relative ? `${relative}/${name}` : name)
       }
     } else if (stat.isFile()) {
-      const data = await readFile(path);
-      hash.update(JSON.stringify([relative, data.length])).update(data);
+      const data = await readFile(path)
+      hash.update(JSON.stringify([relative, data.length])).update(data)
     } else {
-      throw new Error(messages.invalidSource);
+      throw new Error(messages.invalidSource)
     }
   }
-  await visit('');
-  return hash.digest('hex');
+  await visit('')
+  return hash.digest('hex')
 }
 
 /**
@@ -185,25 +149,25 @@ async function directoryHash(directory: string): Promise<string> {
  */
 export class DirectoryDatasetSource implements DatasetSource {
   /* Режим источника, отображаемый в статусе MCP. */
-  readonly origin = 'directory';
+  readonly origin = 'directory'
   /* Абсолютный путь локального снимка. */
-  private readonly directory: string;
+  private readonly directory: string
   /**
    * Фиксирует локальный источник.
    */
   constructor(directory: string) {
-    this.directory = resolve(directory);
+    this.directory = resolve(directory)
   }
   /**
    * Учитывает изменение содержимого, даже если имена и число строк остались прежними.
    */
   async check(): Promise<SourceVersion> {
-    return { hash: await directoryHash(this.directory), commit: null };
+    return { hash: await directoryHash(this.directory), commit: null }
   }
   /**
    * Возвращает папку для последующего проверенного импорта.
    */
   async download(_version: SourceVersion): Promise<string> {
-    return this.directory;
+    return this.directory
   }
 }

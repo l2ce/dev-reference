@@ -1,6 +1,6 @@
-import type { NextConfig } from 'next';
-import type { Configuration } from 'webpack';
-import { siteConfig } from './src/infra/site-config/index';
+import type { NextConfig } from 'next'
+import type { Configuration } from 'webpack'
+import { siteConfig } from './src/infra/site-config/index'
 
 const nextConfig: NextConfig = {
   output: 'export',
@@ -15,18 +15,18 @@ const nextConfig: NextConfig = {
    */
   webpack(config: Configuration, { isServer }): Configuration {
     if (isServer) {
-      const externals = config.externals ?? [];
+      const externals = config.externals ?? []
       config.externals = [
         ...(Array.isArray(externals) ? externals : [externals]),
         {
           '@l2ce/database': 'commonjs @l2ce/database',
           '@l2ce/core/reference': 'commonjs @l2ce/core/reference',
-          '@l2ce/core/markdown': 'commonjs @l2ce/core/markdown',
-        },
-      ];
+          '@l2ce/core/markdown': 'commonjs @l2ce/core/markdown'
+        }
+      ]
     }
-    return config;
-  },
-};
+    return config
+  }
+}
 
-export default nextConfig;
+export default nextConfig

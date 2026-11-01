@@ -1,12 +1,8 @@
-import Link from 'next/link';
-import type { JSX } from 'react';
-import {
-  KNOWLEDGE_SECTIONS,
-  sectionPath,
-  referenceMessages,
-} from 'domains/reference';
-import type { KnowledgeSectionsProps } from './types/knowledge-sections-props.type';
-import styles from './styles/knowledge-sections.module.css';
+import Link from 'next/link'
+import type { JSX } from 'react'
+import { KNOWLEDGE_SECTIONS, sectionPath, referenceMessages } from 'domains/reference'
+import type { KnowledgeSectionsProps } from './types/knowledge-sections-props.type'
+import styles from './styles/knowledge-sections.module.css'
 
 /**
  * Предлагает читателю самостоятельно выбрать вид знаний в обзоре протокола.
@@ -14,20 +10,12 @@ import styles from './styles/knowledge-sections.module.css';
  * Используется для:
  *  - перехода к самостоятельным каталогам статей, сценариев и пакетов
  */
-export const KnowledgeSections = ({
-  documents,
-  protocol,
-  locale,
-}: KnowledgeSectionsProps): JSX.Element => {
-  const messages = referenceMessages[locale];
+export const KnowledgeSections = ({ documents, protocol, locale }: KnowledgeSectionsProps): JSX.Element => {
+  const messages = referenceMessages[locale]
   return (
     <div className={styles.root}>
       {KNOWLEDGE_SECTIONS.map((section) => (
-        <Link
-          key={section.kind}
-          className={styles.card}
-          href={sectionPath(locale, protocol, section.kind)}
-        >
+        <Link key={section.kind} className={styles.card} href={sectionPath(locale, protocol, section.kind)}>
           <span className={styles.top}>
             <span className={styles.count}>
               {documents
@@ -42,5 +30,5 @@ export const KnowledgeSections = ({
         </Link>
       ))}
     </div>
-  );
-};
+  )
+}

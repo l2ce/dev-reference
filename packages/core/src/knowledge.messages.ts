@@ -10,10 +10,9 @@ export const knowledgeMessages = {
   /**
    * Требует сервер для ссылки, применимой сразу к нескольким серверам.
    */
-  explicitServer: (key: string): string =>
-    `Reference needs an explicit server: ${key}`,
+  explicitServer: (key: string): string => `Reference needs an explicit server: ${key}`,
   /**
    * Обозначает нарушенную связь с отсутствующей версией документа.
    */
-  unknownVersion: (id: string): string => `Unknown document version: ${id}`,
-} as const;
+  unknownVersion: (id: string): string => `Unknown document version: ${id}`
+} as const

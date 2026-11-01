@@ -1,16 +1,16 @@
-import type { ReferenceDocument, ReferenceReader } from '@l2ce/core/reference';
-import type { Locale } from 'shared/localization';
+import type { ReferenceDocument, ReferenceReader } from '@l2ce/core/reference'
+import type { Locale } from 'shared/localization'
 
 /**
  * Неизменяемое основание сборочного чтения без открытого SQLite-соединения.
  */
 export interface ReferenceContext {
   /* Reader одного согласованного снимка. */
-  readonly reader: ReferenceReader;
+  readonly reader: ReferenceReader
   /* Поддерживаемые языки, присутствующие в снимке. */
-  readonly locales: readonly Locale[];
+  readonly locales: readonly Locale[]
   /* Технические имена пакетов для value name, независимо от заголовков переводов. */
-  readonly packetNames: ReadonlyMap<string, string>;
+  readonly packetNames: ReadonlyMap<string, string>
 }
 
 /**
@@ -18,9 +18,9 @@ export interface ReferenceContext {
  */
 export interface ProtocolRoute {
   /* Выбранный язык URL. */
-  readonly locale: Locale;
+  readonly locale: Locale
   /* Точный ключ без префикса protocol:, включая различитель ревизии. */
-  readonly protocol: string;
+  readonly protocol: string
 }
 
 /**
@@ -28,9 +28,9 @@ export interface ProtocolRoute {
  */
 export interface DocumentRoute extends ProtocolRoute {
   /* Вид карточки знания. */
-  readonly kind: ReferenceDocument['kind'];
+  readonly kind: ReferenceDocument['kind']
   /* Код логической карточки без номера технической редакции. */
-  readonly code: string;
+  readonly code: string
 }
 
 /**
@@ -38,11 +38,11 @@ export interface DocumentRoute extends ProtocolRoute {
  */
 export interface PreparedDocument {
   /* Исходный предметный результат выбранного профиля и языка. */
-  readonly document: ReferenceDocument;
+  readonly document: ReferenceDocument
   /* Markdown после обработки директив; пуст при отсутствии текста. */
-  readonly markdown: string;
+  readonly markdown: string
   /* Диагностики неразрешённых директив и циклических вставок. */
-  readonly issues: readonly string[];
+  readonly issues: readonly string[]
   /* Источники исходного документа и реально включённых материалов. */
-  readonly sources: ReferenceDocument['sources'];
+  readonly sources: ReferenceDocument['sources']
 }

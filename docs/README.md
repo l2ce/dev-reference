@@ -22,7 +22,8 @@
 - [Руководство базы](../packages/database/README.md) — команды работы с SQLite.
 - [CLI](../apps/cli/README.md) — чтение и наполнение справочника.
 - [MCP](../apps/mcp/README.md) — поиск, чтение и настройки источника.
-- [Стиль TypeScript](development/TYPESCRIPT-STYLEGUIDE.md).
+- [Знания проекта и skills](development/skills.md).
+- [Стиль TypeScript](../.agents/skills/ts-styleguide/SKILL.md).
 - [Веб-приложение](../apps/web/README.md).
 - [Проверка сайта](../apps/web/AGENTS.md).
 - [Публикация сайта и npm](development/releases.md) — первый релиз и CI.

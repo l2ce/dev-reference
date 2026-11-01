@@ -14,7 +14,7 @@ export const navigationMessages = {
     current: 'IN THIS SECTION',
     unavailable:
       'This document has not been mapped to the selected protocol. Explore its available documentation below.',
-    overviewHint: 'Choose a section to explore its documentation.',
+    overviewHint: 'Choose a section to explore its documentation.'
   },
   ru: {
     overview: 'Обзор',
@@ -28,6 +28,6 @@ export const navigationMessages = {
     current: 'В ЭТОМ РАЗДЕЛЕ',
     unavailable:
       'Для выбранного протокола применимость этого материала не установлена. Ниже доступна документация профиля.',
-    overviewHint: 'Выберите раздел и изучайте его материалы.',
-  },
-} as const;
+    overviewHint: 'Выберите раздел и изучайте его материалы.'
+  }
+} as const

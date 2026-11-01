@@ -1,5 +1,5 @@
-import type { DatabaseStatus } from '../api/status.types.js';
-import type { ExchangeResult } from '../exchange/exchange.types.js';
+import type { DatabaseStatus } from '../api/status.types.js'
+import type { ExchangeResult } from '../exchange/exchange.types.js'
 
 /**
  * Англоязычные сообщения мини-CLI; бизнес-логика не формирует терминальные подписи.
@@ -40,7 +40,7 @@ Default paths are relative to the package, independently of the working director
     validate: 'Validating',
     write: 'Writing',
     commit: 'Committing',
-    complete: 'Done',
+    complete: 'Done'
   },
   /**
    * Форматирует итог обмена и полное время его выполнения в секундах.
@@ -59,6 +59,6 @@ Default paths are relative to the package, independently of the working director
       `Schema: ${status.schema}`,
       status.manifest
         ? `Data ${status.manifest.dataVersion}: ${status.manifest.locales.join(', ')}; ${status.entities} entities, ${status.implementations} implementations.`
-        : 'No data imported yet, or the schema needs to be recreated from JSON.',
-    ].join('\n'),
-} as const;
+        : 'No data imported yet, or the schema needs to be recreated from JSON.'
+    ].join('\n')
+} as const

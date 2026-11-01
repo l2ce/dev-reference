@@ -1,21 +1,13 @@
-import { eq } from 'drizzle-orm';
-import { DatabaseError } from '../errors.js';
-import { entityKey } from '../model/entry.js';
-import { internalId, publicKey } from './identities.js';
-import * as tables from './schema.js';
-import { implementationStorage } from './layout.js';
-import { sqliteMessages as messages } from './messages.js';
-import type {
-  DatabaseEntry,
-  ImplementationEntry,
-} from '../model/model.types.js';
-import type { Connection } from './sqlite.types.js';
-import type {
-  RecordRow,
-  StoredRelations,
-  StorageLayout,
-  InternalIdentities,
-} from './storage.types.js';
+import { eq } from 'drizzle-orm'
+import { DatabaseError } from '../errors.js'
+import { entityKey } from '../model/entry.js'
+import { internalId, publicKey } from './identities.js'
+import * as tables from './schema.js'
+import { implementationStorage } from './layout.js'
+import { sqliteMessages as messages } from './messages.js'
+import type { DatabaseEntry, ImplementationEntry } from '../model/model.types.js'
+import type { Connection } from './sqlite.types.js'
+import type { RecordRow, StoredRelations, StorageLayout, InternalIdentities } from './storage.types.js'
 
 /**
  * Сохраняет связи карточки через типизированные INSERT; транзакцией владеет сценарий записи.
@@ -23,22 +15,16 @@ import type {
 export function writeEntityRelations(
   connection: Connection,
   entry: DatabaseEntry,
-  identities: InternalIdentities,
+  identities: InternalIdentities
 ): void {
-  const id = entry.value.id;
+  const id = entry.value.id
   if (entry.collection === 'protocols') {
     entry.value.regions.forEach((region, position) =>
-      connection.orm
-        .insert(tables.protocolRegions)
-        .values({ protocolId: id, region, position })
-        .run(),
-    );
+      connection.orm.insert(tables.protocolRegions).values({ protocolId: id, region, position }).run()
+    )
     entry.value.loginRevisions.forEach((number, position) =>
-      connection.orm
-        .insert(tables.protocolLoginRevisions)
-        .values({ protocolId: id, number, position })
-        .run(),
-    );
+      connection.orm.insert(tables.protocolLoginRevisions).values({ protocolId: id, number, position }).run()
+    )
   }
   if (entry.collection === 'chronicle-releases') {
     entry.value.protocolKeys.forEach((key, position) =>
@@ -47,26 +33,20 @@ export function writeEntityRelations(
         .values({
           chronicleReleaseId: id,
           protocolId: internalId(identities, key),
-          position,
+          position
         })
-        .run(),
-    );
+        .run()
+    )
   }
   if (entry.collection === 'articles') {
     entry.value.servers.forEach((server, position) =>
-      connection.orm
-        .insert(tables.articleServers)
-        .values({ articleId: id, server, position })
-        .run(),
-    );
+      connection.orm.insert(tables.articleServers).values({ articleId: id, server, position }).run()
+    )
   }
   if (entry.collection === 'scenarios') {
     entry.value.servers.forEach((server, position) =>
-      connection.orm
-        .insert(tables.scenarioServers)
-        .values({ scenarioId: id, server, position })
-        .run(),
-    );
+      connection.orm.insert(tables.scenarioServers).values({ scenarioId: id, server, position }).run()
+    )
   }
 }
 
@@ -76,11 +56,11 @@ export function writeEntityRelations(
 export function writeImplementationRelations(
   connection: Connection,
   entry: ImplementationEntry,
-  identities: InternalIdentities,
+  identities: InternalIdentities
 ): void {
-  const storage = implementationStorage[entry.collection];
-  const implementationId = entry.value.id;
-  const ownerId = internalId(identities, entityKey(entry));
+  const storage = implementationStorage[entry.collection]
+  const implementationId = entry.value.id
+  const ownerId = internalId(identities, entityKey(entry))
   entry.value.protocolKeys.forEach((key, position) =>
     connection.orm
       .insert(storage.protocols)
@@ -88,34 +68,30 @@ export function writeImplementationRelations(
         ownerId,
         implementationId,
         protocolId: internalId(identities, key),
-        position,
+        position
       })
-      .run(),
-  );
+      .run()
+  )
   if (entry.collection === 'packet-revisions') {
     entry.value.opcode?.forEach((part, position) =>
       connection.orm
         .insert(tables.packetRevisionOpcodes)
         .values({ ...part, position, packetRevisionId: implementationId })
-        .run(),
-    );
+        .run()
+    )
     entry.value.states.forEach((state, position) =>
       connection.orm
         .insert(tables.packetRevisionStates)
         .values({ state, position, packetRevisionId: implementationId })
-        .run(),
-    );
+        .run()
+    )
   }
 }
 
 /**
  * Читает справочные признаки и связи общей карточки типизированными SELECT.
  */
-function readEntityRelations(
-  connection: Connection,
-  layout: StorageLayout,
-  id: string,
-): StoredRelations {
+function readEntityRelations(connection: Connection, layout: StorageLayout, id: string): StoredRelations {
   if (layout.collection === 'protocols') {
     return {
       regions: connection.orm
@@ -131,8 +107,8 @@ function readEntityRelations(
         .where(eq(tables.protocolLoginRevisions.protocolId, id))
         .orderBy(tables.protocolLoginRevisions.position)
         .all()
-        .map((row) => row.number),
-    };
+        .map((row) => row.number)
+    }
   }
   if (layout.collection === 'chronicle-releases') {
     return {
@@ -142,8 +118,8 @@ function readEntityRelations(
         .where(eq(tables.chronicleReleaseProtocols.chronicleReleaseId, id))
         .orderBy(tables.chronicleReleaseProtocols.position)
         .all()
-        .map((row) => publicKey(connection, tables.protocols, row.protocolId)),
-    };
+        .map((row) => publicKey(connection, tables.protocols, row.protocolId))
+    }
   }
   if (layout.collection === 'scenarios') {
     return {
@@ -153,8 +129,8 @@ function readEntityRelations(
         .where(eq(tables.scenarioServers.scenarioId, id))
         .orderBy(tables.scenarioServers.position)
         .all()
-        .map((row) => row.server),
-    };
+        .map((row) => row.server)
+    }
   }
   if (layout.collection === 'articles') {
     return {
@@ -164,27 +140,23 @@ function readEntityRelations(
         .where(eq(tables.articleServers.articleId, id))
         .orderBy(tables.articleServers.position)
         .all()
-        .map((row) => row.server),
-    };
+        .map((row) => row.server)
+    }
   }
-  return {};
+  return {}
 }
 
 /**
  * Собирает типизированные дочерние данные для DTO; пустые опкоды представлены null.
  */
-export function readRelations(
-  connection: Connection,
-  layout: StorageLayout,
-  row: RecordRow,
-): StoredRelations {
+export function readRelations(connection: Connection, layout: StorageLayout, row: RecordRow): StoredRelations {
   if (layout.kind === 'entity') {
-    return readEntityRelations(connection, layout, row.id);
+    return readEntityRelations(connection, layout, row.id)
   }
   if (!('ownerId' in row)) {
-    throw new DatabaseError('DATABASE_INTEGRITY_ERROR', messages.integrity);
+    throw new DatabaseError('DATABASE_INTEGRITY_ERROR', messages.integrity)
   }
-  const storage = implementationStorage[layout.collection];
+  const storage = implementationStorage[layout.collection]
   const result: StoredRelations = {
     [storage.ownerField]: publicKey(connection, storage.owners, row.ownerId),
     protocolKeys: connection.orm
@@ -193,26 +165,26 @@ export function readRelations(
       .where(eq(storage.protocols.implementationId, row.id))
       .orderBy(storage.protocols.position)
       .all()
-      .map((item) => publicKey(connection, tables.protocols, item.protocolId)),
-  };
+      .map((item) => publicKey(connection, tables.protocols, item.protocolId))
+  }
   if (layout.collection === 'packet-revisions') {
     const opcode = connection.orm
       .select({
         type: tables.packetRevisionOpcodes.type,
-        value: tables.packetRevisionOpcodes.value,
+        value: tables.packetRevisionOpcodes.value
       })
       .from(tables.packetRevisionOpcodes)
       .where(eq(tables.packetRevisionOpcodes.packetRevisionId, row.id))
       .orderBy(tables.packetRevisionOpcodes.position)
-      .all();
-    result.opcode = opcode.length ? opcode : null;
+      .all()
+    result.opcode = opcode.length ? opcode : null
     result.states = connection.orm
       .select()
       .from(tables.packetRevisionStates)
       .where(eq(tables.packetRevisionStates.packetRevisionId, row.id))
       .orderBy(tables.packetRevisionStates.position)
       .all()
-      .map((item) => item.state);
+      .map((item) => item.state)
   }
-  return result;
+  return result
 }

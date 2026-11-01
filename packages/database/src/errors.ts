@@ -3,23 +3,18 @@
  */
 export class DatabaseError extends Error {
   /* Машинный код; потребители не должны разбирать локализованный message. */
-  readonly code: string;
+  readonly code: string
   /* Адрес, поле, ревизия или другие сведения для исправления запроса. */
-  readonly details: unknown;
+  readonly details: unknown
 
   /**
    * Создаёт предметную ошибку; cause сохраняет исходный сбой декодирования или I/O.
    */
-  constructor(
-    code: string,
-    message: string,
-    details?: unknown,
-    cause?: unknown,
-  ) {
-    super(message, { cause });
-    this.name = 'DatabaseError';
-    this.code = code;
-    this.details = details;
+  constructor(code: string, message: string, details?: unknown, cause?: unknown) {
+    super(message, { cause })
+    this.name = 'DatabaseError'
+    this.code = code
+    this.details = details
   }
 }
 
@@ -27,10 +22,5 @@ export class DatabaseError extends Error {
  * Проверяет код системного сбоя без утверждения типа непроверенного исключения.
  */
 export function hasErrorCode(error: unknown, code: string): boolean {
-  return (
-    error !== null &&
-    typeof error === 'object' &&
-    'code' in error &&
-    error.code === code
-  );
+  return error !== null && typeof error === 'object' && 'code' in error && error.code === code
 }

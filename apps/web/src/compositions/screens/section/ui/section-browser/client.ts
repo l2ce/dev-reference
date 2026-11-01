@@ -1,3 +1,3 @@
-'use client';
+'use client'
 
-export { SectionBrowser } from './section-browser';
+export { SectionBrowser } from './section-browser'

@@ -1,3 +1,3 @@
-'use client';
+'use client'
 
-export { ProtocolBrowser } from './protocol-browser';
+export { ProtocolBrowser } from './protocol-browser'

@@ -1,3 +1,3 @@
-'use client';
+'use client'
 
-export { ReadingActions } from './reading-actions';
+export { ReadingActions } from './reading-actions'

@@ -11,5 +11,5 @@ export {
   isNonEmptyArray,
   isRecord,
   hasOwn,
-  isOneOf,
-} from './value-predicates';
+  isOneOf
+} from './value-predicates'

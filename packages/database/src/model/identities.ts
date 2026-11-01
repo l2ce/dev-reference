@@ -1,4 +1,4 @@
-import type { DatabaseEntry } from './model.types.js';
+import type { DatabaseEntry } from './model.types.js'
 
 /**
  * Собирает UUID документа и вложенных объектов; ссылки на чужие записи сюда не входят.
@@ -8,10 +8,8 @@ export function entryIds(entry: DatabaseEntry): readonly string[] {
   const ids = [
     entry.value.id,
     ...('translations' in entry.value
-      ? entry.value.translations.flatMap((translation) =>
-          translation.source.map((source) => source.id),
-        )
-      : []),
-  ];
-  return ids;
+      ? entry.value.translations.flatMap((translation) => translation.source.map((source) => source.id))
+      : [])
+  ]
+  return ids
 }

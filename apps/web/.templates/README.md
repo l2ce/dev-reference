@@ -1,7 +1,7 @@
 # Генерация компонентов Web
 
-Шаблоны основаны на [профиле React Reference](../../../.agents/skills/react-reference/reference/application/architecture/project-profile.md)
-с адаптациями Next.js из [AGENTS.md](../AGENTS.md). Перед генерацией определите
+Шаблоны основаны на [Next.js Reference](../../../.agents/skills/nextjs-reference/SKILL.md)
+и [локальном профиле](../ARCHITECTURE.md). Перед генерацией определите
 владельца и необходимость отдельного публичного контракта.
 
 | Шаблон         | Результат                                                                  |
@@ -22,9 +22,11 @@ pnpm run create ui-component welcome-note src/compositions/screens/welcome/ui
 и отключает проверку обновления через `--skip-update`.
 
 Перед генерацией загрузите [template-generation-ru](../../../.agents/skills/template-generation-ru/SKILL.md),
-прочитайте [правила создания TSX](../../../.agents/skills/react-reference/reference/application/components/tsx-generation.md)
-и все файлы выбранного шаблона. Проверьте их соответствие зависимостям и
-[стайлгайду проекта](../../../docs/development/TYPESCRIPT-STYLEGUIDE.md).
+загрузите [nextjs-reference](../../../.agents/skills/nextjs-reference/SKILL.md)
+и выполните его инструкцию создания TSX. Прочитайте все файлы выбранного шаблона,
+проверьте их соответствие зависимостям,
+[ts-styleguide](../../../.agents/skills/ts-styleguide/SKILL.md) и
+[tsx-styleguide](../../../.agents/skills/tsx-styleguide/SKILL.md).
 Повторная генерация поверх существующего результата запрещена;
 редактируйте созданный код обычным способом.
 

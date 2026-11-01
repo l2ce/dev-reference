@@ -9,7 +9,7 @@ export const themeMenuMessages = {
     dark: 'Dark',
     auto: 'System',
     selected: 'Selected',
-    systemNote: 'System follows your device settings.',
+    systemNote: 'System follows your device settings.'
   },
   ru: {
     title: 'Оформление',
@@ -18,6 +18,6 @@ export const themeMenuMessages = {
     dark: 'Тёмная',
     auto: 'Системная',
     selected: 'Выбрана',
-    systemNote: 'Системная тема следует настройкам устройства.',
-  },
-} as const;
+    systemNote: 'Системная тема следует настройкам устройства.'
+  }
+} as const

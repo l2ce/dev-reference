@@ -12,7 +12,7 @@ export const catalogMessages = {
     empty: 'Ничего не найдено. Попробуйте другой номер или название.',
     count: 'Найдено профилей',
     open: 'Открыть профиль',
-    missingSummary: 'Описание на выбранном языке пока отсутствует.',
+    missingSummary: 'Описание на выбранном языке пока отсутствует.'
   },
   en: {
     eyebrow: 'REFERENCE / PROTOCOLS',
@@ -24,6 +24,6 @@ export const catalogMessages = {
     empty: 'No matches. Try another number or title.',
     count: 'Matching profiles',
     open: 'Open profile',
-    missingSummary: 'A description in this language is not available yet.',
-  },
-} as const;
+    missingSummary: 'A description in this language is not available yet.'
+  }
+} as const

@@ -1,19 +1,19 @@
-import type { ComponentPropsWithoutRef } from 'react';
+import type { ComponentPropsWithoutRef } from 'react'
 
 /**
  * Параметры компонента Markdown.
  */
 export interface MarkdownParams {
   /* Подготовленный Markdown; сырые HTML-вставки не отображаются. */
-  readonly markdown: string;
+  readonly markdown: string
 }
 
 /**
  * Атрибуты корневого элемента компонента Markdown.
  */
-type RootAttrs = Omit<ComponentPropsWithoutRef<'div'>, 'children'>;
+type RootAttrs = Omit<ComponentPropsWithoutRef<'div'>, 'children'>
 
 /**
  * Свойства компонента Markdown.
  */
-export type MarkdownProps = RootAttrs & MarkdownParams;
+export type MarkdownProps = RootAttrs & MarkdownParams

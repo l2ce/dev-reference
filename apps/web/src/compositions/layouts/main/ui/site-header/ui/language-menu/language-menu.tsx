@@ -1,14 +1,14 @@
-import { Button, Menu, Tooltip, VisuallyHidden } from '@mantine/core';
-import { IconCheck, IconChevronDown, IconLanguage } from '@tabler/icons-react';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { useState } from 'react';
-import type { JSX } from 'react';
-import { useLocationQuery } from 'infra/browser-location/client';
-import { changePathLocale } from 'shared/localization';
-import { LANGUAGE_OPTIONS, languageMessages } from './config/messages';
-import type { LanguageMenuProps } from './types/language-menu-props.type';
-import styles from './styles/language-menu.module.css';
+import { Button, Menu, Tooltip, VisuallyHidden } from '@mantine/core'
+import { IconCheck, IconChevronDown, IconLanguage } from '@tabler/icons-react'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import { useState } from 'react'
+import type { JSX } from 'react'
+import { useLocationQuery } from 'infra/browser-location/client'
+import { changePathLocale } from 'shared/localization'
+import { LANGUAGE_OPTIONS, languageMessages } from './config/messages'
+import type { LanguageMenuProps } from './types/language-menu-props.type'
+import styles from './styles/language-menu.module.css'
 
 /**
  * Переключает язык документации и явно отмечает текущий выбор.
@@ -17,16 +17,16 @@ import styles from './styles/language-menu.module.css';
  *  - смены языка с сохранением протокола, документа и фильтров
  */
 export const LanguageMenu = ({ locale }: LanguageMenuProps): JSX.Element => {
-  const [isOpen, setIsOpen] = useState(false);
-  const pathname = usePathname();
-  const search = useLocationQuery();
-  const messages = languageMessages[locale];
+  const [isOpen, setIsOpen] = useState(false)
+  const pathname = usePathname()
+  const search = useLocationQuery()
+  const messages = languageMessages[locale]
   const optionItems = LANGUAGE_OPTIONS.map((option) => ({
     ...option,
     href: `${changePathLocale(pathname, option.locale)}${search}`,
     isSelected: option.locale === locale,
-    autoFocus: option.locale === locale ? true : undefined,
-  }));
+    autoFocus: option.locale === locale ? true : undefined
+  }))
 
   return (
     <Menu
@@ -45,20 +45,10 @@ export const LanguageMenu = ({ locale }: LanguageMenuProps): JSX.Element => {
         events={{ hover: true, focus: true, touch: false }}
       >
         <Menu.Target>
-          <Button
-            className={styles.root}
-            variant="subtle"
-            color="gray"
-            aria-label={messages.hint}
-          >
+          <Button className={styles.root} variant="subtle" color="gray" aria-label={messages.hint}>
             <IconLanguage size={18} stroke={1.7} aria-hidden="true" />
             <span className={styles.code}>{locale.toUpperCase()}</span>
-            <IconChevronDown
-              className={styles.chevron}
-              size={12}
-              stroke={1.8}
-              aria-hidden="true"
-            />
+            <IconChevronDown className={styles.chevron} size={12} stroke={1.8} aria-hidden="true" />
           </Button>
         </Menu.Target>
       </Tooltip>
@@ -78,19 +68,13 @@ export const LanguageMenu = ({ locale }: LanguageMenuProps): JSX.Element => {
                 {option.code}
               </span>
             }
-            rightSection={
-              option.isSelected && (
-                <IconCheck size={16} stroke={2} aria-hidden="true" />
-              )
-            }
+            rightSection={option.isSelected && <IconCheck size={16} stroke={2} aria-hidden="true" />}
           >
             {option.label}
-            {option.isSelected && (
-              <VisuallyHidden> · {messages.selected}</VisuallyHidden>
-            )}
+            {option.isSelected && <VisuallyHidden> · {messages.selected}</VisuallyHidden>}
           </Menu.Item>
         ))}
       </Menu.Dropdown>
     </Menu>
-  );
-};
+  )
+}

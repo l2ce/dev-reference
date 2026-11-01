@@ -1,12 +1,12 @@
-import { readFileSync } from 'node:fs';
-import { Command, CommanderError } from 'commander';
-import * as z from 'zod';
-import { DatabaseError } from '@l2ce/database';
-import { cliMessages as messages } from '../locales/ru.js';
-import { writeFailure, writeSuccess } from '../output/writer.js';
-import type { CommanderOutput, OutputOptions } from '../output/output.types.js';
-import { registerRecordCommands } from './records-program.js';
-import { showCommandHelp } from './options.js';
+import { readFileSync } from 'node:fs'
+import { Command, CommanderError } from 'commander'
+import * as z from 'zod'
+import { DatabaseError } from '@l2ce/database'
+import { cliMessages as messages } from '../locales/ru.js'
+import { writeFailure, writeSuccess } from '../output/writer.js'
+import type { CommanderOutput, OutputOptions } from '../output/output.types.js'
+import { registerRecordCommands } from './records-program.js'
+import { showCommandHelp } from './options.js'
 
 /**
  * Читает версию установленного пакета, чтобы --version совпадал с package.json.
@@ -14,11 +14,7 @@ import { showCommandHelp } from './options.js';
 function packageVersion(): string {
   return z
     .object({ version: z.string() })
-    .parse(
-      JSON.parse(
-        readFileSync(new URL('../../package.json', import.meta.url), 'utf8'),
-      ),
-    ).version;
+    .parse(JSON.parse(readFileSync(new URL('../../package.json', import.meta.url), 'utf8'))).version
 }
 
 /**
@@ -27,21 +23,21 @@ function packageVersion(): string {
 export function outputOptions(program: Command): OutputOptions {
   return {
     json: program.getOptionValue('json') === true,
-    pretty: program.getOptionValue('pretty') === true,
-  };
+    pretty: program.getOptionValue('pretty') === true
+  }
 }
 
 /**
  * Проверяет совместимость формата до побочных эффектов команды.
  */
 function checkOutputOptions(program: Command): void {
-  const options = outputOptions(program);
+  const options = outputOptions(program)
   if (options.pretty && !options.json) {
-    throw new DatabaseError('USAGE', messages.prettyRequiresJson);
+    throw new DatabaseError('USAGE', messages.prettyRequiresJson)
   }
   // Версия обрабатывается после разбора всех флагов: --version --json и обратный порядок равнозначны.
   if (program.getOptionValue('version') === true) {
-    throw new CommanderError(0, 'commander.version', messages.version);
+    throw new CommanderError(0, 'commander.version', messages.version)
   }
 }
 
@@ -49,7 +45,7 @@ function checkOutputOptions(program: Command): void {
  * Создаёт отдельный экземпляр Commander; его стандартные потоки буферизуются до выбора формата.
  */
 export function createCliProgram(output: CommanderOutput): Command {
-  const program = new Command('protocols-db');
+  const program = new Command('protocols-db')
   program
     .description(messages.description)
     .option('-V, --version', messages.version)
@@ -65,69 +61,61 @@ export function createCliProgram(output: CommanderOutput): Command {
        * Сохраняет стандартную справку и версию для последующего форматирования.
        */
       writeOut: (text): void => {
-        output.stdout += text;
+        output.stdout += text
       },
       /**
        * Сохраняет диагностики Commander, исключая смешивание с JSON-ответом.
        */
       writeErr: (text): void => {
-        output.stderr += text;
-      },
+        output.stderr += text
+      }
     })
     .exitOverride()
     .showHelpAfterError(messages.helpHint)
-    .hook('preAction', checkOutputOptions);
-  registerRecordCommands(program);
-  program.action(showCommandHelp);
-  return program;
+    .hook('preAction', checkOutputOptions)
+  registerRecordCommands(program)
+  program.action(showCommandHelp)
+  return program
 }
 
 /**
  * Выводит справку или версию в том же формате, что и обычные результаты.
  */
-function writeInformation(
-  program: Command,
-  output: CommanderOutput,
-  version: boolean,
-): void {
-  const options = outputOptions(program);
+function writeInformation(program: Command, output: CommanderOutput, version: boolean): void {
+  const options = outputOptions(program)
   if (options.pretty && !options.json) {
-    throw new DatabaseError('USAGE', messages.prettyRequiresJson);
+    throw new DatabaseError('USAGE', messages.prettyRequiresJson)
   }
-  const text = version ? packageVersion() + '\n' : output.stdout;
+  const text = version ? packageVersion() + '\n' : output.stdout
   if (options.json) {
-    writeSuccess(version ? { version: text.trim() } : { help: text }, options);
+    writeSuccess(version ? { version: text.trim() } : { help: text }, options)
   } else {
-    process.stdout.write(text);
+    process.stdout.write(text)
   }
 }
 
 /**
  * Разбирает argv через Commander и выдаёт одну справку, версию, результат либо ошибку.
  */
-export async function runCli(
-  program: Command,
-  output: CommanderOutput,
-  argv: readonly string[],
-): Promise<void> {
+export async function runCli(program: Command, output: CommanderOutput, argv: readonly string[]): Promise<void> {
   try {
-    await program.parseAsync([...argv], { from: 'user' });
-    checkOutputOptions(program);
+    await program.parseAsync([...argv], { from: 'user' })
+    checkOutputOptions(program)
     if (output.stdout) {
-      writeInformation(program, output, false);
+      writeInformation(program, output, false)
     }
   } catch (error) {
     if (error instanceof CommanderError && error.exitCode === 0) {
       try {
-        writeInformation(program, output, error.code === 'commander.version');
+        writeInformation(program, output, error.code === 'commander.version')
       } catch (formatError) {
-        writeFailure(formatError, outputOptions(program));
+        writeFailure(formatError, outputOptions(program))
       }
-      return;
+      return
     }
-    writeFailure(error, outputOptions(program));
+    writeFailure(error, outputOptions(program))
     if (error instanceof CommanderError && !outputOptions(program).json) {
-      process.stderr.write(messages.helpHint + '\n');
+      process.stderr.write(messages.helpHint + '\n')
     }
   }
 }

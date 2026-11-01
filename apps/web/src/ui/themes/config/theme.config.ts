@@ -1,4 +1,4 @@
-import { createTheme, Input } from '@mantine/core';
+import { createTheme, Input } from '@mantine/core'
 
 /**
  * Общая типографика и визуальные параметры справочника.
@@ -16,11 +16,11 @@ export const theme = createTheme({
         input: {
           backgroundColor: 'var(--app-canvas)',
           color: 'var(--app-text)',
-          borderColor: 'var(--app-border)',
-        },
-      },
-    }),
+          borderColor: 'var(--app-border)'
+        }
+      }
+    })
   },
   respectReducedMotion: true,
-  breakpoints: { xs: '30em', sm: '48em', md: '64em', lg: '75em', xl: '90em' },
-});
+  breakpoints: { xs: '30em', sm: '48em', md: '64em', lg: '75em', xl: '90em' }
+})

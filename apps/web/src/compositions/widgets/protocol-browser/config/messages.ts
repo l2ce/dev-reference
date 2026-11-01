@@ -14,7 +14,7 @@ export const browserMessages = {
     missing: 'The description is not available in this language yet.',
     protocol: 'PROTOCOL',
     latest: 'Continue reading',
-    reset: 'All protocols',
+    reset: 'All protocols'
   },
   ru: {
     search: 'Найдите свой протокол',
@@ -28,6 +28,6 @@ export const browserMessages = {
     missing: 'Описание на выбранном языке пока отсутствует.',
     protocol: 'ПРОТОКОЛ',
     latest: 'Продолжить чтение',
-    reset: 'Все протоколы',
-  },
-} as const;
+    reset: 'Все протоколы'
+  }
+} as const

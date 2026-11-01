@@ -1,22 +1,22 @@
-import type { ComponentPropsWithoutRef, ReactNode } from 'react';
-import type { Locale } from 'shared/localization';
+import type { ComponentPropsWithoutRef, ReactNode } from 'react'
+import type { Locale } from 'shared/localization'
 
 /**
  * Параметры компонента Main.
  */
 export interface MainLayoutParams {
   /* Дочернее содержимое компонента; по умолчанию отсутствует. */
-  readonly children: ReactNode;
+  readonly children: ReactNode
   /* Язык интерфейса каркаса. */
-  readonly locale: Locale;
+  readonly locale: Locale
 }
 
 /**
  * Атрибуты корневого элемента компонента Main.
  */
-type RootAttrs = Omit<ComponentPropsWithoutRef<'div'>, 'children'>;
+type RootAttrs = Omit<ComponentPropsWithoutRef<'div'>, 'children'>
 
 /**
  * Свойства компонента Main.
  */
-export type MainLayoutProps = RootAttrs & MainLayoutParams;
+export type MainLayoutProps = RootAttrs & MainLayoutParams

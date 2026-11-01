@@ -1,36 +1,29 @@
-import { randomUUID } from 'node:crypto';
-import { convertSnapshotV16 } from './format-v16.mjs';
+import { randomUUID } from 'node:crypto'
+import { convertSnapshotV16 } from './format-v16.mjs'
 
 /**
  * Создаёт независимые экземпляры источников для нового владельца, сохраняя содержание.
  */
 function copySources(sources) {
-  return sources.map((source) => ({ ...source, id: randomUUID() }));
+  return sources.map((source) => ({ ...source, id: randomUUID() }))
 }
 
 /**
  * Формирует оболочку самостоятельного документа с явной локалью и ролью.
  */
 function entry(collection, value, kind = 'entity') {
-  return { locale: value.locale, collection, key: value.key, kind, value };
+  return { locale: value.locale, collection, key: value.key, kind, value }
 }
 
 /**
  * Находит единственную установленную ветку хроники; неоднозначность требует ручного решения.
  */
 function familyFor(chronicle, profiles) {
-  const families = [
-    ...new Set(profiles.map((profile) => profile.value.family)),
-  ];
-  if (
-    families.length !== 1 ||
-    !/^[a-z0-9]+(?:[.-][a-z0-9]+)*$/.test(families[0])
-  ) {
-    throw new Error(
-      `Cannot determine one branch for ${chronicle.locale}/${chronicle.key}.`,
-    );
+  const families = [...new Set(profiles.map((profile) => profile.value.family))]
+  if (families.length !== 1 || !/^[a-z0-9]+(?:[.-][a-z0-9]+)*$/.test(families[0])) {
+    throw new Error(`Cannot determine one branch for ${chronicle.locale}/${chronicle.key}.`)
   }
-  return families[0];
+  return families[0]
 }
 
 /**
@@ -38,11 +31,11 @@ function familyFor(chronicle, profiles) {
  * UUID и источники этапа переносятся; для новых документов и копий источников назначаются новые ID.
  */
 function implementationFor(chronicle, stage, version, profiles) {
-  const value = stage ?? chronicle.value;
+  const value = stage ?? chronicle.value
   const source = [
     ...(stage ? (stage.source ?? []) : copySources(chronicle.value.source)),
-    ...copySources(profiles.flatMap((profile) => profile.value.source)),
-  ];
+    ...copySources(profiles.flatMap((profile) => profile.value.source))
+  ]
   return entry(
     'chronicle-implementations',
     {
@@ -56,10 +49,10 @@ function implementationFor(chronicle, stage, version, profiles) {
       description: stage ? [...stage.description] : [],
       status: source.length ? 'partial' : 'missing',
       source,
-      protocolKeys: profiles.map((profile) => profile.key),
+      protocolKeys: profiles.map((profile) => profile.key)
     },
-    'implementation',
-  );
+    'implementation'
+  )
 }
 
 /**
@@ -69,44 +62,37 @@ function implementationFor(chronicle, stage, version, profiles) {
  */
 export function convertSnapshotV15(snapshot) {
   if (snapshot.schemaVersion !== 15) {
-    throw new Error('The input must use schemaVersion 15.');
+    throw new Error('The input must use schemaVersion 15.')
   }
-  if (
-    snapshot.entries.some((item) =>
-      ['branches', 'chronicle-implementations'].includes(item.collection),
-    )
-  ) {
-    throw new Error('Format 15 contains hierarchy from a newer format.');
+  if (snapshot.entries.some((item) => ['branches', 'chronicle-implementations'].includes(item.collection))) {
+    throw new Error('Format 15 contains hierarchy from a newer format.')
   }
-  const branches = new Map();
-  const additions = [];
-  const assigned = new Set();
+  const branches = new Map()
+  const additions = []
+  const assigned = new Set()
   const entries = snapshot.entries.map((item) => {
     if (item.collection === 'protocols') {
-      const { chronicleKey, stageKey, family, variant, region, ...value } =
-        item.value;
+      const { chronicleKey, stageKey, family, variant, region, ...value } = item.value
       if (variant !== null) {
-        throw new Error(
-          `Resolve legacy variant before conversion: ${item.locale}/${item.key}.`,
-        );
+        throw new Error(`Resolve legacy variant before conversion: ${item.locale}/${item.key}.`)
       }
       return {
         ...item,
-        value: { ...value, regions: region === null ? [] : [region] },
-      };
+        value: { ...value, regions: region === null ? [] : [region] }
+      }
     }
     if (item.collection !== 'chronicles') {
-      return structuredClone(item);
+      return structuredClone(item)
     }
     const profiles = snapshot.entries.filter(
       (candidate) =>
         candidate.collection === 'protocols' &&
         candidate.locale === item.locale &&
-        candidate.value.chronicleKey === item.key,
-    );
-    const family = familyFor(item, profiles);
-    const branchKey = `branch:${family}`;
-    const address = `${item.locale}/${branchKey}`;
+        candidate.value.chronicleKey === item.key
+    )
+    const family = familyFor(item, profiles)
+    const branchKey = `branch:${family}`
+    const address = `${item.locale}/${branchKey}`
     if (!branches.has(address)) {
       branches.set(
         address,
@@ -118,20 +104,17 @@ export function convertSnapshotV15(snapshot) {
           title: family === 'main' ? 'Main' : family,
           summary: family,
           description: [],
-          source: [],
-        }),
-      );
+          source: []
+        })
+      )
     }
-    const { stages, ...value } = item.value;
-    const keys = new Set(stages.map((stage) => stage.key));
+    const { stages, ...value } = item.value
+    const keys = new Set(stages.map((stage) => stage.key))
     if (
       keys.size !== stages.length ||
-      profiles.some(
-        (profile) =>
-          profile.value.stageKey !== null && !keys.has(profile.value.stageKey),
-      )
+      profiles.some((profile) => profile.value.stageKey !== null && !keys.has(profile.value.stageKey))
     ) {
-      throw new Error(`Invalid legacy stages for ${item.locale}/${item.key}.`);
+      throw new Error(`Invalid legacy stages for ${item.locale}/${item.key}.`)
     }
     stages.forEach((stage, index) => {
       additions.push(
@@ -139,36 +122,25 @@ export function convertSnapshotV15(snapshot) {
           item,
           stage,
           index + 1,
-          profiles.filter((profile) => profile.value.stageKey === stage.key),
-        ),
-      );
-    });
-    const unresolved = profiles.filter(
-      (profile) => profile.value.stageKey === null,
-    );
+          profiles.filter((profile) => profile.value.stageKey === stage.key)
+        )
+      )
+    })
+    const unresolved = profiles.filter((profile) => profile.value.stageKey === null)
     if (!stages.length || unresolved.length) {
-      additions.push(
-        implementationFor(item, null, stages.length + 1, unresolved),
-      );
+      additions.push(implementationFor(item, null, stages.length + 1, unresolved))
     }
-    profiles.forEach((profile) =>
-      assigned.add(`${profile.locale}/${profile.key}`),
-    );
-    return { ...item, value: { ...value, branchKey } };
-  });
+    profiles.forEach((profile) => assigned.add(`${profile.locale}/${profile.key}`))
+    return { ...item, value: { ...value, branchKey } }
+  })
   for (const item of snapshot.entries) {
-    if (
-      item.collection === 'protocols' &&
-      !assigned.has(`${item.locale}/${item.key}`)
-    ) {
-      throw new Error(
-        `Missing legacy chronicle for ${item.locale}/${item.key}.`,
-      );
+    if (item.collection === 'protocols' && !assigned.has(`${item.locale}/${item.key}`)) {
+      throw new Error(`Missing legacy chronicle for ${item.locale}/${item.key}.`)
     }
   }
   return convertSnapshotV16({
     ...snapshot,
     schemaVersion: 16,
-    entries: [...branches.values(), ...entries, ...additions],
-  });
+    entries: [...branches.values(), ...entries, ...additions]
+  })
 }

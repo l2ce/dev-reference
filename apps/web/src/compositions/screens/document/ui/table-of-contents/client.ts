@@ -1,3 +1,3 @@
-'use client';
+'use client'
 
-export { TableOfContents } from './table-of-contents';
+export { TableOfContents } from './table-of-contents'

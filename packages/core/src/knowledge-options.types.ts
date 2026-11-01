@@ -1,4 +1,4 @@
-import type { Locale } from './schema.js';
+import type { Locale } from './schema.js'
 import type {
   Direction,
   DocumentTranslation,
@@ -9,27 +9,27 @@ import type {
   Opcode,
   ResearchStatus,
   Server,
-  Source,
-} from './knowledge-schema.js';
+  Source
+} from './knowledge-schema.js'
 
 /**
  * Ссылка, разрешённая в точном контексте профиля, сервера и языка.
  */
 export interface ResolvedReference extends EntityReference {
   /* Полный ID профиля, включая суффикс варианта клиента. */
-  protocolId: string;
+  protocolId: string
   /* Язык запрошенного описания. */
-  locale: Locale;
+  locale: Locale
   /* Сервер, в контексте которого разрешена ссылка. */
-  server: Server;
+  server: Server
   /* ID применимого документа; null при отсутствии привязки. */
-  documentVersionId: string | null;
+  documentVersionId: string | null
   /* Заголовок выбранного языка; null при отсутствии текста. */
-  title: string | null;
+  title: string | null
   /* Результат проверки применимости и сервера. */
-  resolution: 'available' | 'unmapped' | 'wrong-server';
+  resolution: 'available' | 'unmapped' | 'wrong-server'
   /* Доступность текста точной версии без языкового fallback. */
-  translationStatus: 'ready' | 'missing';
+  translationStatus: 'ready' | 'missing'
 }
 
 /**
@@ -37,13 +37,13 @@ export interface ResolvedReference extends EntityReference {
  */
 export interface KnowledgeOptions {
   /* Адаптер приложения: веб-ссылка или ID для агента. */
-  readonly renderLink?: (target: Readonly<ResolvedReference>) => string;
+  readonly renderLink?: (target: Readonly<ResolvedReference>) => string
   /* Максимальная глубина вставок; по умолчанию 24. */
-  readonly maxIncludeDepth?: number;
+  readonly maxIncludeDepth?: number
   /* Максимальный суммарный размер раскрытия в байтах; по умолчанию 1 МиБ. */
-  readonly maxDescriptionBytes?: number;
+  readonly maxDescriptionBytes?: number
   /* Документы с известными техническими сведениями, но ещё отсутствующим текстом локали. */
-  readonly untranslatedDocumentIds?: readonly string[];
+  readonly untranslatedDocumentIds?: readonly string[]
 }
 
 /**
@@ -58,15 +58,15 @@ export interface KnowledgeGap {
     | 'entity-translation-missing'
     | 'research-missing'
     | 'research-partial'
-    | 'value-missing';
+    | 'value-missing'
   /* Тип сущности, которой относится пробел. */
-  readonly kind: EntityKind | 'protocol';
+  readonly kind: EntityKind | 'protocol'
   /* ID сущности внутри её типа. */
-  readonly id: string;
+  readonly id: string
   /* Сервер документа; отсутствует у обзора профиля. */
-  readonly server?: Server;
+  readonly server?: Server
   /* Применимая версия; null при отсутствии установленной привязки. */
-  readonly documentVersionId: string | null;
+  readonly documentVersionId: string | null
 }
 
 /**
@@ -74,27 +74,27 @@ export interface KnowledgeGap {
  */
 export interface ResolvedMetadata extends ResolvedReference {
   /* Аннотация текущего языка; null при отсутствии текста. */
-  readonly summary: string | null;
+  readonly summary: string | null
   /* Порядок записи в навигации. */
-  readonly order: number;
+  readonly order: number
   /* ID родителя того же типа; null у корневой записи. */
-  readonly parentId: string | null;
+  readonly parentId: string | null
   /* Итоговая полнота привязки и документа. */
-  readonly researchStatus: ResearchStatus;
+  readonly researchStatus: ResearchStatus
   /* Полнота привязки к протоколу; null без привязки. */
-  readonly bindingStatus: ResearchStatus | null;
+  readonly bindingStatus: ResearchStatus | null
   /* Полнота варианта; null при отсутствии применимого документа. */
-  readonly documentStatus: ResearchStatus | null;
+  readonly documentStatus: ResearchStatus | null
   /* Каноническое имя пакета; null для других сущностей. */
-  readonly name: string | null;
+  readonly name: string | null
   /* Направление пакета; null для других сущностей. */
-  readonly direction: Direction | null;
+  readonly direction: Direction | null
   /* Составной опкод выбранного профиля; null означает неизвестное значение. */
-  readonly opcode: Opcode;
+  readonly opcode: Opcode
   /* Известные состояния обработки; пустой список не устанавливает ограничений. */
-  readonly states: string[];
+  readonly states: string[]
   /* Область статьи; у пакетов и сценариев поле отсутствует. */
-  readonly scope?: 'protocol' | 'general';
+  readonly scope?: 'protocol' | 'general'
 }
 
 /**
@@ -102,19 +102,19 @@ export interface ResolvedMetadata extends ResolvedReference {
  */
 export interface KnowledgeResolution {
   /* Общие технические сведения и привязки сущности. */
-  readonly entity: KnowledgeEntity;
+  readonly entity: KnowledgeEntity
   /* Применимый вариант; null при отсутствии привязки или неверном сервере. */
-  readonly version: DocumentVersion | null;
+  readonly version: DocumentVersion | null
   /* Текст выбранного языка; undefined при отсутствии перевода. */
-  readonly document: DocumentVersion | DocumentTranslation | undefined;
+  readonly document: DocumentVersion | DocumentTranslation | undefined
   /* Общий вводный текст и описание варианта; null при недоступном переводе. */
-  readonly description: string[] | null;
+  readonly description: string[] | null
   /* Ссылка с полностью разрешённым контекстом. */
-  readonly target: ResolvedReference;
+  readonly target: ResolvedReference
   /* Обнаруженные пробелы; пустой массив означает отсутствие выявленных пробелов. */
-  readonly gaps: KnowledgeGap[];
+  readonly gaps: KnowledgeGap[]
   /* Метаданные для списка или страницы документа. */
-  readonly meta: ResolvedMetadata;
+  readonly meta: ResolvedMetadata
   /* Источники привязки и варианта; используются только данные текущего снимка. */
-  readonly sources: Source[];
+  readonly sources: Source[]
 }

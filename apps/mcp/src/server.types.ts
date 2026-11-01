@@ -3,10 +3,10 @@
  */
 export interface ToolReply extends CallToolResult {
   /* JSON для клиентов, читающих только стандартное текстовое содержимое. */
-  content: Extract<CallToolResult['content'][number], { type: 'text' }>[];
+  content: Extract<CallToolResult['content'][number], { type: 'text' }>[]
   /* Те же данные без повторного JSON-декодирования на стороне клиента. */
-  structuredContent: Record<string, unknown>;
+  structuredContent: Record<string, unknown>
   /* true обозначает ошибку запроса или обновления, а не отсутствие исследованных данных. */
-  isError: boolean;
+  isError: boolean
 }
-import type { CallToolResult } from '@modelcontextprotocol/server';
+import type { CallToolResult } from '@modelcontextprotocol/server'

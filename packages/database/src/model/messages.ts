@@ -13,5 +13,5 @@ export const modelMessages = {
   sources: 'Researched data must have sources.',
   content: 'A documented record requires a non-empty description.',
   binding: 'Entity revisions have overlapping protocol applicability.',
-  opcode: 'The opcode exceeds its width or conflicts within this profile.',
-} as const;
+  opcode: 'The opcode exceeds its width or conflicts within this profile.'
+} as const

@@ -1,4 +1,4 @@
-import type { Collection, Locale } from '../model/model.types.js';
+import type { Collection, Locale } from '../model/model.types.js'
 import type {
   CollectionProgressStatus,
   ExchangeFailure,
@@ -6,81 +6,81 @@ import type {
   ExchangeProgress,
   FileTiming,
   ProgressObserver,
-  ExchangeFileAddress,
-} from './exchange.types.js';
+  ExchangeFileAddress
+} from './exchange.types.js'
 
 /**
  * Изменяемые счётчики коллекции, принадлежащие одному сценарию обмена.
  */
 export interface CollectionMetrics {
   /* Язык отдельного блока; undefined обозначает общий счётчик всех языков. */
-  readonly locale?: Locale;
+  readonly locale?: Locale
   /* Коллекция файлов. */
-  readonly collection: string;
+  readonly collection: string
   /* Плановое количество файлов либо null до сканирования. */
-  total: number | null;
+  total: number | null
   /* Число завершённых чтений. */
-  read: number;
+  read: number
   /* Число завершённых записей. */
-  written: number;
+  written: number
   /* Состояние обработки и фиксации. */
-  status: CollectionProgressStatus;
+  status: CollectionProgressStatus
   /* Последний файловый этап. */
-  phase: 'read' | 'write' | null;
+  phase: 'read' | 'write' | null
   /* Накопленное время чтения, мс. */
-  readMs: number;
+  readMs: number
   /* Накопленное время записи, мс. */
-  writeMs: number;
+  writeMs: number
   /* Последний или выполняемый файл. */
-  record?: ExchangeFileAddress;
+  record?: ExchangeFileAddress
   /* Измеренная длительность последней операции, мс. */
-  recordMs: number;
+  recordMs: number
   /* Самая медленная завершённая операция. */
-  slowest?: FileTiming;
+  slowest?: FileTiming
 }
 /**
  * Незавершённая операция; время отсчитывается после уведомления о её начале.
  */
 export interface ActiveRecord {
   /* Полный адрес текущего файла. */
-  readonly record: ExchangeFileAddress;
+  readonly record: ExchangeFileAddress
   /* Чтение JSON либо запись SQLite/JSON. */
-  readonly phase: 'read' | 'write';
+  readonly phase: 'read' | 'write'
   /* Монотонная отметка performance.now(), мс. */
-  startedAt: number;
+  startedAt: number
 }
 /**
  * Частное состояние одного репортера прогресса.
  */
 export interface ProgressState {
   /* Направление обмена. */
-  readonly operation: ExchangeProgress['operation'];
+  readonly operation: ExchangeProgress['operation']
   /* Наблюдатель событий; undefined отключает внешний вывод. */
-  readonly observer?: ProgressObserver;
+  readonly observer?: ProgressObserver
   /* Монотонное время начала сценария. */
-  readonly startedAt: number;
+  readonly startedAt: number
   /* Независимые метрики всех объявленных коллекций. */
-  readonly collections: Map<Collection, CollectionMetrics>;
+  readonly collections: Map<Collection, CollectionMetrics>
   /* Метрики физических таблиц, открытых при сканировании базы. */
-  readonly tables: Map<string, CollectionMetrics>;
+  readonly tables: Map<string, CollectionMetrics>
   /* Независимые счётчики языков в порядке исходного манифеста. */
-  readonly localeCollections: Map<Locale, Map<Collection, CollectionMetrics>>;
+  readonly localeCollections: Map<Locale, Map<Collection, CollectionMetrics>>
   /* Текущий этап сценария. */
-  phase: ExchangePhase;
+  phase: ExchangePhase
   /* Монотонное время начала этапа. */
-  phaseStartedAt: number;
+  phaseStartedAt: number
   /* Накопленные времена завершённых этапов, мс. */
-  readonly phaseDurationsMs: Partial<Record<ExchangePhase, number>>;
+  readonly phaseDurationsMs: Partial<Record<ExchangePhase, number>>
   /* Монотонный общий процент. */
-  percent: number;
+  percent: number
   /* Число файлов, завершённых на текущем этапе. */
-  completed: number;
+  completed: number
   /* Число файлов этапа либо null до планирования. */
-  total: number | null;
+  total: number | null
   /* Выполняемая файловая операция. */
-  active?: ActiveRecord;
+  active?: ActiveRecord
   /* Последний файл текущей фазы для диагностики исключения наблюдателя. */
-  lastRecord?: ExchangeFileAddress;
+  lastRecord?: ExchangeFileAddress
   /* Завершающая ошибка, если сценарий прерван. */
-  failure?: ExchangeFailure;
+  failure?: ExchangeFailure
 }

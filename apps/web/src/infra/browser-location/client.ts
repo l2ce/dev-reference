@@ -1,6 +1,3 @@
-'use client';
+'use client'
 
-export {
-  useLocationQuery,
-  replaceLocationQuery,
-} from './hooks/use-location-query';
+export { useLocationQuery, replaceLocationQuery } from './hooks/use-location-query'

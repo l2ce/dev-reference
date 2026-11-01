@@ -3,7 +3,7 @@
  */
 export interface SiteConfig {
   /* Префикс пути без завершающего слеша; пустая строка обозначает корень. */
-  readonly basePath: string;
+  readonly basePath: string
   /* Абсолютный адрес корня приложения с завершающим слешем. */
-  readonly siteUrl: string;
+  readonly siteUrl: string
 }

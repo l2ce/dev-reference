@@ -1,4 +1,4 @@
-import { convertSnapshotV13 } from './format-v13.mjs';
-import { runConversion } from './conversion-directory.mjs';
+import { convertSnapshotV13 } from './format-v13.mjs'
+import { runConversion } from './conversion-directory.mjs'
 
-await runConversion(convertSnapshotV13, 'convert-v13.mjs');
+await runConversion(convertSnapshotV13, 'convert-v13.mjs')

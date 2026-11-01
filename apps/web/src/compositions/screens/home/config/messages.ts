@@ -17,7 +17,7 @@ export const homeMessages = {
     scenario: 'Scenarios',
     scenarioText: 'How messages connect into a conversation.',
     article: 'Articles',
-    articleText: 'The mechanics that make it all work.',
+    articleText: 'The mechanics that make it all work.'
   },
   ru: {
     eyebrow: 'ОТКРЫТЫЙ СПРАВОЧНИК LINEAGE II',
@@ -34,6 +34,6 @@ export const homeMessages = {
     scenario: 'Сценарии',
     scenarioText: 'Как сообщения складываются в диалог.',
     article: 'Статьи',
-    articleText: 'Механизмы, благодаря которым всё работает.',
-  },
-} as const;
+    articleText: 'Механизмы, благодаря которым всё работает.'
+  }
+} as const

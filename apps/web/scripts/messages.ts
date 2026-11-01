@@ -7,5 +7,5 @@ export const scriptMessages = {
   internalError: 'Не удалось прочитать статический файл.',
   badRequest: 'Некорректный путь запроса.',
   method: 'Разрешены только GET и HEAD.',
-  ready: 'Статический preview:',
-} as const;
+  ready: 'Статический preview:'
+} as const

@@ -1,23 +1,17 @@
-import * as z from 'zod';
-import { DatabaseError, hasErrorCode } from '@l2ce/database';
-import { cliMessages as messages } from '../locales/ru.js';
-import { CommanderError } from 'commander';
-import { formatText } from './text.js';
-import type { OutputOptions } from './output.types.js';
+import * as z from 'zod'
+import { DatabaseError, hasErrorCode } from '@l2ce/database'
+import { cliMessages as messages } from '../locales/ru.js'
+import { CommanderError } from 'commander'
+import { formatText } from './text.js'
+import type { OutputOptions } from './output.types.js'
 
 /**
  * Пишет результат в stdout в выбранном формате; диагностик в этот поток не добавляет.
  */
 export function writeSuccess(data: unknown, options: OutputOptions): void {
   process.stdout.write(
-    options.json
-      ? JSON.stringify(
-          { ok: true, data },
-          null,
-          options.pretty ? 2 : undefined,
-        ) + '\n'
-      : formatText(data),
-  );
+    options.json ? JSON.stringify({ ok: true, data }, null, options.pretty ? 2 : undefined) + '\n' : formatText(data)
+  )
 }
 
 /**
@@ -25,58 +19,28 @@ export function writeSuccess(data: unknown, options: OutputOptions): void {
  */
 function normalizeError(error: unknown): DatabaseError {
   if (error instanceof CommanderError) {
-    return new DatabaseError(
-      'USAGE',
-      error.message,
-      { commanderCode: error.code },
-      error,
-    );
+    return new DatabaseError('USAGE', error.message, { commanderCode: error.code }, error)
   }
   if (error instanceof DatabaseError) {
-    return error;
+    return error
   }
   if (error instanceof z.ZodError) {
-    return new DatabaseError(
-      'VALIDATION_ERROR',
-      messages.invalidData,
-      { issues: error.issues },
-      error,
-    );
+    return new DatabaseError('VALIDATION_ERROR', messages.invalidData, { issues: error.issues }, error)
   }
-  if (
-    error !== null &&
-    typeof error === 'object' &&
-    'code' in error &&
-    typeof error.code === 'string'
-  ) {
+  if (error !== null && typeof error === 'object' && 'code' in error && typeof error.code === 'string') {
     if (error.code.startsWith('ERR_PARSE_ARGS')) {
-      return new DatabaseError(
-        'USAGE',
-        messages.invalidArguments,
-        undefined,
-        error,
-      );
+      return new DatabaseError('USAGE', messages.invalidArguments, undefined, error)
     }
-    return new DatabaseError(
-      'IO_ERROR',
-      messages.internalError,
-      { systemCode: error.code },
-      error,
-    );
+    return new DatabaseError('IO_ERROR', messages.internalError, { systemCode: error.code }, error)
   }
-  return new DatabaseError(
-    'INTERNAL_ERROR',
-    messages.internalError,
-    undefined,
-    error,
-  );
+  return new DatabaseError('INTERNAL_ERROR', messages.internalError, undefined, error)
 }
 
 /**
  * Выдаёт ошибку в stderr в выбранном формате и устанавливает стабильный код завершения.
  */
 export function writeFailure(input: unknown, options: OutputOptions): void {
-  const error = normalizeError(input);
+  const error = normalizeError(input)
   const exitCodes: Readonly<Record<string, number>> = {
     USAGE: 2,
     INVALID_JSON: 2,
@@ -107,29 +71,23 @@ export function writeFailure(input: unknown, options: OutputOptions): void {
     WORKTREE_MISMATCH: 4,
     RECOVERY_CONFLICT: 4,
     RECOVERY_REQUIRED: 4,
-    BUSY: 5,
-  };
-  process.exitCode = exitCodes[error.code] ?? 1;
+    BUSY: 5
+  }
+  process.exitCode = exitCodes[error.code] ?? 1
   const data = {
     code: error.code,
     message: error.message,
     details: error.details,
     cause:
-      error.cause instanceof Error &&
-      !(error.cause instanceof z.ZodError) &&
-      error.cause.message !== error.message
+      error.cause instanceof Error && !(error.cause instanceof z.ZodError) && error.cause.message !== error.message
         ? error.cause.message
-        : undefined,
-  };
+        : undefined
+  }
   process.stderr.write(
     options.json
-      ? JSON.stringify(
-          { ok: false, error: data },
-          null,
-          options.pretty ? 2 : undefined,
-        ) + '\n'
-      : formatText(data),
-  );
+      ? JSON.stringify({ ok: false, error: data }, null, options.pretty ? 2 : undefined) + '\n'
+      : formatText(data)
+  )
 }
 
 /**
@@ -137,8 +95,8 @@ export function writeFailure(input: unknown, options: OutputOptions): void {
  */
 export function onOutputError(error: unknown, options: OutputOptions): void {
   if (hasErrorCode(error, 'EPIPE')) {
-    process.exitCode = 0;
-    return;
+    process.exitCode = 0
+    return
   }
-  writeFailure(error, options);
+  writeFailure(error, options)
 }

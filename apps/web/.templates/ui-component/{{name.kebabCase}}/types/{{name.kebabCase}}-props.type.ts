@@ -3,8 +3,8 @@ import type { ComponentPropsWithoutRef, ReactNode } from 'react'
 /**
  * Параметры компонента {{name.pascalCase}}.
  */
-export interface {{name.pascalCase}}Params {
-  /* Дочернее содержимое компонента; по умолчанию отсутствует. */
+export type {{name.pascalCase}}Params = {
+  /** Дочернее содержимое компонента; по умолчанию отсутствует. */
   readonly children?: ReactNode
 }
 

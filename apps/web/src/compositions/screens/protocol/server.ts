@@ -1,4 +1,4 @@
-import 'server-only';
+import 'server-only'
 
-export { ProtocolScreen } from './protocol.screen';
-export type { ProtocolScreenProps } from './types/protocol-screen-props.type';
+export { ProtocolScreen } from './protocol.screen'
+export type { ProtocolScreenProps } from './types/protocol-screen-props.type'

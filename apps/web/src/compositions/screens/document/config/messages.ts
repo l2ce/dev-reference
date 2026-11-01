@@ -18,7 +18,7 @@ export const documentMessages = {
     direction: 'Направление',
     opcode: 'Опкод',
     unknown: 'Не установлен',
-    locale: 'Read this document in English',
+    locale: 'Read this document in English'
   },
   en: {
     pending: 'Research is in progress. A description has not been added yet.',
@@ -36,6 +36,6 @@ export const documentMessages = {
     direction: 'Direction',
     opcode: 'Opcode',
     unknown: 'Not established',
-    locale: 'Читать документ на русском',
-  },
-} as const;
+    locale: 'Читать документ на русском'
+  }
+} as const

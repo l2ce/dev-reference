@@ -1,4 +1,4 @@
 # TypeScript
 
-Перед изменением TypeScript-кода прочитайте
-[стайлгайд](../../docs/development/TYPESCRIPT-STYLEGUIDE.md) и следуйте ему.
+Перед написанием, содержательным изменением или ревью TypeScript-кода загрузите
+[ts-styleguide](../../.agents/skills/ts-styleguide/SKILL.md) и следуйте его канонам.

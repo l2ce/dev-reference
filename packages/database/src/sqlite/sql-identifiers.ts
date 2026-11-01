@@ -3,5 +3,5 @@
  * Предметные запросы используют типизированные колонки Drizzle вместо строковых имён.
  */
 export function identifier(name: string): string {
-  return `"${name.replaceAll('"', '""')}"`;
+  return `"${name.replaceAll('"', '""')}"`
 }

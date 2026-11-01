@@ -3,5 +3,5 @@
  */
 export interface PreviewConfig {
   /* Префикс, с которым собраны HTML и клиентские чанки. */
-  readonly basePath: string;
+  readonly basePath: string
 }

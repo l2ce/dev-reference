@@ -1,11 +1,11 @@
-import * as z from 'zod';
+import * as z from 'zod'
 import {
   collectionSchema,
   entitySchemas,
   implementationCollectionSchema,
   keySchema,
-  serverSchema,
-} from '../model/schema.js';
+  serverSchema
+} from '../model/schema.js'
 
 const knowledgeCollections = [
   'packets',
@@ -13,8 +13,8 @@ const knowledgeCollections = [
   'articles',
   'packet-revisions',
   'scenario-revisions',
-  'article-revisions',
-];
+  'article-revisions'
+]
 
 /**
  * Проверяет область каждого SQL-фильтра; неподходящие коллекции не игнорируют переданные условия.
@@ -31,7 +31,7 @@ export const listQuerySchema = z
     server: serverSchema.optional(),
     direction: entitySchemas.packets.shape.direction.optional(),
     limit: z.number().int().min(1).max(1000).default(50),
-    offset: z.number().int().nonnegative().default(0),
+    offset: z.number().int().nonnegative().default(0)
   })
   .refine(
     (query) =>
@@ -44,6 +44,5 @@ export const listQuerySchema = z
         knowledgeCollections.includes(query.collection) ||
         query.collection === 'chronicle-releases') &&
       (!query.server || knowledgeCollections.includes(query.collection)) &&
-      (!query.direction ||
-        ['packets', 'packet-revisions'].includes(query.collection)),
-  );
+      (!query.direction || ['packets', 'packet-revisions'].includes(query.collection))
+  )

@@ -1,3 +1,3 @@
-'use client';
+'use client'
 
-export { ThemeMenu } from './theme-menu';
+export { ThemeMenu } from './theme-menu'

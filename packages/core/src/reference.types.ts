@@ -1,157 +1,145 @@
-import type * as z from 'zod';
-import type {
-  Source,
-  Translation,
-  RevisionValue,
-  EntityValue,
-} from '@l2ce/database';
+import type * as z from 'zod'
+import type { Source, Translation, RevisionValue, EntityValue } from '@l2ce/database'
 import type {
   referenceProtocolsSchema,
   referenceKnowledgeSchema,
   referenceReadSchema,
   referenceCatalogSchema,
-  referenceKindSchema,
-} from './reference-schema.js';
+  referenceKindSchema
+} from './reference-schema.js'
 
 /**
  * Вид логического знания.
  */
-export type ReferenceKind = z.infer<typeof referenceKindSchema>;
+export type ReferenceKind = z.infer<typeof referenceKindSchema>
 /**
  * Вход каталога протоколов; пагинация получает значения по умолчанию в схеме.
  */
-export type ReferenceProtocolsQuery = z.input<typeof referenceProtocolsSchema>;
+export type ReferenceProtocolsQuery = z.input<typeof referenceProtocolsSchema>
 /**
  * Вход поиска и списка знаний в выбранном протоколе.
  */
-export type ReferenceKnowledgeQuery = z.input<typeof referenceKnowledgeSchema>;
+export type ReferenceKnowledgeQuery = z.input<typeof referenceKnowledgeSchema>
 /**
  * Множественное чтение в одном протоколе и языке.
  */
-export type ReferenceReadQuery = z.input<typeof referenceReadSchema>;
+export type ReferenceReadQuery = z.input<typeof referenceReadSchema>
 /**
  * Вход вспомогательного каталога игры.
  */
-export type ReferenceCatalogQuery = z.input<typeof referenceCatalogSchema>;
+export type ReferenceCatalogQuery = z.input<typeof referenceCatalogSchema>
 /**
  * Языковое представление записи каталога без подстановки другого перевода.
  */
 export interface ReferenceCatalogItem {
   /* Постоянный читаемый адрес записи. */
-  readonly key: string;
+  readonly key: string
   /* Запрошенный язык. */
-  readonly locale: string;
+  readonly locale: string
   /* Переведённое название либо технический адрес при отсутствии перевода. */
-  readonly title: string;
+  readonly title: string
   /* Аннотация нужного языка либо null. */
-  readonly summary: string | null;
+  readonly summary: string | null
   /* Исходный Markdown нужного языка либо null. */
-  readonly markdown: string | null;
+  readonly markdown: string | null
   /* Состояние нужного перевода либо missing при его отсутствии. */
-  readonly translationStatus: Translation['translationStatus'];
+  readonly translationStatus: Translation['translationStatus']
   /* Источники выбранного перевода. */
-  readonly sources: readonly Source[];
+  readonly sources: readonly Source[]
   /* Реальный игровой номер только у протокола. */
-  readonly number?: number;
+  readonly number?: number
   /* Различитель одинаковых номеров только у протокола. */
-  readonly variant?: number;
+  readonly variant?: number
   /* Полнота профиля или выпуска; у ветки и хроники не задаётся. */
-  readonly status?: EntityValue<'protocols'>['status'];
+  readonly status?: EntityValue<'protocols'>['status']
   /* Владелец хроники, если применимо. */
-  readonly branchKey?: string;
+  readonly branchKey?: string
   /* Владелец выпуска, если применимо. */
-  readonly chronicleKey?: string;
+  readonly chronicleKey?: string
   /* Протоколы выпуска, если применимо. */
-  readonly protocolKeys?: readonly string[];
+  readonly protocolKeys?: readonly string[]
 }
 /**
  * Краткая карточка каталога; Markdown и источники читаются после выбора записи.
  */
-export type ReferenceCatalogSummary = Omit<
-  ReferenceCatalogItem,
-  'markdown' | 'sources'
->;
+export type ReferenceCatalogSummary = Omit<ReferenceCatalogItem, 'markdown' | 'sources'>
 /**
  * Читаемый документ конкретного профиля; отсутствие знаний и перевода явно различается.
  */
 export interface ReferenceDocument {
   /* Логический адрес пакета, сценария или статьи. */
-  readonly key: string;
+  readonly key: string
   /* Вид знания. */
-  readonly kind: ReferenceKind;
+  readonly kind: ReferenceKind
   /* Точный профиль, включая наш суффикс при наличии. */
-  readonly protocol: string;
+  readonly protocol: string
   /* Запрошенный язык. */
-  readonly locale: string;
+  readonly locale: string
   /* Адрес выбранной технической редакции, null при отсутствии применимости. */
-  readonly revisionKey: string | null;
+  readonly revisionKey: string | null
   /* Различает отсутствие карточки, применимости и перевода. */
-  readonly availability:
-    'available' | 'not-found' | 'unmapped' | 'translation-missing';
+  readonly availability: 'available' | 'not-found' | 'unmapped' | 'translation-missing'
   /* Название на выбранном языке либо техническое имя. */
-  readonly title: string;
+  readonly title: string
   /* Аннотация выбранного перевода либо null. */
-  readonly summary: string | null;
+  readonly summary: string | null
   /* Исходный Markdown; null при отсутствии перевода. */
-  readonly markdown: string | null;
+  readonly markdown: string | null
   /* Полнота технической редакции, null без редакции. */
-  readonly status: RevisionValue['status'] | null;
+  readonly status: RevisionValue['status'] | null
   /* Состояние перевода. */
-  readonly translationStatus: Translation['translationStatus'];
+  readonly translationStatus: Translation['translationStatus']
   /* Источники выбранного перевода. */
-  readonly sources: readonly Source[];
+  readonly sources: readonly Source[]
   /* Открытые вопросы выбранного перевода. */
-  readonly openQuestions: readonly string[];
+  readonly openQuestions: readonly string[]
   /* Серверы, к которым относится карточка. */
-  readonly servers: readonly ('login' | 'game')[];
+  readonly servers: readonly ('login' | 'game')[]
   /* Направление пакета; у остальных материалов null. */
-  readonly direction: EntityValue<'packets'>['direction'] | null;
+  readonly direction: EntityValue<'packets'>['direction'] | null
   /* Известный опкод пакета; null для неизвестного опкода и остальных видов. */
-  readonly opcode: RevisionValue<'packet-revisions'>['opcode'];
+  readonly opcode: RevisionValue<'packet-revisions'>['opcode']
   /* Установленные состояния применения пакета; пустой список означает отсутствие известного ограничения. */
-  readonly states: readonly string[];
+  readonly states: readonly string[]
 }
 /**
  * Краткий результат поиска; полный Markdown читается отдельным запросом.
  */
-export type ReferenceSummary = Omit<
-  ReferenceDocument,
-  'markdown' | 'sources' | 'openQuestions'
->;
+export type ReferenceSummary = Omit<ReferenceDocument, 'markdown' | 'sources' | 'openQuestions'>
 /**
  * Страница из одного неизменяемого снимка.
  */
 export interface ReferencePage<T> {
   /* SHA-256 общего предметного снимка. */
-  readonly revision: string;
+  readonly revision: string
   /* Совпадения текущей страницы. */
-  readonly items: readonly T[];
+  readonly items: readonly T[]
   /* Число совпадений до пагинации. */
-  readonly total: number;
+  readonly total: number
   /* Следующее смещение либо null в конце списка. */
-  readonly nextOffset: number | null;
+  readonly nextOffset: number | null
 }
 /**
  * Полное представление выбранного протокола и его исторического контекста.
  */
 export interface ReferenceProtocol {
   /* Общая ревизия основания чтения. */
-  readonly revision: string;
+  readonly revision: string
   /* Переведённая карточка протокола. */
-  readonly profile: ReferenceCatalogItem;
+  readonly profile: ReferenceCatalogItem
   /* Все связанные выпуски. */
-  readonly releases: readonly ReferenceCatalogItem[];
+  readonly releases: readonly ReferenceCatalogItem[]
   /* Справочные регионы. */
-  readonly regions: readonly string[];
+  readonly regions: readonly string[]
   /* Независимые Login-номера. */
-  readonly loginRevisions: readonly number[];
+  readonly loginRevisions: readonly number[]
 }
 /**
  * Результат множественного чтения, сохраняющий порядок запросов.
  */
 export interface ReferenceReadResult {
   /* Общая ревизия основания чтения. */
-  readonly revision: string;
+  readonly revision: string
   /* Документы либо явные пробелы для каждого входного ключа. */
-  readonly items: readonly ReferenceDocument[];
+  readonly items: readonly ReferenceDocument[]
 }

@@ -6,16 +6,13 @@ export const markdownMessages = {
   /**
    * Указывает директиву, не соответствующую поддерживаемому синтаксису.
    */
-  invalidDirective: (value: string): string =>
-    `Invalid knowledge directive: ${value}`,
+  invalidDirective: (value: string): string => `Invalid knowledge directive: ${value}`,
   /**
    * Указывает повторённый или некорректно записанный атрибут.
    */
-  invalidAttribute: (attribute: string): string =>
-    `Invalid directive attribute: ${attribute}`,
+  invalidAttribute: (attribute: string): string => `Invalid directive attribute: ${attribute}`,
   /**
    * Указывает атрибут, не поддерживаемый выбранной операцией.
    */
-  unsupportedAttribute: (attribute: string): string =>
-    `Unsupported directive attribute: ${attribute}`,
-} as const;
+  unsupportedAttribute: (attribute: string): string => `Unsupported directive attribute: ${attribute}`
+} as const

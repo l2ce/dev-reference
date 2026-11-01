@@ -1,25 +1,25 @@
-import type { ComponentPropsWithoutRef } from 'react';
-import type { ReferenceDocument } from 'domains/reference';
-import type { Locale } from 'shared/localization';
+import type { ComponentPropsWithoutRef } from 'react'
+import type { ReferenceDocument } from 'domains/reference'
+import type { Locale } from 'shared/localization'
 
 /**
  * Параметры компонента DocumentDetails.
  */
 export interface DocumentDetailsParams {
   /* Язык подписей. */
-  readonly locale: Locale;
+  readonly locale: Locale
   /* Контекст выбранной редакции без самостоятельного чтения базы. */
-  readonly document: ReferenceDocument;
+  readonly document: ReferenceDocument
   /* Источники текста и фактически включённых материалов. */
-  readonly sources: ReferenceDocument['sources'];
+  readonly sources: ReferenceDocument['sources']
 }
 
 /**
  * Атрибуты корневого элемента компонента DocumentDetails.
  */
-type RootAttrs = Omit<ComponentPropsWithoutRef<'aside'>, 'children'>;
+type RootAttrs = Omit<ComponentPropsWithoutRef<'aside'>, 'children'>
 
 /**
  * Свойства компонента DocumentDetails.
  */
-export type DocumentDetailsProps = RootAttrs & DocumentDetailsParams;
+export type DocumentDetailsProps = RootAttrs & DocumentDetailsParams

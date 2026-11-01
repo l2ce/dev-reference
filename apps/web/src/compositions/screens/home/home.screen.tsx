@@ -1,11 +1,11 @@
-import { Button } from '@mantine/core';
-import cl from 'clsx';
-import type { JSX } from 'react';
-import { siteConfig } from 'infra/site-config';
-import { localePath } from 'shared/localization';
-import { homeMessages } from './config/messages';
-import type { HomeScreenProps } from './types/home-screen-props.type';
-import styles from './styles/home.module.css';
+import { Button } from '@mantine/core'
+import cl from 'clsx'
+import type { JSX } from 'react'
+import { siteConfig } from 'infra/site-config'
+import { localePath } from 'shared/localization'
+import { homeMessages } from './config/messages'
+import type { HomeScreenProps } from './types/home-screen-props.type'
+import styles from './styles/home.module.css'
 
 /**
  * Представляет справочник и ведёт к каталогу протоколов.
@@ -14,13 +14,9 @@ import styles from './styles/home.module.css';
  *  - первого знакомства с проектом
  *  - перехода к выбору протокола в каталоге
  */
-export const HomeScreen = ({
-  locale,
-  className,
-  ...rootAttrs
-}: HomeScreenProps): JSX.Element => {
-  const messages = homeMessages[locale];
-  const catalogHref = `${siteConfig.basePath}${localePath(locale, '/protocols/')}`;
+export const HomeScreen = ({ locale, className, ...rootAttrs }: HomeScreenProps): JSX.Element => {
+  const messages = homeMessages[locale]
+  const catalogHref = `${siteConfig.basePath}${localePath(locale, '/protocols/')}`
   return (
     <section {...rootAttrs} className={cl(styles.root, className)}>
       <div className={styles.hero}>
@@ -36,20 +32,11 @@ export const HomeScreen = ({
           </h1>
           <p className={styles.description}>{messages.description}</p>
           <div className={styles.actions}>
-            <Button
-              className={styles.primary}
-              color="indigo.7"
-              component="a"
-              href={catalogHref}
-              size="md"
-            >
+            <Button className={styles.primary} color="indigo.7" component="a" href={catalogHref} size="md">
               {messages.action}
               <span aria-hidden="true">  →</span>
             </Button>
-            <a
-              className={styles.github}
-              href="https://github.com/l2ce/dev-reference"
-            >
+            <a className={styles.github} href="https://github.com/l2ce/dev-reference">
               {messages.github}
               <span aria-hidden="true"> ↗</span>
             </a>
@@ -90,5 +77,5 @@ export const HomeScreen = ({
         </aside>
       </div>
     </section>
-  );
-};
+  )
+}

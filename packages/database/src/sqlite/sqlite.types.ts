@@ -1,30 +1,30 @@
-import type BetterSqlite3 from 'better-sqlite3';
-import type { BetterSQLite3Database } from 'drizzle-orm/better-sqlite3';
-import type * as schema from './schema.js';
+import type BetterSqlite3 from 'better-sqlite3'
+import type { BetterSQLite3Database } from 'drizzle-orm/better-sqlite3'
+import type * as schema from './schema.js'
 
 /**
  * Соединение принадлежит одному экземпляру API и закрывается его владельцем.
  */
 export interface Connection {
   /* Физическое соединение SQLite и синхронные транзакции. */
-  readonly client: BetterSqlite3.Database;
+  readonly client: BetterSqlite3.Database
   /* Типизированные SQL-запросы к таблицам пакета. */
-  readonly orm: BetterSQLite3Database<typeof schema>;
+  readonly orm: BetterSQLite3Database<typeof schema>
   /* Абсолютный путь открытого файла. */
-  readonly path: string;
+  readonly path: string
   /* Соединение запрещает изменения на уровне SQLite. */
-  readonly readOnly: boolean;
+  readonly readOnly: boolean
 }
 /**
  * Внутренние параметры открытия; создание разрешается сценарием API или импорта.
  */
 export interface ConnectionOptions {
   /* Файл SQLite; относительный путь разрешается от cwd вызывающей стороны. */
-  readonly path: string;
+  readonly path: string
   /* Разрешение создать отсутствующий файл; по умолчанию false. */
-  readonly create?: boolean;
+  readonly create?: boolean
   /* Открытие только для чтения; по умолчанию false. */
-  readonly readOnly?: boolean;
+  readonly readOnly?: boolean
 }
 
 /**
@@ -32,12 +32,12 @@ export interface ConnectionOptions {
  */
 export interface TableDefinition {
   /* Имя объекта структуры в main. */
-  readonly name: string;
+  readonly name: string
   /* Фактический CREATE TABLE или CREATE INDEX, сохранённый SQLite. */
-  readonly sql: string;
+  readonly sql: string
 }
 
 /**
  * Совместимость структуры файла с единственной актуальной схемой пакета.
  */
-export type SchemaStatus = 'empty' | 'current' | 'outdated';
+export type SchemaStatus = 'empty' | 'current' | 'outdated'

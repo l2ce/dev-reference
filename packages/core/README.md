@@ -10,20 +10,20 @@
 к SQLite. CLI и MCP используют один и тот же контракт.
 
 ```ts
-import { openDatabase } from '@l2ce/database';
-import { ReferenceReader } from '@l2ce/core/reference';
+import { openDatabase } from '@l2ce/database'
+import { ReferenceReader } from '@l2ce/core/reference'
 
-const database = openDatabase({ readOnly: true });
+const database = openDatabase({ readOnly: true })
 try {
-  const reader = new ReferenceReader(database.snapshot());
-  const protocols = reader.protocols({ number: 152, locale: 'ru' });
+  const reader = new ReferenceReader(database.snapshot())
+  const protocols = reader.protocols({ number: 152, locale: 'ru' })
   const documents = reader.read({
     protocol: '273',
     locale: 'ru',
-    keys: ['packet:protocol-version', 'scenario:game-connection'],
-  });
+    keys: ['packet:protocol-version', 'scenario:game-connection']
+  })
 } finally {
-  database.close();
+  database.close()
 }
 ```
 

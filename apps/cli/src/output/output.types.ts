@@ -3,9 +3,9 @@
  */
 export interface OutputOptions {
   /* Включить единственный JSON-конверт для успеха или ошибки. */
-  readonly json: boolean;
+  readonly json: boolean
   /* Добавить отступы к JSON; допустимо только вместе с json. */
-  readonly pretty: boolean;
+  readonly pretty: boolean
 }
 
 /**
@@ -13,7 +13,7 @@ export interface OutputOptions {
  */
 export interface CommanderOutput {
   /* Текст справки или версии, который Commander направил в stdout. */
-  stdout: string;
+  stdout: string
   /* Диагностики и подсказки Commander, предназначенные stderr. */
-  stderr: string;
+  stderr: string
 }

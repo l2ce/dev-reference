@@ -1,9 +1,5 @@
-import type { JSX } from 'react';
-import {
-  COLOR_PREFERENCE_RULE,
-  COLOR_PREFERENCE_SCRIPT,
-  COLOR_PREFERENCE_SHEET,
-} from '../../config/color-preference';
+import type { JSX } from 'react'
+import { COLOR_PREFERENCE_RULE, COLOR_PREFERENCE_SCRIPT, COLOR_PREFERENCE_SHEET } from '../../config/color-preference'
 
 /**
  * Применяет сохранённую тему до первого кадра статической страницы.
@@ -14,9 +10,6 @@ import {
 export const ThemeBootstrap = (): JSX.Element => (
   <>
     <style id={COLOR_PREFERENCE_SHEET}>{COLOR_PREFERENCE_RULE}</style>
-    <script
-      id="l2ce-theme-bootstrap"
-      dangerouslySetInnerHTML={{ __html: COLOR_PREFERENCE_SCRIPT }}
-    />
+    <script id="l2ce-theme-bootstrap" dangerouslySetInnerHTML={{ __html: COLOR_PREFERENCE_SCRIPT }} />
   </>
-);
+)

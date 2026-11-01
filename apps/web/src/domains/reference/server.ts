@@ -1,4 +1,4 @@
-import 'server-only';
+import 'server-only'
 
 export {
   getProtocols,
@@ -7,10 +7,6 @@ export {
   getDocument,
   getLocales,
   getProtocolRoutes,
-  getDocumentRoutes,
-} from './reference';
-export {
-  getProtocolCatalog,
-  getKnowledgeIndex,
-  getProtocolTargets,
-} from './navigation';
+  getDocumentRoutes
+} from './reference'
+export { getProtocolCatalog, getKnowledgeIndex, getProtocolTargets } from './navigation'

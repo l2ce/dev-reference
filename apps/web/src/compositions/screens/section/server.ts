@@ -1,3 +1,3 @@
-import 'server-only';
+import 'server-only'
 
-export { SectionScreen } from './section.screen';
+export { SectionScreen } from './section.screen'

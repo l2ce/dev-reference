@@ -3,9 +3,9 @@
  */
 export const mainMessages = {
   en: {
-    skip: 'Skip to content',
+    skip: 'Skip to content'
   },
   ru: {
-    skip: 'Перейти к содержимому',
-  },
-} as const;
+    skip: 'Перейти к содержимому'
+  }
+} as const

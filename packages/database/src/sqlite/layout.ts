@@ -1,6 +1,6 @@
-import * as tables from './schema.js';
-import type { StorageLayout, ImplementationStorage } from './storage.types.js';
-import type { ImplementationCollection } from '../model/model.types.js';
+import * as tables from './schema.js'
+import type { StorageLayout, ImplementationStorage } from './storage.types.js'
+import type { ImplementationCollection } from '../model/model.types.js'
 
 /**
  * Конкретные предметные таблицы; порядок не задаёт очередность разрешения FK в транзакции.
@@ -10,25 +10,25 @@ export const layouts: readonly StorageLayout[] = [
     collection: 'branches',
     kind: 'entity',
     table: tables.branches,
-    translations: tables.branchTranslations,
+    translations: tables.branchTranslations
   },
   {
     collection: 'chronicles',
     kind: 'entity',
     table: tables.chronicles,
-    translations: tables.chronicleTranslations,
+    translations: tables.chronicleTranslations
   },
   {
     collection: 'chronicle-releases',
     kind: 'entity',
     table: tables.chronicleReleases,
-    translations: tables.chronicleReleaseTranslations,
+    translations: tables.chronicleReleaseTranslations
   },
   {
     collection: 'protocols',
     kind: 'entity',
     table: tables.protocols,
-    translations: tables.protocolTranslations,
+    translations: tables.protocolTranslations
   },
   { collection: 'packets', kind: 'entity', table: tables.packets },
   { collection: 'scenarios', kind: 'entity', table: tables.scenarios },
@@ -37,46 +37,44 @@ export const layouts: readonly StorageLayout[] = [
     collection: 'packet-revisions',
     kind: 'implementation',
     table: tables.packetRevisions,
-    translations: tables.packetRevisionTranslations,
+    translations: tables.packetRevisionTranslations
   },
   {
     collection: 'scenario-revisions',
     kind: 'implementation',
     table: tables.scenarioRevisions,
-    translations: tables.scenarioRevisionTranslations,
+    translations: tables.scenarioRevisionTranslations
   },
   {
     collection: 'article-revisions',
     kind: 'implementation',
     table: tables.articleRevisions,
-    translations: tables.articleRevisionTranslations,
-  },
-];
+    translations: tables.articleRevisionTranslations
+  }
+]
 /**
  * Физические FK каждого вида ревизий и его предметный владелец.
  */
-export const implementationStorage: Readonly<
-  Record<ImplementationCollection, ImplementationStorage>
-> = {
+export const implementationStorage: Readonly<Record<ImplementationCollection, ImplementationStorage>> = {
   'packet-revisions': {
     collection: 'packet-revisions',
     implementations: tables.packetRevisions,
     ownerField: 'packetKey',
     owners: tables.packets,
-    protocols: tables.packetProtocols,
+    protocols: tables.packetProtocols
   },
   'scenario-revisions': {
     collection: 'scenario-revisions',
     implementations: tables.scenarioRevisions,
     ownerField: 'scenarioKey',
     owners: tables.scenarios,
-    protocols: tables.scenarioProtocols,
+    protocols: tables.scenarioProtocols
   },
   'article-revisions': {
     collection: 'article-revisions',
     implementations: tables.articleRevisions,
     ownerField: 'articleKey',
     owners: tables.articles,
-    protocols: tables.articleProtocols,
-  },
-};
+    protocols: tables.articleProtocols
+  }
+}

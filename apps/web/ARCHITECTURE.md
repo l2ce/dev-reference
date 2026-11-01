@@ -1,7 +1,7 @@
 # Архитектурный профиль Web
 
 Профиль действует в `apps/web/src`. Он уточняет
-[React Reference](../../.agents/skills/react-reference/reference/application/architecture/project-profile.md)
+[Next.js Reference](../../.agents/skills/nextjs-reference/SKILL.md)
 для Next.js App Router и статического экспорта. Инварианты
 [Unit Architecture](../../.agents/skills/unit-architecture/SKILL.md) обязательны.
 
@@ -10,7 +10,9 @@
 Алиасы `app/*`, `compositions/*`, `domains/*`, `infra/*`, `ui/*`, `shared/*`
 соответствуют одноимённым каталогам `src/`. Межюнитные импорты идут через алиас
 и фасет; внутренние импорты относительные. Группы композиций и словарь сегментов
-наследуются из React Reference. Пустые слои и фасеты не создаются.
+определены архитектурным профилем Next.js Reference. Пустые слои и фасеты не создаются.
+Локальный перечень маркеров фасетов закреплён ниже: он сохраняет используемый
+`lazy.ts`; отдельный `browser.ts` в этом приложении не принят.
 
 Маркеры зарезервированы во всём frontend root:
 
@@ -41,12 +43,13 @@ Server Component может подключать компонент через `
 - `shared/lib/value-predicates`: чистые проверки runtime-формы.
 - `shared/localization`: поддерживаемые коды языков и их проверка.
 
-Словари подписей находятся в `config/` своего владельца. Форматирование,
-`interface` для объектных контрактов и комментарии полей `/* ... */` определяет
-стайлгайд репозитория; именованные типы и функции имеют многострочный русский
-TSDoc. Остальные совместимые правила React Reference действуют строго.
+Словари подписей находятся в `config/` своего владельца. Правила TypeScript,
+React-компонентов и CSS принадлежат `ts-styleguide`, `tsx-styleguide` и
+`postcss-styleguide` из [профиля знаний проекта](../../docs/development/skills.md).
+Публичные props размещаются в `types/` компонента; существующие базовые предикаты
+доступны через `shared/lib/value-predicates`.
 
-## Next.js вместо SPA-механизмов
+## Интеграция Next.js и статический экспорт
 
 Next.js заменяет Vite, `createRoot` и React Router. Framework-файлы только
 подключают публичные API и подпадают под системное исключение генерации TSX.

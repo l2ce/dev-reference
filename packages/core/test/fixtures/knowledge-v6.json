@@ -336,11 +336,7 @@
           "protocolIds": ["273"],
           "documentVersionId": "scenario.server-selection.v1",
           "status": "partial",
-          "sourceIds": [
-            "l2ts-login-dispatch",
-            "l2ts-request-server-list",
-            "l2ts-server-list"
-          ]
+          "sourceIds": ["l2ts-login-dispatch", "l2ts-request-server-list", "l2ts-server-list"]
         }
       ]
     },
@@ -359,11 +355,7 @@
           "protocolIds": ["273"],
           "documentVersionId": "article.game-framing.v1",
           "status": "partial",
-          "sourceIds": [
-            "l2ts-game-writer",
-            "l2ts-game-dispatch",
-            "l2ts-game-crypt"
-          ]
+          "sourceIds": ["l2ts-game-writer", "l2ts-game-dispatch", "l2ts-game-crypt"]
         }
       ],
       "documentVersionId": null
@@ -388,17 +380,11 @@
         "id": "game-framing"
       },
       "status": "partial",
-      "sourceIds": [
-        "l2ts-game-writer",
-        "l2ts-game-dispatch",
-        "l2ts-game-crypt"
-      ],
+      "sourceIds": ["l2ts-game-writer", "l2ts-game-dispatch", "l2ts-game-crypt"],
       "previousVersionId": null,
       "requires": [],
       "changes": [],
-      "openQuestions": [
-        "Сверить правила на захвате обмена официального клиента 273."
-      ]
+      "openQuestions": ["Сверить правила на захвате обмена официального клиента 273."]
     },
     {
       "id": "packet.key-packet.v1",
@@ -438,9 +424,7 @@
         }
       ],
       "changes": [],
-      "openQuestions": [
-        "Уточнить смысл констант после ключа по дополнительным источникам и официальному клиенту."
-      ]
+      "openQuestions": ["Уточнить смысл констант после ключа по дополнительным источникам и официальному клиенту."]
     },
     {
       "id": "packet.protocol-version.v1",
@@ -470,11 +454,7 @@
         "id": "protocol-version"
       },
       "status": "partial",
-      "sourceIds": [
-        "l2ts-protocol-version",
-        "l2ts-game-reader",
-        "l2ts-game-dispatch"
-      ],
+      "sourceIds": ["l2ts-protocol-version", "l2ts-game-reader", "l2ts-game-dispatch"],
       "previousVersionId": null,
       "requires": [
         {
@@ -513,9 +493,7 @@
       "previousVersionId": null,
       "requires": [],
       "changes": [],
-      "openQuestions": [
-        "Проверить полный запрос официального клиента, включая данные после двух login-ключей."
-      ]
+      "openQuestions": ["Проверить полный запрос официального клиента, включая данные после двух login-ключей."]
     },
     {
       "id": "packet.server-list.v1",
@@ -541,9 +519,7 @@
       "previousVersionId": null,
       "requires": [],
       "changes": [],
-      "openQuestions": [
-        "Проверить значения флагов и полный формат на официальном клиенте выбранной ревизии."
-      ]
+      "openQuestions": ["Проверить значения флагов и полный формат на официальном клиенте выбранной ревизии."]
     },
     {
       "id": "scenario.game-connection.v1",
@@ -590,9 +566,7 @@
         }
       ],
       "changes": [],
-      "openQuestions": [
-        "Разобрать AuthLogin и проверку игровых ключей как следующий этап подключения."
-      ]
+      "openQuestions": ["Разобрать AuthLogin и проверку игровых ключей как следующий этап подключения."]
     },
     {
       "id": "scenario.server-selection.v1",
@@ -617,11 +591,7 @@
         "id": "server-selection"
       },
       "status": "partial",
-      "sourceIds": [
-        "l2ts-login-dispatch",
-        "l2ts-request-server-list",
-        "l2ts-server-list"
-      ],
+      "sourceIds": ["l2ts-login-dispatch", "l2ts-request-server-list", "l2ts-server-list"],
       "previousVersionId": null,
       "requires": [
         {
@@ -634,9 +604,7 @@
         }
       ],
       "changes": [],
-      "openQuestions": [
-        "Описать следующий запрос RequestServerLogin и передачу игровой сессии."
-      ]
+      "openQuestions": ["Описать следующий запрос RequestServerLogin и передачу игровой сессии."]
     }
   ],
   "translations": [

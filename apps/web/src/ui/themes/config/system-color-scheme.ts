@@ -1,20 +1,17 @@
-import type {
-  MantineColorScheme,
-  MantineColorSchemeManager,
-} from '@mantine/core';
-import { COLOR_PREFERENCE_KEY } from './color-preference';
-import { applyColorPreference } from '../operations/apply-color-preference';
+import type { MantineColorScheme, MantineColorSchemeManager } from '@mantine/core'
+import { COLOR_PREFERENCE_KEY } from './color-preference'
+import { applyColorPreference } from '../operations/apply-color-preference'
 
 /**
  * Очистка подписки единственного экземпляра темы в текущем документе.
  */
-let unsubscribe = (): void => {};
+let unsubscribe = (): void => {}
 
 /**
  * Проверяет сохранённый выбор; незнакомое значение означает системный режим.
  */
 function parseColorScheme(value: string | null): MantineColorScheme {
-  return value === 'light' || value === 'dark' ? value : 'auto';
+  return value === 'light' || value === 'dark' ? value : 'auto'
 }
 
 /**
@@ -30,9 +27,9 @@ export const systemColorSchemeManager: MantineColorSchemeManager = {
    * Сохраняет выбранный режим при доступном хранилище браузера.
    */
   set(value): void {
-    applyColorPreference(value);
+    applyColorPreference(value)
     try {
-      window.localStorage.setItem(COLOR_PREFERENCE_KEY, value);
+      window.localStorage.setItem(COLOR_PREFERENCE_KEY, value)
     } catch {
       /* Storage может быть запрещён настройками браузера. */
     }
@@ -42,9 +39,7 @@ export const systemColorSchemeManager: MantineColorSchemeManager = {
    */
   subscribe(listener): void {
     try {
-      listener(
-        parseColorScheme(window.localStorage.getItem(COLOR_PREFERENCE_KEY)),
-      );
+      listener(parseColorScheme(window.localStorage.getItem(COLOR_PREFERENCE_KEY)))
     } catch {
       /* Сохраняется доступный системный режим. */
     }
@@ -53,28 +48,27 @@ export const systemColorSchemeManager: MantineColorSchemeManager = {
      */
     const handleStorage = (event: StorageEvent): void => {
       if (event.key === COLOR_PREFERENCE_KEY || event.key === null) {
-        listener(parseColorScheme(event.newValue));
+        listener(parseColorScheme(event.newValue))
       }
-    };
-    window.addEventListener('storage', handleStorage);
-    unsubscribe = (): void =>
-      window.removeEventListener('storage', handleStorage);
+    }
+    window.addEventListener('storage', handleStorage)
+    unsubscribe = (): void => window.removeEventListener('storage', handleStorage)
   },
   /**
    * Освобождает подписку при закрытии провайдера.
    */
   unsubscribe(): void {
-    unsubscribe();
+    unsubscribe()
   },
   /**
    * Возвращает сохранённую настройку к системному режиму.
    */
   clear(): void {
-    applyColorPreference('auto');
+    applyColorPreference('auto')
     try {
-      window.localStorage.removeItem(COLOR_PREFERENCE_KEY);
+      window.localStorage.removeItem(COLOR_PREFERENCE_KEY)
     } catch {
       /* Необязательное хранилище. */
     }
-  },
-};
+  }
+}

@@ -1,19 +1,13 @@
-import { DatabaseError } from '../errors.js';
-import { defaultDatabasePath } from '../paths.js';
-import { snapshotRevision } from '../model/revision.js';
-import { validateSnapshot } from '../model/validation.js';
-import { connect } from '../sqlite/connection.js';
-import { prepareDatabase } from '../sqlite/bootstrap.js';
-import {
-  readEntity,
-  readManifest,
-  readSnapshot,
-  readImplementation,
-  listRecords,
-} from '../sqlite/records.js';
-import { restoreSnapshot } from '../sqlite/persistence.js';
-import { sqliteMessages as messages } from '../sqlite/messages.js';
-import { writeChanges } from './mutation.js';
+import { DatabaseError } from '../errors.js'
+import { defaultDatabasePath } from '../paths.js'
+import { snapshotRevision } from '../model/revision.js'
+import { validateSnapshot } from '../model/validation.js'
+import { connect } from '../sqlite/connection.js'
+import { prepareDatabase } from '../sqlite/bootstrap.js'
+import { readEntity, readManifest, readSnapshot, readImplementation, listRecords } from '../sqlite/records.js'
+import { restoreSnapshot } from '../sqlite/persistence.js'
+import { sqliteMessages as messages } from '../sqlite/messages.js'
+import { writeChanges } from './mutation.js'
 import type {
   Collection,
   EntityCollection,
@@ -25,9 +19,9 @@ import type {
   RecordAddress,
   ImplementationAddress,
   ImplementationValue,
-  ImplementationCollection,
-} from '../model/model.types.js';
-import type { Connection } from '../sqlite/sqlite.types.js';
+  ImplementationCollection
+} from '../model/model.types.js'
+import type { Connection } from '../sqlite/sqlite.types.js'
 import type {
   Database,
   DatabaseOperation,
@@ -37,24 +31,24 @@ import type {
   RecordWritten,
   UpdateInput,
   WriteOptions,
-  WriteResult,
-} from './database.types.js';
+  WriteResult
+} from './database.types.js'
 
 /**
  * Реализация публичного API; детали соединения не экспортируются потребителям.
  */
 class DatabaseHandle implements Database {
   /* Единственное соединение, принадлежащее экземпляру. */
-  private readonly connection: Connection;
+  private readonly connection: Connection
   /* Абсолютный путь файла SQLite. */
-  readonly path: string;
+  readonly path: string
 
   /**
    * Принимает уже открытое и проверенное соединение во владение.
    */
   constructor(connection: Connection) {
-    this.connection = connection;
-    this.path = connection.path;
+    this.connection = connection
+    this.path = connection.path
   }
 
   /**
@@ -62,10 +56,10 @@ class DatabaseHandle implements Database {
    */
   private assertOpen(write = false): void {
     if (!this.connection.client.open) {
-      throw new DatabaseError('DATABASE_CLOSED', messages.closed);
+      throw new DatabaseError('DATABASE_CLOSED', messages.closed)
     }
     if (write && this.connection.readOnly) {
-      throw new DatabaseError('READ_ONLY', messages.readOnly);
+      throw new DatabaseError('READ_ONLY', messages.readOnly)
     }
   }
 
@@ -73,121 +67,104 @@ class DatabaseHandle implements Database {
    * Возвращает манифест или null до первого наполнения базы.
    */
   manifest(): DatabaseManifest | null {
-    this.assertOpen();
-    return this.connection.client.transaction(() =>
-      readManifest(this.connection),
-    )();
+    this.assertOpen()
+    return this.connection.client.transaction(() => readManifest(this.connection))()
   }
 
   /**
    * Читает одну общую карточку с её собственными переводами без загрузки остальных записей.
    */
-  get<C extends EntityCollection>(
-    target: EntityAddress<C>,
-  ): EntityValue<C> | undefined {
-    this.assertOpen();
-    return this.connection.client.transaction(() =>
-      readEntity(this.connection, target),
-    )();
+  get<C extends EntityCollection>(target: EntityAddress<C>): EntityValue<C> | undefined {
+    this.assertOpen()
+    return this.connection.client.transaction(() => readEntity(this.connection, target))()
   }
 
   /**
    * Читает одну техническую редакцию с применимостью и всеми имеющимися переводами.
    */
   getImplementation<C extends ImplementationCollection>(
-    target: ImplementationAddress<C>,
+    target: ImplementationAddress<C>
   ): ImplementationValue<C> | undefined {
-    this.assertOpen();
-    return this.connection.client.transaction(() =>
-      readImplementation(this.connection, target),
-    )();
+    this.assertOpen()
+    return this.connection.client.transaction(() => readImplementation(this.connection, target))()
   }
 
   /**
    * Читает ревизию знаний в одном снимке; getImplementation сохраняет техническую совместимость API.
    */
   getRevision<C extends ImplementationCollection>(
-    target: ImplementationAddress<C>,
+    target: ImplementationAddress<C>
   ): ImplementationValue<C> | undefined {
-    return this.getImplementation(target);
+    return this.getImplementation(target)
   }
 
   /**
    * Возвращает ограниченную SQL-страницу и согласованный COUNT.
    */
   list<C extends Collection>(query: ListQuery<C>): RecordPage<C> {
-    this.assertOpen();
-    return listRecords(this.connection, query);
+    this.assertOpen()
+    return listRecords(this.connection, query)
   }
 
   /**
    * Загружает полный многоязычный снимок одной читающей транзакцией.
    */
   snapshot(): DatabaseSnapshot {
-    this.assertOpen();
-    return this.connection.client.transaction(() =>
-      readSnapshot(this.connection),
-    )();
+    this.assertOpen()
+    return this.connection.client.transaction(() => readSnapshot(this.connection))()
   }
 
   /**
    * Вычисляет ревизию всей базы из согласованного снимка.
    */
   revision(): string {
-    return snapshotRevision(this.snapshot());
+    return snapshotRevision(this.snapshot())
   }
 
   /**
    * Проверяет полный снимок до транзакции и атомарно заменяет содержимое базы.
    * Исключение callback до COMMIT откатывает импорт; сам callback не должен менять базу.
    */
-  replaceSnapshot(
-    input: DatabaseSnapshot,
-    onRecord?: RecordWritten,
-    onRecordStart?: RecordWritten,
-  ): void {
-    this.assertOpen(true);
-    const snapshot = validateSnapshot(input);
-    restoreSnapshot(this.connection, snapshot, onRecord, onRecordStart);
+  replaceSnapshot(input: DatabaseSnapshot, onRecord?: RecordWritten, onRecordStart?: RecordWritten): void {
+    this.assertOpen(true)
+    const snapshot = validateSnapshot(input)
+    restoreSnapshot(this.connection, snapshot, onRecord, onRecordStart)
   }
 
   /**
    * Атомарно изменяет базу с проверкой конечных связей и ожидаемой общей ревизии.
    */
-  applyChanges(
-    operations: readonly DatabaseOperation[],
-    options?: WriteOptions,
-  ): WriteResult {
-    this.assertOpen(true);
-    return writeChanges(this.connection, operations, options);
+  applyChanges(operations: readonly DatabaseOperation[], options?: WriteOptions): WriteResult {
+    this.assertOpen(true)
+    return writeChanges(this.connection, operations, options)
   }
 
   /**
    * Создаёт отсутствующую запись в проверенном пакете из одного изменения.
    */
   create(entry: DatabaseEntry, options?: WriteOptions): WriteResult {
-    return this.applyChanges([{ op: 'create', entry }], options);
+    return this.applyChanges([{ op: 'create', entry }], options)
   }
 
   /**
    * Полностью заменяет или создаёт одну запись.
    */
   put(entry: DatabaseEntry, options?: WriteOptions): WriteResult {
-    return this.applyChanges([{ op: 'put', entry }], options);
+    return this.applyChanges([{ op: 'put', entry }], options)
   }
 
   /**
    * Заменяет переданные поля; окончательное значение проверяет схема коллекции.
    */
   update(operation: UpdateInput, options?: WriteOptions): WriteResult {
-    return this.applyChanges([{ ...operation, op: 'update' }], options);
+    return this.applyChanges([{ ...operation, op: 'update' }], options)
   }
 
   /**
    * Удаляет запись; удаление карточки также удаляет принадлежащие ей имплементации.
    */
   delete(target: RecordAddress, options?: WriteOptions): WriteResult {
-    return this.applyChanges([{ op: 'delete', target }], options);
+    return this.applyChanges([{ op: 'delete', target }], options)
   }
 
   /**
@@ -195,7 +172,7 @@ class DatabaseHandle implements Database {
    */
   close(): void {
     if (this.connection.client.open) {
-      this.connection.client.close();
+      this.connection.client.close()
     }
   }
 }
@@ -208,13 +185,13 @@ export function openDatabase(options: OpenDatabaseOptions = {}): Database {
   const connection = connect({
     path: options.database ?? defaultDatabasePath,
     readOnly: options.readOnly,
-    create: !options.readOnly,
-  });
+    create: !options.readOnly
+  })
   try {
-    prepareDatabase(connection);
-    return new DatabaseHandle(connection);
+    prepareDatabase(connection)
+    return new DatabaseHandle(connection)
   } catch (error) {
-    connection.client.close();
-    throw error;
+    connection.client.close()
+    throw error
   }
 }

@@ -1,3 +1,3 @@
-'use client';
+'use client'
 
-export { LanguageMenu } from './language-menu';
+export { LanguageMenu } from './language-menu'

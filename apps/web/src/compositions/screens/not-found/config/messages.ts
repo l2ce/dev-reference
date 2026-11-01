@@ -6,5 +6,5 @@ export const notFoundMessages = {
   description:
     'The address may have changed, or this document has not been published yet. Find your protocol to continue exploring.',
   action: 'Browse protocols',
-  english: 'Открыть справочник на русском',
-} as const;
+  english: 'Открыть справочник на русском'
+} as const

@@ -15,14 +15,13 @@ export const sectionBrowserMessages = {
     empty: 'No documents found',
     emptyHint: 'Try a different search or clear the filters.',
     notStarted: 'This section is waiting to be explored.',
-    notStartedHint:
-      'Choose another section from the navigation to keep reading.',
+    notStartedHint: 'Choose another section from the navigation to keep reading.',
     clear: 'Clear filters',
     title: 'DOCUMENT',
     opcode: 'OPCODE',
     context: 'CONTEXT',
     status: 'RESEARCH',
-    pages: 'Document pages',
+    pages: 'Document pages'
   },
   ru: {
     search: 'Поиск по разделу',
@@ -37,13 +36,12 @@ export const sectionBrowserMessages = {
     empty: 'Материалы не найдены',
     emptyHint: 'Измените запрос или сбросьте фильтры.',
     notStarted: 'Этот раздел ещё предстоит исследовать.',
-    notStartedHint:
-      'Выберите другой раздел в навигации, чтобы продолжить чтение.',
+    notStartedHint: 'Выберите другой раздел в навигации, чтобы продолжить чтение.',
     clear: 'Сбросить фильтры',
     title: 'МАТЕРИАЛ',
     opcode: 'ОПКОД',
     context: 'КОНТЕКСТ',
     status: 'ИССЛЕДОВАНИЕ',
-    pages: 'Страницы материалов',
-  },
-} as const;
+    pages: 'Страницы материалов'
+  }
+} as const

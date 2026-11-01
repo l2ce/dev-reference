@@ -25,8 +25,8 @@ export function dataset(dataVersion = '0.1.0') {
                 id: '00000000-0000-4000-8000-000000000001',
                 title: 'Fixture',
                 url: 'https://example.org',
-                summary: 'Example section',
-              },
+                summary: 'Example section'
+              }
             ],
             sections: [
               {
@@ -34,7 +34,7 @@ export function dataset(dataVersion = '0.1.0') {
                 title: 'Overview',
                 description: 'Identification',
                 status: 'partial',
-                file: 'overview.md',
+                file: 'overview.md'
               },
               {
                 id: 'gameplay',
@@ -48,24 +48,22 @@ export function dataset(dataVersion = '0.1.0') {
                     title: 'Movement',
                     description: 'Positions',
                     status: 'missing',
-                    file: null,
-                  },
-                ],
-              },
+                    file: null
+                  }
+                ]
+              }
             ],
-            documents: [
-              { file: 'overview.md', body: `English content ${dataVersion}\n` },
-            ],
-          },
-        ],
+            documents: [{ file: 'overview.md', body: `English content ${dataVersion}\n` }]
+          }
+        ]
       },
       {
         schemaVersion: 1,
         locale: 'ru',
         title: 'Русский',
         description: 'Русская база',
-        protocols: [],
-      },
-    ],
-  };
+        protocols: []
+      }
+    ]
+  }
 }

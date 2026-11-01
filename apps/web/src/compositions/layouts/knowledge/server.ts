@@ -1,3 +1,3 @@
-import 'server-only';
+import 'server-only'
 
-export { KnowledgeLayout } from './knowledge.layout';
+export { KnowledgeLayout } from './knowledge.layout'

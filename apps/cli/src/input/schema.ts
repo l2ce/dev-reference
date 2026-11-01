@@ -1,5 +1,5 @@
-import * as z from 'zod';
-import { localeSchema } from '@l2ce/database';
+import * as z from 'zod'
+import { localeSchema } from '@l2ce/database'
 
 /**
  * Предметные группы команд; releases обозначает самостоятельные выпуски хроник.
@@ -11,8 +11,8 @@ export const groupSchema = z.enum([
   'protocols',
   'packets',
   'scenarios',
-  'articles',
-]);
+  'articles'
+])
 export const argumentSchema = z.strictObject({
   command: z.enum([
     'list',
@@ -33,7 +33,7 @@ export const argumentSchema = z.strictObject({
     'validate',
     'batch',
     'search',
-    'read',
+    'read'
   ]),
   group: groupSchema.optional(),
   operands: z.array(z.string()).default([]),
@@ -66,5 +66,5 @@ export const argumentSchema = z.strictObject({
     .string()
     .regex(/^[a-f0-9]{64}$/)
     .optional(),
-  dryRun: z.boolean().default(false),
-});
+  dryRun: z.boolean().default(false)
+})

@@ -1,3 +1,3 @@
-'use client';
+'use client'
 
-export { KnowledgeNavigation } from './knowledge-navigation';
+export { KnowledgeNavigation } from './knowledge-navigation'

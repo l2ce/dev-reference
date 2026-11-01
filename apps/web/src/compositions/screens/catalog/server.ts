@@ -1,4 +1,4 @@
-import 'server-only';
+import 'server-only'
 
-export { CatalogScreen } from './catalog.screen';
-export type { CatalogScreenProps } from './types/catalog-screen-props.type';
+export { CatalogScreen } from './catalog.screen'
+export type { CatalogScreenProps } from './types/catalog-screen-props.type'

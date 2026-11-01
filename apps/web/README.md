@@ -1,7 +1,7 @@
 # Web
 
 `@l2ce/web` — статический справочник **L2ce/dev-reference** на Next.js 16, React 19, Mantine 9 и TypeScript.
-Архитектура: [локальный профиль](ARCHITECTURE.md), Unit Architecture и React Reference.
+Архитектура: [локальный профиль](ARCHITECTURE.md), Unit Architecture и Next.js Reference.
 Исходники разделены по владельцам в `src/`; словари находятся в `config/` своих юнитов.
 Общие настройки TypeScript наследуются из `@l2ce/typescript-config`.
 
@@ -64,7 +64,7 @@ Workflow [.github/workflows/ci.yml](../../.github/workflows/ci.yml) после �
 
 Кеш web build отключён, чтобы изменения рабочего SQLite всегда попадали в HTML.
 Dev и build используют Webpack с явными server externals для pnpm workspace
-пакетов; причина описана в [профиле](ARCHITECTURE.md#nextjs-вместо-spa-механизмов).
+пакетов; причина описана в [профиле](ARCHITECTURE.md#интеграция-nextjs-и-статический-экспорт).
 
 ## Маршруты и данные
 
