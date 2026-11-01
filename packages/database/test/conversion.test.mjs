@@ -7,7 +7,7 @@ import { importDatabase } from '../dist/index.js';
 import { sourceDirectory, temporaryDirectory, fixture } from './helpers.mjs';
 
 test('формат 18 не преобразуется в общую идентичность по совпадению языковых ключей', async (t) => {
-  const directory = await temporaryDirectory(t);
+  const directory = await temporaryDirectory();
   const input = join(directory, 'old');
   await cp(sourceDirectory, input, { recursive: true });
   const file = join(input, 'manifest.json');

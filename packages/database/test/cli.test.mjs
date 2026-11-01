@@ -29,8 +29,8 @@ function cli(args, cwd) {
   });
 }
 
-test('CLI создаёт базу импортом из другого cwd и отделяет JSON от английского прогресса', async (t) => {
-  const directory = await temporaryDirectory(t);
+test('CLI создаёт базу импортом из другого cwd и отделяет JSON от английского прогресса', async () => {
+  const directory = await temporaryDirectory();
   const database = join(directory, 'database.sqlite');
   const status = cli(['status', '--database', database, '--json'], directory);
   assert.equal(status.status, 0, status.stderr);
@@ -86,8 +86,8 @@ test('CLI создаёт базу импортом из другого cwd и о
   );
 });
 
-test('CLI отклоняет неверные команды и параметры без изменения базы', async (t) => {
-  const directory = await temporaryDirectory(t);
+test('CLI отклоняет неверные команды и параметры без изменения базы', async () => {
+  const directory = await temporaryDirectory();
   for (const args of [
     ['unknown'],
     ['import', '--output', 'data'],
@@ -102,8 +102,8 @@ test('CLI отклоняет неверные команды и параметр
   assert.equal(cli(['--help'], directory).status, 0);
 });
 
-test('CLI init создаёт ru/en, apply атомарно сохраняет пакет и защищает ревизию', async (t) => {
-  const directory = await temporaryDirectory(t);
+test('CLI init создаёт ru/en, apply атомарно сохраняет пакет и защищает ревизию', async () => {
+  const directory = await temporaryDirectory();
   const database = join(directory, 'new.sqlite');
   const initialized = cli(
     ['init', '--database', database, '--json'],

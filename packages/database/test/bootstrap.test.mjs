@@ -20,7 +20,7 @@ import {
 } from './helpers.mjs';
 
 test('API создаёт пустую базу, а импорт самостоятельно создаёт и наполняет новый файл', async (t) => {
-  const directory = await temporaryDirectory(t);
+  const directory = await temporaryDirectory();
   const path = join(directory, 'empty.sqlite');
   assert.equal(databaseStatus({ database: path }).schema, 'missing');
   assert.equal(existsSync(path), false);
@@ -118,7 +118,7 @@ test('проверка структуры учитывает уникальны�
 });
 
 test('проверка JSON выполняется до создания файла или изменения устаревшей базы', async (t) => {
-  const directory = await temporaryDirectory(t);
+  const directory = await temporaryDirectory();
   const input = join(directory, 'input');
   await cp(sourceDirectory, input, { recursive: true });
   const file = join(input, 'manifest.json');

@@ -302,16 +302,14 @@ test('имя документного файла соответствует UUID
   await cp(sourceDirectory, input, { recursive: true });
   const before = snapshotRevision(database.snapshot());
   const original = join(input, fixturePath('packet:key-packet:rev-1'));
-  const renamed = join(
-    input,
-    'packet-revisions/ffffffff-ffff-4fff-8fff-ffffffffffff.json',
-  );
+  const renamedAddress =
+    'packet-revisions/ffffffff-ffff-4fff-8fff-ffffffffffff.json';
+  const renamed = join(input, renamedAddress);
   await rename(original, renamed);
   await assert.rejects(
     importDatabase({ database: path, input }),
     (error) =>
-      error.code === 'INVALID_JSON' &&
-      error.details.path === relative(input, renamed),
+      error.code === 'INVALID_JSON' && error.details.path === renamedAddress,
   );
   assert.equal(snapshotRevision(database.snapshot()), before);
   const value = JSON.parse(await readFile(renamed, 'utf8'));

@@ -198,7 +198,9 @@ test('неверные колонки, имена, FK и переводы отк
     await writeFile(file, JSON.stringify({ ...row, ...patch }));
     await assert.rejects(
       importDatabase({ database: target, input: output }),
-      (error) => error.details.path.endsWith(`packet_revisions/${row.id}.json`),
+      (error) =>
+        error.details.path === file ||
+        error.details.path === `packet_revisions/${row.id}.json`,
     );
     assert.equal(existsSync(target), false);
   }

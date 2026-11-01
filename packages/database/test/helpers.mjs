@@ -1,8 +1,8 @@
 import { mkdtemp, rm, mkdir, writeFile } from 'node:fs/promises';
-import { rmSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { tmpdir } from 'node:os';
+import { after } from 'node:test';
 import {
   importDatabase,
   exportDatabase,
@@ -23,7 +23,8 @@ export function freshIds(value) {
 }
 
 const root = await mkdtemp(join(tmpdir(), 'l2ce-v19-fixture-'));
-process.once('exit', () => rmSync(root, { recursive: true, force: true }));
+// Общий after выполняется после t.after всех тестов: Windows запрещает удалять открытый SQLite.
+after(() => rm(root, { recursive: true, force: true }));
 export const fixtureSnapshot = sharedFixture();
 export const tableDirectory = join(root, 'tables');
 export const sourceDirectory = join(root, 'documents');
@@ -50,19 +51,17 @@ export const cliFile = fileURLToPath(
 );
 
 /**
- * Создаёт изолированную временную область с автоматической очисткой.
+ * Создаёт изолированную временную область; удаляет её после всех тестов файла и их t.after.
  */
-export async function temporaryDirectory(t) {
-  const directory = await mkdtemp(join(tmpdir(), 'l2ce-database-test-'));
-  t.after(() => rm(directory, { recursive: true, force: true }));
-  return directory;
+export async function temporaryDirectory() {
+  return mkdtemp(join(root, 'database-test-'));
 }
 
 /**
  * Восстанавливает синтетический снимок физическим импортом.
  */
 export async function fixture(t) {
-  const directory = await temporaryDirectory(t);
+  const directory = await temporaryDirectory();
   const path = join(directory, 'database.sqlite');
   await importDatabase({ database: path, input: tableDirectory });
   const database = openDatabase({ database: path });
