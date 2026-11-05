@@ -59,7 +59,19 @@ try {
   })
   await client.connect(transport, { timeout: 30_000 })
   const { tools } = await client.listTools()
-  assert.equal(tools.length, 7)
+  assert.deepEqual(
+    tools.map((tool) => tool.name).sort(),
+    [
+      'get_project_info',
+      'get_dataset_status',
+      'list_catalog',
+      'list_protocols',
+      'get_protocol',
+      'get_catalog_record',
+      'search_knowledge',
+      'read_knowledge'
+    ].sort()
+  )
   assert.ok(tools.every((tool) => tool.annotations.readOnlyHint === true))
   const project = await client.callTool({
     name: 'get_project_info',
@@ -79,6 +91,22 @@ try {
   })
   assert.notEqual(protocols.isError, true)
   assert.ok(protocols.structuredContent.total > 0)
+  const contexts = await client.callTool({
+    name: 'list_catalog',
+    arguments: { collection: 'release-contexts', limit: 1 }
+  })
+  assert.notEqual(contexts.isError, true)
+  for (const context of contexts.structuredContent.items) {
+    const record = await client.callTool({
+      name: 'get_catalog_record',
+      arguments: { key: context.key }
+    })
+    assert.notEqual(record.isError, true)
+    assert.equal(record.structuredContent.key, context.key)
+    assert.equal(record.structuredContent.revision, status.structuredContent.dataRevision)
+    assert.equal(record.structuredContent.releaseKey, context.releaseKey)
+    assert.equal(record.structuredContent.regionKey, context.regionKey)
+  }
   console.log('MCP-архив: локальные пакеты включены, установка вне workspace, SQLite и stdio проверены.')
 } catch (error) {
   if (diagnostics) console.error(diagnostics)

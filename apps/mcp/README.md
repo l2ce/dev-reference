@@ -140,3 +140,14 @@ sparse checkout, поэтому параллельные процессы не �
 
 Проверки: `pnpm --filter @l2ce/dev-reference-mcp typecheck`,
 `pnpm --filter @l2ce/dev-reference-mcp test`.
+
+При изменении MCP-инструментов или состава пакета также проверьте реальный архив,
+установленный вне workspace, как это делает CI:
+
+```bash
+pnpm release:pack
+pnpm release:check
+```
+
+Эта проверка отдельно контролирует набор read-only инструментов, комплектность
+встроенных пакетов, импорт SQLite и чтение региональных контекстов через stdio.
