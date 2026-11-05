@@ -1,0 +1,10 @@
+{
+  "chronicle_release_id": "adefc71e-aacb-46ec-a09d-3a53c80c1558",
+  "locale": "en",
+  "title": "The Collection Chapter 2",
+  "summary": "The Collection Chapter 2 is a release in Classic / Legacy.",
+  "description": "The Collection Chapter 2 is a release in Classic / Legacy.\n\nOriginal technical catalog row: “The Collection Ch. 2”. The row names are preserved for provenance, not as globally established synonyms. Numbers refer to Game, not Login. This table does not establish regional release dates or packet formats.",
+  "sources_json": "[{\"id\":\"397e79df-cd68-4cc3-81c9-62e4993ff76f\",\"url\":\"https://web.archive.org/web/20260207220723id_/http://akumu.ru/lineage2/protocols.html\",\"title\":\"Akumu: таблица протоколов, архивный снимок 07.02.2026\",\"summary\":\"Evidence and limitations are described in the cited source and the project research dated 27–30 October 2026. This is not a capture or validation of an official client.\"},{\"id\":\"e57884a3-24df-45ae-9289-b2d255a5b178\",\"url\":\"https://github.com/l2ce/dev-reference/blob/bf02a206a5c73f22320d70145a8db90b158e9602/docs/research/lineage2-classification.md\",\"title\":\"L2CE: классификация веток, выпусков и протоколов, 27.10.2026\",\"summary\":\"Evidence and limitations are described in the cited source and the project research dated 27–30 October 2026. This is not a capture or validation of an official client.\"}]",
+  "translation_status": "ready",
+  "open_questions_json": "[]"
+}

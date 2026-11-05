@@ -1,0 +1,41 @@
+.root {
+  display: grid;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.input {
+  min-height: 2.5rem;
+  font-size: 0.875rem;
+
+  &:focus {
+    border-color: var(--app-muted);
+    outline: 2px solid var(--app-accent-soft);
+    outline-offset: 2px;
+  }
+}
+
+.checkboxBody {
+  align-items: center;
+  min-height: 2.5rem;
+}
+
+.checkbox {
+  cursor: pointer;
+  border-color: var(--app-border);
+  background: var(--app-canvas);
+
+  &:checked {
+    border-color: var(--app-accent);
+    background: var(--app-accent);
+    --checkbox-icon-color: var(--app-on-accent);
+  }
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  min-height: 2.5rem;
+  color: var(--app-muted);
+  font-size: 0.8125rem;
+}

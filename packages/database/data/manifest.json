@@ -14,7 +14,7 @@
         "article_id",
         "protocol_id"
       ],
-      "rows": 7
+      "rows": 0
     },
     {
       "name": "article_revision_translations",
@@ -32,7 +32,7 @@
         "article_revision_id",
         "locale"
       ],
-      "rows": 4
+      "rows": 0
     },
     {
       "name": "article_revisions",
@@ -45,7 +45,7 @@
       "primaryKey": [
         "id"
       ],
-      "rows": 2
+      "rows": 0
     },
     {
       "name": "article_servers",
@@ -58,7 +58,7 @@
         "article_id",
         "server"
       ],
-      "rows": 3
+      "rows": 0
     },
     {
       "name": "articles",
@@ -70,7 +70,7 @@
       "primaryKey": [
         "id"
       ],
-      "rows": 2
+      "rows": 0
     },
     {
       "name": "branch_translations",
@@ -88,7 +88,7 @@
         "branch_id",
         "locale"
       ],
-      "rows": 4
+      "rows": 6
     },
     {
       "name": "branches",
@@ -100,7 +100,7 @@
       "primaryKey": [
         "id"
       ],
-      "rows": 2
+      "rows": 3
     },
     {
       "name": "chronicle_release_protocols",
@@ -113,7 +113,7 @@
         "chronicle_release_id",
         "protocol_id"
       ],
-      "rows": 5
+      "rows": 0
     },
     {
       "name": "chronicle_release_translations",
@@ -131,7 +131,7 @@
         "chronicle_release_id",
         "locale"
       ],
-      "rows": 8
+      "rows": 232
     },
     {
       "name": "chronicle_releases",
@@ -145,7 +145,7 @@
       "primaryKey": [
         "id"
       ],
-      "rows": 4
+      "rows": 116
     },
     {
       "name": "chronicle_translations",
@@ -163,7 +163,7 @@
         "chronicle_id",
         "locale"
       ],
-      "rows": 8
+      "rows": 168
     },
     {
       "name": "chronicles",
@@ -176,7 +176,37 @@
       "primaryKey": [
         "id"
       ],
-      "rows": 4
+      "rows": 84
+    },
+    {
+      "name": "countries",
+      "columns": [
+        "id",
+        "code",
+        "sort_order"
+      ],
+      "primaryKey": [
+        "id"
+      ],
+      "rows": 0
+    },
+    {
+      "name": "country_translations",
+      "columns": [
+        "country_id",
+        "locale",
+        "title",
+        "summary",
+        "description",
+        "sources_json",
+        "translation_status",
+        "open_questions_json"
+      ],
+      "primaryKey": [
+        "country_id",
+        "locale"
+      ],
+      "rows": 0
     },
     {
       "name": "locales",
@@ -214,7 +244,7 @@
         "packet_id",
         "protocol_id"
       ],
-      "rows": 8
+      "rows": 0
     },
     {
       "name": "packet_revision_opcodes",
@@ -259,7 +289,7 @@
         "packet_revision_id",
         "locale"
       ],
-      "rows": 10
+      "rows": 0
     },
     {
       "name": "packet_revisions",
@@ -272,7 +302,7 @@
       "primaryKey": [
         "id"
       ],
-      "rows": 5
+      "rows": 0
     },
     {
       "name": "packets",
@@ -287,7 +317,7 @@
       "primaryKey": [
         "id"
       ],
-      "rows": 4
+      "rows": 0
     },
     {
       "name": "protocol_login_revisions",
@@ -299,19 +329,6 @@
       "primaryKey": [
         "protocol_id",
         "number"
-      ],
-      "rows": 2
-    },
-    {
-      "name": "protocol_regions",
-      "columns": [
-        "protocol_id",
-        "region",
-        "position"
-      ],
-      "primaryKey": [
-        "protocol_id",
-        "region"
       ],
       "rows": 0
     },
@@ -331,7 +348,7 @@
         "protocol_id",
         "locale"
       ],
-      "rows": 10
+      "rows": 248
     },
     {
       "name": "protocols",
@@ -344,7 +361,97 @@
       "primaryKey": [
         "id"
       ],
-      "rows": 5
+      "rows": 124
+    },
+    {
+      "name": "region_translations",
+      "columns": [
+        "region_id",
+        "locale",
+        "title",
+        "summary",
+        "description",
+        "sources_json",
+        "translation_status",
+        "open_questions_json"
+      ],
+      "primaryKey": [
+        "region_id",
+        "locale"
+      ],
+      "rows": 8
+    },
+    {
+      "name": "regions",
+      "columns": [
+        "id",
+        "code",
+        "sort_order"
+      ],
+      "primaryKey": [
+        "id"
+      ],
+      "rows": 4
+    },
+    {
+      "name": "release_context_countries",
+      "columns": [
+        "release_context_id",
+        "country_id",
+        "position"
+      ],
+      "primaryKey": [
+        "release_context_id",
+        "country_id"
+      ],
+      "rows": 0
+    },
+    {
+      "name": "release_context_protocols",
+      "columns": [
+        "release_context_id",
+        "protocol_id",
+        "position"
+      ],
+      "primaryKey": [
+        "release_context_id",
+        "protocol_id"
+      ],
+      "rows": 326
+    },
+    {
+      "name": "release_context_translations",
+      "columns": [
+        "release_context_id",
+        "locale",
+        "title",
+        "summary",
+        "description",
+        "sources_json",
+        "translation_status",
+        "open_questions_json"
+      ],
+      "primaryKey": [
+        "release_context_id",
+        "locale"
+      ],
+      "rows": 466
+    },
+    {
+      "name": "release_contexts",
+      "columns": [
+        "id",
+        "code",
+        "sort_order",
+        "status",
+        "chronicle_release_id",
+        "region_id",
+        "released_on"
+      ],
+      "primaryKey": [
+        "id"
+      ],
+      "rows": 233
     },
     {
       "name": "scenario_protocols",
@@ -358,7 +465,7 @@
         "scenario_id",
         "protocol_id"
       ],
-      "rows": 4
+      "rows": 0
     },
     {
       "name": "scenario_revision_translations",
@@ -376,7 +483,7 @@
         "scenario_revision_id",
         "locale"
       ],
-      "rows": 4
+      "rows": 0
     },
     {
       "name": "scenario_revisions",
@@ -389,7 +496,7 @@
       "primaryKey": [
         "id"
       ],
-      "rows": 2
+      "rows": 0
     },
     {
       "name": "scenario_servers",
@@ -402,7 +509,7 @@
         "scenario_id",
         "server"
       ],
-      "rows": 3
+      "rows": 0
     },
     {
       "name": "scenarios",
@@ -414,7 +521,7 @@
       "primaryKey": [
         "id"
       ],
-      "rows": 2
+      "rows": 0
     }
   ]
 }

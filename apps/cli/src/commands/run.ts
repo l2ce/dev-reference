@@ -120,7 +120,8 @@ function readCommand(args: CliArguments, snapshot: DatabaseSnapshot): unknown {
         number: args.number,
         branch: args.branch,
         chronicle: args.chronicle,
-        release: args.release
+        release: args.release,
+        region: args.region
       })
     }
     if (args.operands.length > 50) {
@@ -141,13 +142,17 @@ function readCommand(args: CliArguments, snapshot: DatabaseSnapshot): unknown {
       items: args.operands.map((key) => reader.catalogRecord(commandAddress(group, key).key, args.locale))
     }
   }
-  if (args.group && ['branches', 'chronicles', 'releases'].includes(args.group)) {
+  if (args.group && ['branches', 'chronicles', 'releases', 'contexts', 'regions', 'countries'].includes(args.group)) {
     return reader.catalog({
       ...page,
-      collection: z.enum(['branches', 'chronicles', 'chronicle-releases']).parse(groupCollections[args.group]),
+      collection: z
+        .enum(['branches', 'chronicles', 'chronicle-releases', 'release-contexts', 'regions', 'countries'])
+        .parse(groupCollections[args.group]),
       branch: args.branch,
       chronicle: args.chronicle,
-      query: args.query
+      query: args.query,
+      release: args.release,
+      region: args.region
     })
   }
   if (args.group) {
@@ -195,6 +200,8 @@ export async function runCommand(args: CliArguments): Promise<unknown> {
       generatedFields.push('rev', `${groupKinds[args.group]}Key`)
     } else if (args.group === 'protocols') {
       generatedFields.push('number', 'variant')
+    } else if (args.group === 'contexts') {
+      generatedFields.push('code', 'releaseKey')
     } else if (args.group === 'releases') {
       generatedFields.push('code', 'chronicleKey')
     } else {
@@ -238,7 +245,7 @@ export async function runCommand(args: CliArguments): Promise<unknown> {
         throw new DatabaseError('ALREADY_EXISTS', messages.alreadyInitialized)
       }
       database.replaceSnapshot({
-        schemaVersion: 19,
+        schemaVersion: 20,
         dataVersion: '1.0.0',
         defaultLocale: 'ru',
         locales: ['ru', 'en'],

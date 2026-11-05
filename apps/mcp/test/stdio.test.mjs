@@ -24,6 +24,7 @@ test('stdio MCP предоставляет только чтение и пред
       'list_catalog',
       'list_protocols',
       'get_protocol',
+      'get_catalog_record',
       'search_knowledge',
       'read_knowledge'
     ].sort()
@@ -37,7 +38,11 @@ test('stdio MCP предоставляет только чтение и пред
   const status = await call('get_dataset_status')
   assert.equal(status.loaded, true)
   assert.equal(status.dataRevision, database.revision())
-  assert.equal(status.schemaVersion, 19)
+  assert.equal(status.schemaVersion, 20)
+  const catalogRecord = await call('get_catalog_record', { key: 'chronicle:high-five:base', locale: 'ru' })
+  assert.equal(catalogRecord.key, 'chronicle:high-five:base')
+  assert.equal(catalogRecord.revision, status.dataRevision)
+  assert.deepEqual(catalogRecord.protocolKeys, ['protocol:273'])
   assert.equal((await call('list_protocols', { number: 152 })).total, 2)
   assert.equal((await call('get_protocol', { protocol: '152-rev-1' })).profile.variant, 1)
   const result = await call('read_knowledge', {

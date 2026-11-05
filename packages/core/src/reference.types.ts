@@ -32,6 +32,18 @@ export type ReferenceCatalogQuery = z.input<typeof referenceCatalogSchema>
  * Языковое представление записи каталога без подстановки другого перевода.
  */
 export interface ReferenceCatalogItem {
+  /** Явный редакционный порядок; null не подменяется датой или номером. */
+  readonly order?: number | null
+  /** Выпуск-владелец регионального контекста. */
+  readonly releaseKey?: string
+  /** Установленный регион; null означает неизвестность. */
+  readonly regionKey?: string | null
+  /** Дата выхода с точностью года, месяца или дня. */
+  readonly releasedOn?: string | null
+  /** Страны, явно указанные для этого контекста. */
+  readonly countryKeys?: readonly string[]
+  /** Связи выпуска, для которых регион пока не установлен. */
+  readonly unscopedProtocolKeys?: readonly string[]
   /* Постоянный читаемый адрес записи. */
   readonly key: string
   /* Запрошенный язык. */
@@ -123,6 +135,8 @@ export interface ReferencePage<T> {
  * Полное представление выбранного протокола и его исторического контекста.
  */
 export interface ReferenceProtocol {
+  /** Контексты использования с собственными регионами, датами и источниками. */
+  readonly contexts: readonly ReferenceCatalogItem[]
   /* Общая ревизия основания чтения. */
   readonly revision: string
   /* Переведённая карточка протокола. */

@@ -1,20 +1,9 @@
 import type { Locale } from 'shared/localization'
 import { readReference } from './adapters/read-reference'
-import { getKnowledge, getProtocol, getProtocols } from './reference'
+import { getKnowledge, getProtocols } from './reference'
 import { documentPath, protocolPath } from './helpers/reference-paths'
 import { formatOpcode, normalizeSearch } from './helpers/knowledge-search'
-import type { ProtocolCard, ProtocolTarget, SearchDocument } from './types/navigation.type'
-
-/**
- * Дополняет каталог реальными объёмами знаний и установленными регионами.
- */
-export function getProtocolCatalog(locale: Locale): readonly ProtocolCard[] {
-  return getProtocols(locale).map((profile) => ({
-    ...profile,
-    documentCount: getKnowledge(profile.key, locale).length,
-    regions: getProtocol(profile.key, locale).regions
-  }))
-}
+import type { ProtocolTarget, SearchDocument } from './types/navigation.type'
 
 /**
  * Строит сериализуемый поисковый индекс только явно применимых знаний.

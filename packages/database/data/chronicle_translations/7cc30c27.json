@@ -1,0 +1,10 @@
+{
+  "chronicle_id": "a0477378-fa5e-4a30-aec5-cb6461934576",
+  "locale": "ru",
+  "title": "Aztacan's Temple",
+  "summary": "Aztacan's Temple — запись каталога ветки Aden / Essence.",
+  "description": "Aztacan's Temple — запись каталога ветки Aden / Essence.\n\nИменованные части представлены отдельными выпусками. Порядок каталога не является датой выхода; протоколы связаны с выпусками явно, без наследования применимости.",
+  "sources_json": "[{\"id\":\"8fe858de-66c3-40c4-a67c-aef6073af3ff\",\"url\":\"https://web.archive.org/web/20260207220723id_/http://akumu.ru/lineage2/protocols.html\",\"title\":\"Akumu: таблица протоколов, архивный снимок 07.02.2026\",\"summary\":\"Заявленные названия, регионы и Game-номера. Не подтверждает форматы пакетов, совместимость или проверку официального клиента.\"},{\"id\":\"1b7ff1f7-a1b6-4382-a0c3-a7a668e7c6e4\",\"url\":\"https://github.com/l2ce/dev-reference/blob/bf02a206a5c73f22320d70145a8db90b158e9602/docs/research/lineage2-classification.md\",\"title\":\"L2CE: классификация веток, выпусков и протоколов, 27.10.2026\",\"summary\":\"Производное исследование: происхождение утверждений, региональные различия, неустановленные связи и ограничения источников.\"}]",
+  "translation_status": "ready",
+  "open_questions_json": "[]"
+}

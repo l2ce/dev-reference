@@ -1,0 +1,10 @@
+{
+  "chronicle_release_id": "aa9904c7-3b2d-443b-bff8-0c4eaa6b3f3e",
+  "locale": "en",
+  "title": "Salvation: Arena / MOBA",
+  "summary": "Salvation: Arena / MOBA is a release in Main / Live.",
+  "description": "Salvation: Arena / MOBA is a release in Main / Live.\n\nOriginal technical catalog row: “Salvation: Arena / MOBA — отдельный вариант”. The row names are preserved for provenance, not as globally established synonyms. Numbers refer to Game, not Login. This table does not establish regional release dates or packet formats.",
+  "sources_json": "[{\"id\":\"4da97b81-5bbc-4038-af12-9e73c5a32a6b\",\"url\":\"https://web.archive.org/web/20260207220723id_/http://akumu.ru/lineage2/protocols.html\",\"title\":\"Akumu: таблица протоколов, архивный снимок 07.02.2026\",\"summary\":\"Evidence and limitations are described in the cited source and the project research dated 27–30 October 2026. This is not a capture or validation of an official client.\"},{\"id\":\"bb658c0e-f5da-41d1-97ad-8e41ecf13c08\",\"url\":\"https://github.com/l2ce/dev-reference/blob/bf02a206a5c73f22320d70145a8db90b158e9602/docs/research/lineage2-classification.md\",\"title\":\"L2CE: классификация веток, выпусков и протоколов, 27.10.2026\",\"summary\":\"Evidence and limitations are described in the cited source and the project research dated 27–30 October 2026. This is not a capture or validation of an official client.\"}]",
+  "translation_status": "ready",
+  "open_questions_json": "[]"
+}

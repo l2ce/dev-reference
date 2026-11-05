@@ -1,0 +1,10 @@
+{
+  "chronicle_id": "be43a08d-1d52-463a-a603-a9d0bf506588",
+  "locale": "en",
+  "title": "Chronicle 5: Oath of Blood",
+  "summary": "Chronicle 5: Oath of Blood is a catalog record in Main / Live.",
+  "description": "Chronicle 5: Oath of Blood is a catalog record in Main / Live.\n\nNamed parts are separate releases. Catalog order is not a release date; protocols are explicitly linked to releases and knowledge applicability is not inherited.",
+  "sources_json": "[{\"id\":\"514db7c5-55f0-42b5-921d-d479049c2771\",\"url\":\"https://web.archive.org/web/20260207220723id_/http://akumu.ru/lineage2/protocols.html\",\"title\":\"Akumu: таблица протоколов, архивный снимок 07.02.2026\",\"summary\":\"Evidence and limitations are described in the cited source and the project research dated 27–30 October 2026. This is not a capture or validation of an official client.\"},{\"id\":\"31d484f8-9daf-4248-902c-2eb1b866d613\",\"url\":\"https://github.com/l2ce/dev-reference/blob/bf02a206a5c73f22320d70145a8db90b158e9602/docs/research/lineage2-classification.md\",\"title\":\"L2CE: классификация веток, выпусков и протоколов, 27.10.2026\",\"summary\":\"Evidence and limitations are described in the cited source and the project research dated 27–30 October 2026. This is not a capture or validation of an official client.\"}]",
+  "translation_status": "ready",
+  "open_questions_json": "[]"
+}

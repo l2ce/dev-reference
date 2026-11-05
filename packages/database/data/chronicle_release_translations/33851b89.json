@@ -1,0 +1,10 @@
+{
+  "chronicle_release_id": "680b8cea-ccd1-444d-a9a0-3b71fe093b37",
+  "locale": "en",
+  "title": "Wolf Waker",
+  "summary": "Wolf Waker is a release in Main / Live.",
+  "description": "Wolf Waker is a release in Main / Live.\n\nThe base code means no more specific named part has been established; it is not a release number or priority.\n\nOriginal technical catalog row: “Wolf Waker”. The row names are preserved for provenance, not as globally established synonyms. Numbers refer to Game, not Login. This table does not establish regional release dates or packet formats.",
+  "sources_json": "[{\"id\":\"3efd74ab-1cf7-4d4c-b5bf-97ae29ce3085\",\"url\":\"https://web.archive.org/web/20260207220723id_/http://akumu.ru/lineage2/protocols.html\",\"title\":\"Akumu: таблица протоколов, архивный снимок 07.02.2026\",\"summary\":\"Evidence and limitations are described in the cited source and the project research dated 27–30 October 2026. This is not a capture or validation of an official client.\"},{\"id\":\"259229eb-5a35-49aa-b8f7-b92df06a66da\",\"url\":\"https://github.com/l2ce/dev-reference/blob/bf02a206a5c73f22320d70145a8db90b158e9602/docs/research/lineage2-classification.md\",\"title\":\"L2CE: классификация веток, выпусков и протоколов, 27.10.2026\",\"summary\":\"Evidence and limitations are described in the cited source and the project research dated 27–30 October 2026. This is not a capture or validation of an official client.\"}]",
+  "translation_status": "ready",
+  "open_questions_json": "[]"
+}

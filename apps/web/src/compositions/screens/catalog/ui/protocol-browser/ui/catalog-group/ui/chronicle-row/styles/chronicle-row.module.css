@@ -1,0 +1,27 @@
+.root {
+  --catalog-row-background: var(--app-canvas);
+  background: var(--catalog-row-background);
+
+  &:nth-of-type(even) {
+    --catalog-row-background: var(--app-surface);
+  }
+}
+
+.titleCell {
+  position: sticky;
+  z-index: 1;
+  left: 0;
+  padding: 0.55rem 0.875rem;
+  border-top: 1px solid var(--app-border);
+  background: var(--catalog-row-background);
+  font-weight: 400;
+  text-align: left;
+  vertical-align: top;
+  overflow-wrap: anywhere;
+}
+
+.cell {
+  padding: 0.55rem 0.75rem;
+  border-top: 1px solid var(--app-border);
+  vertical-align: top;
+}

@@ -34,7 +34,7 @@ export async function runWrite(input: CliArguments): Promise<void> {
         throw new DatabaseError('ALREADY_EXISTS', messages.alreadyInitialized)
       }
       database.replaceSnapshot({
-        schemaVersion: 19,
+        schemaVersion: 20,
         dataVersion: '1.0.0',
         defaultLocale: 'ru',
         locales: ['ru', 'en'],

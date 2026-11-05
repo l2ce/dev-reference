@@ -1,0 +1,10 @@
+{
+  "chronicle_release_id": "b05d268c-2eb6-4f3e-88d7-84fcc5ef692e",
+  "locale": "en",
+  "title": "Infinite Odyssey: Shadows of Light",
+  "summary": "Infinite Odyssey: Shadows of Light is a release in Main / Live.",
+  "description": "Infinite Odyssey: Shadows of Light is a release in Main / Live.\n\nOriginal technical catalog row: “Infinite Odyssey: Shadows of Light”. The row names are preserved for provenance, not as globally established synonyms. Numbers refer to Game, not Login. This table does not establish regional release dates or packet formats.",
+  "sources_json": "[{\"id\":\"b2ed0756-a83e-42e7-bac5-f9045f0287c8\",\"url\":\"https://web.archive.org/web/20260207220723id_/http://akumu.ru/lineage2/protocols.html\",\"title\":\"Akumu: таблица протоколов, архивный снимок 07.02.2026\",\"summary\":\"Evidence and limitations are described in the cited source and the project research dated 27–30 October 2026. This is not a capture or validation of an official client.\"},{\"id\":\"f31a2f47-6142-4d68-9a60-d3457dfae649\",\"url\":\"https://github.com/l2ce/dev-reference/blob/bf02a206a5c73f22320d70145a8db90b158e9602/docs/research/lineage2-classification.md\",\"title\":\"L2CE: классификация веток, выпусков и протоколов, 27.10.2026\",\"summary\":\"Evidence and limitations are described in the cited source and the project research dated 27–30 October 2026. This is not a capture or validation of an official client.\"}]",
+  "translation_status": "ready",
+  "open_questions_json": "[]"
+}

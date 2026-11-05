@@ -1,0 +1,36 @@
+.root {
+  overflow-x: auto;
+  border: 1px solid var(--app-border);
+  border-top: 0;
+
+  &:focus-visible {
+    outline: 2px solid var(--app-accent);
+    outline-offset: 3px;
+  }
+}
+
+.table {
+  width: 100%;
+  min-width: 36rem;
+  border-collapse: collapse;
+  table-layout: fixed;
+  font-size: 0.875rem;
+}
+
+.chronicleHeading {
+  position: sticky;
+  z-index: 2;
+  left: 0;
+  width: 38%;
+  padding: 0.65rem 0.875rem;
+  background: var(--app-surface);
+  text-align: left;
+  font-weight: 600;
+}
+
+.regionHeading {
+  padding: 0.65rem 0.75rem;
+  background: var(--app-surface);
+  text-align: left;
+  font-weight: 600;
+}

@@ -137,6 +137,22 @@ function validateRelations(
   if (entry.collection === 'chronicle-releases') {
     requireEntity(index, entry, 'chronicles', entry.value.chronicleKey)
   }
+  if (entry.collection === 'release-contexts') {
+    requireEntity(index, entry, 'chronicle-releases', entry.value.releaseKey)
+    if (entry.value.regionKey !== null) {
+      requireEntity(index, entry, 'regions', entry.value.regionKey)
+    }
+    unique(entry.value.countryKeys, entry)
+    for (const country of entry.value.countryKeys) {
+      requireEntity(index, entry, 'countries', country)
+    }
+    if (
+      (entry.value.regionKey !== null || entry.value.releasedOn !== null || entry.value.countryKeys.length > 0) &&
+      !entry.value.translations.some((translation) => translation.source.length > 0)
+    ) {
+      invalidEntry(messages.sources, entry)
+    }
+  }
   if (isImplementation(entry)) {
     requireEntity(index, entry, ownerCollection(entry.collection), entityKey(entry))
   }
@@ -144,7 +160,6 @@ function validateRelations(
     unique(entry.value.servers, entry)
   }
   if (entry.collection === 'protocols') {
-    unique(entry.value.regions, entry)
     unique(entry.value.loginRevisions, entry)
   }
   if ('protocolKeys' in entry.value) {

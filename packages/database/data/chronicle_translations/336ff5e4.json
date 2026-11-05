@@ -1,0 +1,10 @@
+{
+  "chronicle_id": "8ff9e5cd-f998-4e8c-a067-0e7b4d61874c",
+  "locale": "en",
+  "title": "Fluffy Reinforcement",
+  "summary": "Fluffy Reinforcement is a catalog record in Aden / Essence.",
+  "description": "Fluffy Reinforcement is a catalog record in Aden / Essence.\n\nNamed parts are separate releases. Catalog order is not a release date; protocols are explicitly linked to releases and knowledge applicability is not inherited.",
+  "sources_json": "[{\"id\":\"624850e9-0daf-45ae-99fd-f7cdf69ce1e7\",\"url\":\"https://web.archive.org/web/20260207220723id_/http://akumu.ru/lineage2/protocols.html\",\"title\":\"Akumu: таблица протоколов, архивный снимок 07.02.2026\",\"summary\":\"Evidence and limitations are described in the cited source and the project research dated 27–30 October 2026. This is not a capture or validation of an official client.\"},{\"id\":\"6c274b03-8534-4f52-9d9f-488a1b48c172\",\"url\":\"https://github.com/l2ce/dev-reference/blob/bf02a206a5c73f22320d70145a8db90b158e9602/docs/research/lineage2-classification.md\",\"title\":\"L2CE: классификация веток, выпусков и протоколов, 27.10.2026\",\"summary\":\"Evidence and limitations are described in the cited source and the project research dated 27–30 October 2026. This is not a capture or validation of an official client.\"}]",
+  "translation_status": "ready",
+  "open_questions_json": "[]"
+}

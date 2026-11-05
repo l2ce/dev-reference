@@ -1,10 +1,10 @@
 {
   "branch_id": "8c5b1871-44d3-4be8-956f-73ac976c2a3b",
   "locale": "ru",
-  "title": "Classic",
-  "summary": "Самостоятельная линия развития с собственными обновлениями.",
-  "description": "# Classic\n\nНазвания обновлений и номера протоколов могут пересекаться с основной линией. При выборе документации учитывайте полный профиль протокола.\n",
-  "sources_json": "[]",
+  "title": "Classic / Legacy",
+  "summary": "Classic / Legacy — историческая линия развития PC Lineage II.",
+  "description": "Classic / Legacy — историческая линия развития PC Lineage II.\n\nВетка, название сервиса, регион, сборка клиента и номер протокола имеют самостоятельный смысл. Совпадение номера с другой веткой не устанавливает совместимость.",
+  "sources_json": "[{\"id\":\"2178c3d5-5948-4d94-a608-09c93cbac9be\",\"url\":\"https://web.archive.org/web/20191114161726/https://forums.lineage2.com/topic/2767-classic-launch-faq/\",\"title\":\"NCsoft West: Classic Launch FAQ, 20.09.2018\",\"summary\":\"Различение Live и Classic и описание общего клиента; общий клиент не доказывает равенство пакетов.\"},{\"id\":\"46d41174-4fe3-40cc-8f8e-4aac07807676\",\"url\":\"https://github.com/l2ce/dev-reference/blob/bf02a206a5c73f22320d70145a8db90b158e9602/docs/research/lineage2-classification.md\",\"title\":\"L2CE: классификация веток, выпусков и протоколов, 27.10.2026\",\"summary\":\"Производное исследование: происхождение утверждений, региональные различия, неустановленные связи и ограничения источников.\"}]",
   "translation_status": "ready",
   "open_questions_json": "[]"
 }

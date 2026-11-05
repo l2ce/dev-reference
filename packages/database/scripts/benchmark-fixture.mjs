@@ -2,17 +2,18 @@ import { parseEntry, validateSnapshot } from '../dist/index.js'
 import { randomUUID } from 'node:crypto'
 
 /**
- * Дополняет снимок синтетическими общими сущностями и переводами до заданного числа записей.
+ * Создаёт заданное число синтетических записей независимо от опубликованного каталога.
  * Набор предназначен только для .local/benchmarks и не публикуется в data/.
  */
-export function benchmarkFixture(base, records, descriptionBytes) {
-  const entries = [...base.entries]
+export function benchmarkFixture(records, descriptionBytes) {
+  const locales = ['ru', 'en']
+  const entries = []
   if (entries.length + 3 > records) throw new Error('Too few benchmark records.')
   /**
    * Создаёт переводы фиксированного байтового размера с независимыми источниками.
    */
   function translations(key) {
-    return base.locales.map((locale) => {
+    return locales.map((locale) => {
       const header = `# Synthetic benchmark ${key}\n\n{{link packet:unknown}}\n`
       const padding = descriptionBytes - Buffer.byteLength(header)
       if (padding < 0) throw new Error('Description size is too small.')
@@ -100,7 +101,9 @@ export function benchmarkFixture(base, records, descriptionBytes) {
     }
   }
   return validateSnapshot({
-    ...base,
+    schemaVersion: 20,
+    defaultLocale: 'ru',
+    locales,
     dataVersion: `benchmark-${records}`,
     entries
   })

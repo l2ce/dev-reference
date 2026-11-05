@@ -1,11 +1,6 @@
 .root {
-  max-width: 74rem;
-  margin: 0 auto;
-  padding: 2rem 1.25rem 4rem;
-
-  @media (--md) {
-    padding: 2.5rem 2.75rem 5rem;
-  }
+  min-width: 0;
+  padding-block: 2.5rem 4rem;
 }
 .breadcrumb {
   margin: 0 0 1.75rem;

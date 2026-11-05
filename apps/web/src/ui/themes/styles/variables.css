@@ -4,12 +4,13 @@
   --app-text: light-dark(#23262e, #eceef2);
   --app-muted: light-dark(#657080, #a7afbb);
   --app-border: light-dark(#e6e8ed, #393c43);
-  --app-accent: light-dark(#3e5bd9, #a0b0ff);
-  --app-accent-soft: light-dark(#f0f3ff, #2b3045);
+  --app-accent: light-dark(#30343b, #e2e4e9);
+  --app-accent-hover: light-dark(#454a53, #ffffff);
+  --app-on-accent: light-dark(#ffffff, #23262e);
+  --app-accent-soft: light-dark(#f0f1f3, #32353b);
   --app-positive: light-dark(#25704b, #8ac9a6);
   --app-shell-width: 96rem;
   --app-shell-gutter: 0.75rem;
-  --app-content-width: 76rem;
   --app-reading-width: 48rem;
   --app-header-height: 4rem;
 

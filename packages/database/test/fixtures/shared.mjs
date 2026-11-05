@@ -107,7 +107,7 @@ export function sharedFixture() {
     translations: translations('Framing')
   })
   return validateSnapshot({
-    schemaVersion: 19,
+    schemaVersion: 20,
     dataVersion: 'test',
     defaultLocale: 'ru',
     locales: ['ru', 'en'],

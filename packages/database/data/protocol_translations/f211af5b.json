@@ -1,0 +1,10 @@
+{
+  "protocol_id": "00856cbc-538b-4d86-b0cc-a73f921c803a",
+  "locale": "en",
+  "title": "Main / Live · Chronicle 3: Rise of Darkness · 530",
+  "summary": "Game protocol 530: Chronicle 3: Rise of Darkness.",
+  "description": "Game protocol 530: Chronicle 3: Rise of Darkness.\n\nSource row: “Rise of Darkness”. Region labels: NA.\n\nIndependent confirmation of this specific association has not been established in the current research.\n\nThis profile separates a catalog context. The -rev-N suffix is our discriminator for records sharing a number, not an official revision or update order. Packet differences and compatibility with other profiles sharing the number still require research.",
+  "sources_json": "[{\"id\":\"820bb530-53ec-4cd4-8bb9-c6fb390f0375\",\"url\":\"https://web.archive.org/web/20260207220723id_/http://akumu.ru/lineage2/protocols.html\",\"title\":\"Akumu: таблица протоколов, архивный снимок 07.02.2026\",\"summary\":\"Evidence and limitations are described in the cited source and the project research dated 27–30 October 2026. This is not a capture or validation of an official client.\"},{\"id\":\"6b317056-0593-47e5-a3a5-1db50580e5d1\",\"url\":\"https://github.com/l2ce/dev-reference/blob/bf02a206a5c73f22320d70145a8db90b158e9602/docs/research/lineage2-classification.md\",\"title\":\"L2CE: классификация веток, выпусков и протоколов, 27.10.2026\",\"summary\":\"Evidence and limitations are described in the cited source and the project research dated 27–30 October 2026. This is not a capture or validation of an official client.\"}]",
+  "translation_status": "ready",
+  "open_questions_json": "[\"Verify the number and exact official client build; preserve an artifact or exchange capture.\",\"Establish the Login revision, framing, encoding, encryption and packet formats for this profile.\"]"
+}

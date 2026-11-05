@@ -30,7 +30,7 @@ export const HomeScreen = (props: HomeScreenProps): JSX.Element => {
           <p className={styles.description}>{messages.description}</p>
           <p className={styles.audience}>{messages.audience}</p>
           <KnowledgeOverview locale={locale} className={styles.knowledge} />
-          <Button className={styles.primary} color="indigo.7" component="a" href={catalogHref} size="sm">
+          <Button className={styles.primary} component="a" href={catalogHref} size="sm">
             {messages.action}
             <span className={styles.arrow} aria-hidden="true">
               →

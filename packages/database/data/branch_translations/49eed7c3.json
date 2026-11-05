@@ -1,0 +1,10 @@
+{
+  "branch_id": "0afb8cab-a9f4-41af-a8fc-edceeccf0969",
+  "locale": "en",
+  "title": "Aden / Essence",
+  "summary": "Aden / Essence is a historical development line of PC Lineage II.",
+  "description": "Aden / Essence is a historical development line of PC Lineage II.\n\nBranch, service name, region, client build and protocol number are separate concepts. Sharing a number with another branch does not establish compatibility.",
+  "sources_json": "[{\"id\":\"001823c9-7558-4aaf-bb8b-37e9958a69c7\",\"url\":\"https://lineage2.plaync.com/board/l2notice/view?articleId=5bedb16886043d35401ddaf0\",\"title\":\"NCsoft Korea: открытие сервера Aden, 15.11.2018\",\"summary\":\"Evidence and limitations are described in the cited source and the project research dated 27–30 October 2026. This is not a capture or validation of an official client.\"},{\"id\":\"48e2ea3b-23af-40bd-9d39-8880c82b0bae\",\"url\":\"https://eu.4game.com/patchnotes/lineage2essence/188/\",\"title\":\"4game EU: стартовые патчноуты Essence\",\"summary\":\"Evidence and limitations are described in the cited source and the project research dated 27–30 October 2026. This is not a capture or validation of an official client.\"},{\"id\":\"4e1cb39f-41e9-410d-b339-72b2af907e25\",\"url\":\"https://github.com/l2ce/dev-reference/blob/bf02a206a5c73f22320d70145a8db90b158e9602/docs/research/lineage2-classification.md\",\"title\":\"L2CE: классификация веток, выпусков и протоколов, 27.10.2026\",\"summary\":\"Evidence and limitations are described in the cited source and the project research dated 27–30 October 2026. This is not a capture or validation of an official client.\"}]",
+  "translation_status": "ready",
+  "open_questions_json": "[]"
+}

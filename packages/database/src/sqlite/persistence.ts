@@ -18,6 +18,32 @@ import type { Connection } from './sqlite.types.js'
  */
 function writeEntity(connection: Connection, entry: EntityEntry, identities: InternalIdentities): void {
   switch (entry.collection) {
+    case 'regions': {
+      const { id, code, order } = entry.value
+      connection.orm.insert(tables.regions).values({ id, code, order }).run()
+      break
+    }
+    case 'countries': {
+      const { id, code, order } = entry.value
+      connection.orm.insert(tables.countries).values({ id, code, order }).run()
+      break
+    }
+    case 'release-contexts': {
+      const { id, code, order, status, releaseKey, regionKey, releasedOn } = entry.value
+      connection.orm
+        .insert(tables.releaseContexts)
+        .values({
+          id,
+          code,
+          order,
+          status,
+          releasedOn,
+          releaseId: internalId(identities, releaseKey),
+          regionId: regionKey === null ? null : internalId(identities, regionKey)
+        })
+        .run()
+      break
+    }
     case 'branches': {
       const { id, code, order } = entry.value
       connection.orm.insert(tables.branches).values({ id, code, order }).run()

@@ -11,7 +11,7 @@ test('init создаёт ru/en, экспорт и импорт сохраняю
   success(await json(['protocols', 'create', '273', '--title', 'High Five']))
   const before = success(await json(['status'])).revision
   const output = join(parent, 'export')
-  assert.equal(success(await json(['export', '--output', output])).tables, 29)
+  assert.equal(success(await json(['export', '--output', output])).tables, 36)
   success(await json(['protocols', 'create', '268']))
   success(await json(['import', '--input', output]))
   assert.equal(success(await json(['status'])).revision, before)

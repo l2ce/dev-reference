@@ -1,0 +1,10 @@
+{
+  "chronicle_id": "1b276d91-b79e-4b48-a582-2da17785a1e1",
+  "locale": "en",
+  "title": "Battle Chronicles",
+  "summary": "Battle Chronicles is a catalog record in Aden / Essence.",
+  "description": "Battle Chronicles is a catalog record in Aden / Essence.\n\nNamed parts are separate releases. Catalog order is not a release date; protocols are explicitly linked to releases and knowledge applicability is not inherited.",
+  "sources_json": "[{\"id\":\"b2011bbf-3158-489c-99e0-450bf557a54e\",\"url\":\"https://web.archive.org/web/20260207220723id_/http://akumu.ru/lineage2/protocols.html\",\"title\":\"Akumu: таблица протоколов, архивный снимок 07.02.2026\",\"summary\":\"Evidence and limitations are described in the cited source and the project research dated 27–30 October 2026. This is not a capture or validation of an official client.\"},{\"id\":\"32a343c5-e946-482c-922f-1ce259414350\",\"url\":\"https://github.com/l2ce/dev-reference/blob/bf02a206a5c73f22320d70145a8db90b158e9602/docs/research/lineage2-classification.md\",\"title\":\"L2CE: классификация веток, выпусков и протоколов, 27.10.2026\",\"summary\":\"Evidence and limitations are described in the cited source and the project research dated 27–30 October 2026. This is not a capture or validation of an official client.\"}]",
+  "translation_status": "ready",
+  "open_questions_json": "[]"
+}

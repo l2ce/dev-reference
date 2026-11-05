@@ -114,16 +114,33 @@ export class ReferenceReader {
   }
 
   /**
-   * Формирует страницу после всех фильтров; порядок определяется читаемым ключом.
+   * Применяет редакционный порядок до пагинации; ключ стабилизирует одинаковые позиции.
    */
-  private page<T extends { readonly key: string }>(items: T[], limit: number, offset: number): ReferencePage<T> {
-    items.sort((a, b) => a.key.localeCompare(b.key, 'en'))
+  private page<T extends { readonly key: string; readonly order?: number | null }>(
+    items: T[],
+    limit: number,
+    offset: number
+  ): ReferencePage<T> {
+    items.sort(
+      (a, b) =>
+        (a.order ?? Number.MAX_SAFE_INTEGER) - (b.order ?? Number.MAX_SAFE_INTEGER) || a.key.localeCompare(b.key, 'en')
+    )
     return {
       revision: this.revision,
       total: items.length,
       nextOffset: offset + limit < items.length ? offset + limit : null,
       items: structuredClone(items.slice(offset, offset + limit))
     }
+  }
+
+  /**
+   * Объединяет явные контексты и связи с ещё неизвестным регионом без наследования знаний.
+   */
+  private releaseProtocols(release: EntityEntry & { collection: 'chronicle-releases' }): string[] {
+    const contexts = this.snapshot.entries
+      .filter((entry) => entry.collection === 'release-contexts')
+      .filter((entry) => entry.value.releaseKey === release.key)
+    return [...new Set([...release.value.protocolKeys, ...contexts.flatMap((entry) => entry.value.protocolKeys)])]
   }
 
   /**
@@ -141,10 +158,26 @@ export class ReferenceReader {
       markdown: readable ? text.description : null,
       translationStatus: text?.translationStatus ?? 'missing',
       sources: text?.source ?? [],
+      ...('order' in value ? { order: value.order } : {}),
       ...('number' in value ? { number: value.number, variant: value.variant } : {}),
       ...('status' in value ? { status: value.status } : {}),
       ...('branchKey' in value ? { branchKey: value.branchKey } : {}),
-      ...('chronicleKey' in value ? { chronicleKey: value.chronicleKey, protocolKeys: value.protocolKeys } : {})
+      ...(entry.collection === 'chronicle-releases'
+        ? {
+            chronicleKey: entry.value.chronicleKey,
+            protocolKeys: this.releaseProtocols(entry),
+            unscopedProtocolKeys: entry.value.protocolKeys
+          }
+        : {}),
+      ...(entry.collection === 'release-contexts'
+        ? {
+            releaseKey: entry.value.releaseKey,
+            regionKey: entry.value.regionKey,
+            releasedOn: entry.value.releasedOn,
+            countryKeys: entry.value.countryKeys,
+            protocolKeys: entry.value.protocolKeys
+          }
+        : {})
     }
   }
 
@@ -156,7 +189,9 @@ export class ReferenceReader {
     const locale = this.locale(query.locale)
     if (
       (query.branch && query.collection !== 'chronicles') ||
-      (query.chronicle && query.collection !== 'chronicle-releases')
+      (query.chronicle && query.collection !== 'chronicle-releases') ||
+      (query.release && query.collection !== 'release-contexts') ||
+      (query.region && query.collection !== 'release-contexts')
     ) {
       throw new DatabaseError('INVALID_QUERY', messages.query)
     }
@@ -173,6 +208,8 @@ export class ReferenceReader {
           ('chronicleKey' in entry.value && entry.value.chronicleKey === referenceKey('chronicle', query.chronicle))
       )
       .map((entry) => this.catalogItem(entry, locale))
+      .filter((item) => !query.release || item.releaseKey === referenceKey('chronicle', query.release))
+      .filter((item) => !query.region || item.regionKey === referenceKey('region', query.region))
       .filter((item) => matches(query.query, [item.key, item.title, item.summary]))
       .map(({ markdown: _markdown, sources: _sources, ...summary }) => summary)
     return this.page(items, query.limit, query.offset)
@@ -195,11 +232,21 @@ export class ReferenceReader {
           (chronicle?.collection === 'chronicles' && chronicle.value.branchKey === referenceKey('branch', query.branch))
         )
       })
-    const permitted = new Set(releases.flatMap((entry) => entry.value.protocolKeys))
+    const releaseKeys = new Set(releases.map((entry) => entry.key))
+    const contexts = this.snapshot.entries
+      .filter((entry) => entry.collection === 'release-contexts')
+      .filter((entry) => releaseKeys.has(entry.value.releaseKey))
+      .filter((entry) => !query.region || entry.value.regionKey === referenceKey('region', query.region))
+    const permitted = new Set([
+      ...(!query.region ? releases.flatMap((entry) => entry.value.protocolKeys) : []),
+      ...contexts.flatMap((entry) => entry.value.protocolKeys)
+    ])
     const items = this.snapshot.entries
       .filter((entry) => entry.collection === 'protocols')
       .filter((entry) => query.number === undefined || entry.value.number === query.number)
-      .filter((entry) => !(query.branch || query.chronicle || query.release) || permitted.has(entry.key))
+      .filter(
+        (entry) => !(query.branch || query.chronicle || query.release || query.region) || permitted.has(entry.key)
+      )
       .map((entry) => this.catalogItem(entry, locale))
       .filter((item) => matches(query.query, [item.key, item.title, item.summary]))
       .map(({ markdown: _markdown, sources: _sources, ...summary }) => summary)
@@ -212,14 +259,24 @@ export class ReferenceReader {
   protocol(value: string, requestedLocale?: string): ReferenceProtocol {
     const entry = this.requireProtocol(value)
     const locale = this.locale(requestedLocale)
+    const contexts = this.snapshot.entries
+      .filter((context) => context.collection === 'release-contexts')
+      .filter((context) => context.value.protocolKeys.includes(entry.key))
+    const regionKeys = new Set(
+      contexts.flatMap((context) => (context.value.regionKey === null ? [] : [context.value.regionKey]))
+    )
     return structuredClone({
       revision: this.revision,
       profile: this.catalogItem(entry, locale),
-      regions: entry.value.regions,
+      contexts: contexts.map((context) => this.catalogItem(context, locale)),
+      regions: [...regionKeys].flatMap((key) => {
+        const region = this.entries.get(key)
+        return region?.collection === 'regions' ? [region.value.code.toUpperCase()] : []
+      }),
       loginRevisions: entry.value.loginRevisions,
       releases: this.snapshot.entries
         .filter((release) => release.collection === 'chronicle-releases')
-        .filter((release) => release.value.protocolKeys.includes(entry.key))
+        .filter((release) => this.releaseProtocols(release).includes(entry.key))
         .map((release) => this.catalogItem(release, locale))
     })
   }
@@ -232,7 +289,9 @@ export class ReferenceReader {
     if (
       !entry ||
       entry.kind !== 'entity' ||
-      !['branches', 'chronicles', 'chronicle-releases'].includes(entry.collection)
+      !['branches', 'chronicles', 'chronicle-releases', 'release-contexts', 'regions', 'countries'].includes(
+        entry.collection
+      )
     ) {
       throw new DatabaseError('NOT_FOUND', messages.record, { key })
     }

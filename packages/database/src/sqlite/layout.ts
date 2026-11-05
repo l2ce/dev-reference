@@ -6,6 +6,14 @@ import type { ImplementationCollection } from '../model/model.types.js'
  * Конкретные предметные таблицы; порядок не задаёт очередность разрешения FK в транзакции.
  */
 export const layouts: readonly StorageLayout[] = [
+  { collection: 'regions', kind: 'entity', table: tables.regions, translations: tables.regionTranslations },
+  { collection: 'countries', kind: 'entity', table: tables.countries, translations: tables.countryTranslations },
+  {
+    collection: 'release-contexts',
+    kind: 'entity',
+    table: tables.releaseContexts,
+    translations: tables.releaseContextTranslations
+  },
   {
     collection: 'branches',
     kind: 'entity',

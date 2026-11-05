@@ -1,0 +1,10 @@
+{
+  "chronicle_id": "147d3fa0-dd84-4bd8-9966-b84510ed7750",
+  "locale": "en",
+  "title": "Gracia",
+  "summary": "Gracia is a catalog record in Main / Live.",
+  "description": "Gracia is a catalog record in Main / Live.\n\nNamed parts are separate releases. Catalog order is not a release date; protocols are explicitly linked to releases and knowledge applicability is not inherited.",
+  "sources_json": "[{\"id\":\"0df3ec60-a3fd-4596-81f9-88556be53b23\",\"url\":\"https://web.archive.org/web/20260207220723id_/http://akumu.ru/lineage2/protocols.html\",\"title\":\"Akumu: таблица протоколов, архивный снимок 07.02.2026\",\"summary\":\"Evidence and limitations are described in the cited source and the project research dated 27–30 October 2026. This is not a capture or validation of an official client.\"},{\"id\":\"bea5ddb7-362d-4f01-887a-493b8bd9034b\",\"url\":\"https://github.com/l2ce/dev-reference/blob/bf02a206a5c73f22320d70145a8db90b158e9602/docs/research/lineage2-classification.md\",\"title\":\"L2CE: классификация веток, выпусков и протоколов, 27.10.2026\",\"summary\":\"Evidence and limitations are described in the cited source and the project research dated 27–30 October 2026. This is not a capture or validation of an official client.\"}]",
+  "translation_status": "ready",
+  "open_questions_json": "[]"
+}

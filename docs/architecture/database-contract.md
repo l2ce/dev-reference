@@ -37,7 +37,8 @@ Zod проверяет входные документы и итоговые DTO
 - `kind: entity` — карточка, протокол или выпуск; `implementation` — техническая редакция.
 - `value.id` — постоянный UUID; язык не входит в адрес.
 
-Коллекции: `branches`, `chronicles`, `chronicle-releases`, `protocols`, `packets`,
+Коллекции: `branches`, `regions`, `countries`, `chronicles`, `chronicle-releases`,
+`release-contexts`, `protocols`, `packets`,
 `scenarios`, `articles`, `packet-revisions`, `scenario-revisions`, `article-revisions`.
 Это представления API: физические имена таблиц и колонки перечислены отдельно.
 
@@ -67,20 +68,25 @@ Zod проверяет входные документы и итоговые DTO
 
 ### Фильтры list
 
-| Фильтр                      | Допустимые коллекции                                |
-| --------------------------- | --------------------------------------------------- |
-| `branchKey`                 | `chronicles`                                        |
-| `ownerKey`                  | `chronicle-releases` и три коллекции редакций       |
-| `chronicleReleaseKey`       | `protocols`                                         |
-| `protocolKey`               | Карточки знаний, их редакции и `chronicle-releases` |
-| `server`                    | Карточки знаний и их редакции                       |
-| `direction`                 | `packets`, `packet-revisions`                       |
-| `search`, `limit`, `offset` | Все предметные коллекции                            |
+| Фильтр                      | Допустимые коллекции                                                   |
+| --------------------------- | ---------------------------------------------------------------------- |
+| `branchKey`                 | `chronicles`                                                           |
+| `ownerKey`                  | `chronicle-releases`, `release-contexts` и три коллекции редакций      |
+| `chronicleReleaseKey`       | `protocols`                                                            |
+| `protocolKey`               | Карточки знаний, их редакции, `chronicle-releases`, `release-contexts` |
+| `regionKey`                 | Только `release-contexts`                                              |
+| `server`                    | Карточки знаний и их редакции                                          |
+| `direction`                 | `packets`, `packet-revisions`                                          |
+| `search`, `limit`, `offset` | Все предметные коллекции                                               |
 
 Условия объединяются и применяются до COUNT/LIMIT. Неподходящие комбинации
 отклоняются. Фильтр по отсутствующей связанной записи возвращает пустой список.
 `limit`: 1–1000, по умолчанию 50; `offset`: от 0, по умолчанию 0.
 Порядок результата — по публичному ключу, а не по хронологии или `sort_order`.
+Продуктовый `ReferenceReader.catalog` отдельно применяет редакционный `order`
+до пагинации, с публичным ключом как стабильным различителем одинаковых позиций.
+SQL-фильтры выпуска/протокола учитывают и региональные контексты, и неуточнённые
+прямые связи выпуска, не создавая региональных соответствий из последних.
 
 Поиск проверяет ключ, техническое имя пакета и заголовки/аннотации собственных
 переводов запрошенной коллекции. Используются NFKC и приведение к нижнему регистру.

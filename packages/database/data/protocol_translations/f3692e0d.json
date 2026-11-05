@@ -1,0 +1,10 @@
+{
+  "protocol_id": "08da25f5-85e5-4c09-be3d-12e40ef19225",
+  "locale": "en",
+  "title": "Main / Live · Return of the Queen Ant · 308",
+  "summary": "Game protocol 308: Return of the Queen Ant.",
+  "description": "Game protocol 308: Return of the Queen Ant.\n\nSource row: “Wild Horizons / Return of the Queen Ant”. Region labels: KR.\n\nIndependent confirmation of this specific association has not been established in the current research.\n\nThis profile separates a catalog context. The -rev-N suffix is our discriminator for records sharing a number, not an official revision or update order. Packet differences and compatibility with other profiles sharing the number still require research.",
+  "sources_json": "[{\"id\":\"95ab4f2f-e059-476e-a141-b50a2918279d\",\"url\":\"https://web.archive.org/web/20260207220723id_/http://akumu.ru/lineage2/protocols.html\",\"title\":\"Akumu: таблица протоколов, архивный снимок 07.02.2026\",\"summary\":\"Evidence and limitations are described in the cited source and the project research dated 27–30 October 2026. This is not a capture or validation of an official client.\"},{\"id\":\"a09fa393-3243-421b-8129-cb68dcb0cd23\",\"url\":\"https://github.com/l2ce/dev-reference/blob/bf02a206a5c73f22320d70145a8db90b158e9602/docs/research/lineage2-classification.md\",\"title\":\"L2CE: классификация веток, выпусков и протоколов, 27.10.2026\",\"summary\":\"Evidence and limitations are described in the cited source and the project research dated 27–30 October 2026. This is not a capture or validation of an official client.\"}]",
+  "translation_status": "ready",
+  "open_questions_json": "[\"Verify the number and exact official client build; preserve an artifact or exchange capture.\",\"Establish the Login revision, framing, encoding, encryption and packet formats for this profile.\"]"
+}

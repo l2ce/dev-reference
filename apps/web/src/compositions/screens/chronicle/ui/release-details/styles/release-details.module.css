@@ -1,0 +1,68 @@
+.root {
+  min-width: 0;
+  margin-top: 1.75rem;
+  scroll-margin-top: calc(var(--app-header-height) + 1rem);
+}
+
+.title {
+  margin: 0 0 0.75rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.description {
+  max-width: var(--app-reading-width);
+  margin-bottom: 1rem;
+}
+
+.scroll {
+  overflow-x: auto;
+  border: 1px solid var(--app-border);
+}
+
+.table {
+  width: 100%;
+  min-width: 40rem;
+  border-collapse: collapse;
+  font-size: 0.875rem;
+}
+
+.cell {
+  padding: 0.65rem 0.875rem;
+  border-bottom: 1px solid var(--app-border);
+  text-align: left;
+  vertical-align: top;
+}
+
+.tableHead {
+  background: var(--app-surface);
+}
+
+.protocols {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem 0.75rem;
+  font-family: var(--mantine-font-family-monospace);
+}
+
+.evidence {
+  max-width: 22rem;
+  font-size: 0.75rem;
+  overflow-wrap: anywhere;
+}
+
+.evidenceSummary {
+  cursor: pointer;
+}
+
+.sourceList {
+  padding-left: 1rem;
+  line-height: 1.75;
+}
+
+.unscoped {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  font-size: 0.875rem;
+}

@@ -15,11 +15,14 @@ import type {
 
 export const entityKinds = {
   branches: 'branch',
+  regions: 'region',
+  countries: 'country',
   packets: 'packet',
   scenarios: 'scenario',
   articles: 'article',
   chronicles: 'chronicle',
   'chronicle-releases': 'chronicle',
+  'release-contexts': 'chronicle',
   protocols: 'protocol'
 } as const
 /**
@@ -106,6 +109,9 @@ export function computedKey(entry: DatabaseEntry): string {
   if (entry.collection === 'chronicle-releases') {
     return `${entry.value.chronicleKey}:${entry.value.code}`
   }
+  if (entry.collection === 'release-contexts') {
+    return `${entry.value.releaseKey}:${entry.value.code}`
+  }
   return `${entityKinds[entry.collection]}:${entry.value.code}`
 }
 /**
@@ -141,7 +147,12 @@ export function parseEntry(input: unknown): DatabaseEntry {
     if (
       value.key !== key ||
       parts[0] !== entityKinds[ownerCollection(address.collection)] ||
-      parts.length !== (address.kind === 'entity' && address.collection !== 'chronicle-releases' ? 2 : 3)
+      parts.length !==
+        (address.collection === 'release-contexts'
+          ? 4
+          : address.kind === 'entity' && address.collection !== 'chronicle-releases'
+            ? 2
+            : 3)
     ) {
       invalidEntry(messages.address, address)
     }

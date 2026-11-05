@@ -163,6 +163,33 @@ CREATE TABLE `chronicles` (
 
 CREATE UNIQUE INDEX `chronicles_code_unique` ON `chronicles` (`code`);
 
+CREATE TABLE `countries` (
+	`id` text PRIMARY KEY NOT NULL,
+	`code` text NOT NULL,
+	`sort_order` integer
+) STRICT;
+
+CREATE UNIQUE INDEX `countries_code_unique` ON `countries` (`code`);
+
+CREATE TABLE `country_translations` (
+	`country_id` text NOT NULL,
+	`locale` text NOT NULL,
+	`title` text NOT NULL,
+	`summary` text NOT NULL,
+	`description` text NOT NULL,
+	`sources_json` text NOT NULL,
+	`translation_status` text NOT NULL,
+	`open_questions_json` text NOT NULL,
+	PRIMARY KEY(`country_id`, `locale`),
+	FOREIGN KEY (`country_id`) REFERENCES `countries`(`id`) ON UPDATE no action ON DELETE cascade,
+	FOREIGN KEY (`locale`) REFERENCES `locales`(`code`) ON UPDATE no action ON DELETE no action,
+	CONSTRAINT "country_translations_status" CHECK("country_translations"."translation_status" IN ('ready', 'missing', 'outdated')),
+	CONSTRAINT "country_translations_sources" CHECK(json_type("country_translations"."sources_json") = 'array'),
+	CONSTRAINT "country_translations_questions" CHECK(json_type("country_translations"."open_questions_json") = 'array'),
+	CONSTRAINT "country_translations_sources_json" CHECK(json_valid("country_translations"."sources_json")),
+	CONSTRAINT "country_translations_questions_json" CHECK(json_valid("country_translations"."open_questions_json"))
+) STRICT;
+
 CREATE TABLE `locales` (
 	`code` text PRIMARY KEY NOT NULL,
 	`position` integer NOT NULL,
@@ -178,7 +205,7 @@ CREATE TABLE `metadata` (
 	`default_locale` text NOT NULL,
 	FOREIGN KEY (`default_locale`) REFERENCES `locales`(`code`) ON UPDATE no action ON DELETE no action,
 	CONSTRAINT "metadata_singleton" CHECK("metadata"."id" = 1),
-	CONSTRAINT "metadata_version" CHECK("metadata"."schema_rev" = 19)
+	CONSTRAINT "metadata_version" CHECK("metadata"."schema_rev" = 20)
 ) STRICT;
 
 CREATE TABLE `packet_protocols` (
@@ -275,18 +302,6 @@ CREATE TABLE `protocol_login_revisions` (
 
 CREATE UNIQUE INDEX `protocol_login_revisions_protocol_id_position_unique` ON `protocol_login_revisions` (`protocol_id`,`position`);
 
-CREATE TABLE `protocol_regions` (
-	`protocol_id` text NOT NULL,
-	`region` text NOT NULL,
-	`position` integer NOT NULL,
-	PRIMARY KEY(`protocol_id`, `region`),
-	FOREIGN KEY (`protocol_id`) REFERENCES `protocols`(`id`) ON UPDATE no action ON DELETE cascade,
-	CONSTRAINT "region_text" CHECK(length(trim("protocol_regions"."region")) > 0),
-	CONSTRAINT "region_position" CHECK("protocol_regions"."position" >= 0)
-) STRICT;
-
-CREATE UNIQUE INDEX `protocol_regions_protocol_id_position_unique` ON `protocol_regions` (`protocol_id`,`position`);
-
 CREATE TABLE `protocol_translations` (
 	`protocol_id` text NOT NULL,
 	`locale` text NOT NULL,
@@ -317,6 +332,92 @@ CREATE TABLE `protocols` (
 ) STRICT;
 
 CREATE UNIQUE INDEX `protocols_number_variant_unique` ON `protocols` (`number`,`variant`);
+
+CREATE TABLE `region_translations` (
+	`region_id` text NOT NULL,
+	`locale` text NOT NULL,
+	`title` text NOT NULL,
+	`summary` text NOT NULL,
+	`description` text NOT NULL,
+	`sources_json` text NOT NULL,
+	`translation_status` text NOT NULL,
+	`open_questions_json` text NOT NULL,
+	PRIMARY KEY(`region_id`, `locale`),
+	FOREIGN KEY (`region_id`) REFERENCES `regions`(`id`) ON UPDATE no action ON DELETE cascade,
+	FOREIGN KEY (`locale`) REFERENCES `locales`(`code`) ON UPDATE no action ON DELETE no action,
+	CONSTRAINT "region_translations_status" CHECK("region_translations"."translation_status" IN ('ready', 'missing', 'outdated')),
+	CONSTRAINT "region_translations_sources" CHECK(json_type("region_translations"."sources_json") = 'array'),
+	CONSTRAINT "region_translations_questions" CHECK(json_type("region_translations"."open_questions_json") = 'array'),
+	CONSTRAINT "region_translations_sources_json" CHECK(json_valid("region_translations"."sources_json")),
+	CONSTRAINT "region_translations_questions_json" CHECK(json_valid("region_translations"."open_questions_json"))
+) STRICT;
+
+CREATE TABLE `regions` (
+	`id` text PRIMARY KEY NOT NULL,
+	`code` text NOT NULL,
+	`sort_order` integer
+) STRICT;
+
+CREATE UNIQUE INDEX `regions_code_unique` ON `regions` (`code`);
+
+CREATE TABLE `release_context_countries` (
+	`release_context_id` text NOT NULL,
+	`country_id` text NOT NULL,
+	`position` integer NOT NULL,
+	PRIMARY KEY(`release_context_id`, `country_id`),
+	FOREIGN KEY (`release_context_id`) REFERENCES `release_contexts`(`id`) ON UPDATE no action ON DELETE cascade,
+	FOREIGN KEY (`country_id`) REFERENCES `countries`(`id`) ON UPDATE no action ON DELETE no action,
+	CONSTRAINT "context_country_position" CHECK("release_context_countries"."position" >= 0)
+) STRICT;
+
+CREATE UNIQUE INDEX `release_context_countries_release_context_id_position_unique` ON `release_context_countries` (`release_context_id`,`position`);
+
+CREATE TABLE `release_context_protocols` (
+	`release_context_id` text NOT NULL,
+	`protocol_id` text NOT NULL,
+	`position` integer NOT NULL,
+	PRIMARY KEY(`release_context_id`, `protocol_id`),
+	FOREIGN KEY (`release_context_id`) REFERENCES `release_contexts`(`id`) ON UPDATE no action ON DELETE cascade,
+	FOREIGN KEY (`protocol_id`) REFERENCES `protocols`(`id`) ON UPDATE no action ON DELETE no action,
+	CONSTRAINT "context_protocol_position" CHECK("release_context_protocols"."position" >= 0)
+) STRICT;
+
+CREATE UNIQUE INDEX `release_context_protocols_release_context_id_position_unique` ON `release_context_protocols` (`release_context_id`,`position`);
+
+CREATE TABLE `release_context_translations` (
+	`release_context_id` text NOT NULL,
+	`locale` text NOT NULL,
+	`title` text NOT NULL,
+	`summary` text NOT NULL,
+	`description` text NOT NULL,
+	`sources_json` text NOT NULL,
+	`translation_status` text NOT NULL,
+	`open_questions_json` text NOT NULL,
+	PRIMARY KEY(`release_context_id`, `locale`),
+	FOREIGN KEY (`release_context_id`) REFERENCES `release_contexts`(`id`) ON UPDATE no action ON DELETE cascade,
+	FOREIGN KEY (`locale`) REFERENCES `locales`(`code`) ON UPDATE no action ON DELETE no action,
+	CONSTRAINT "release_context_translations_status" CHECK("release_context_translations"."translation_status" IN ('ready', 'missing', 'outdated')),
+	CONSTRAINT "release_context_translations_sources" CHECK(json_type("release_context_translations"."sources_json") = 'array'),
+	CONSTRAINT "release_context_translations_questions" CHECK(json_type("release_context_translations"."open_questions_json") = 'array'),
+	CONSTRAINT "release_context_translations_sources_json" CHECK(json_valid("release_context_translations"."sources_json")),
+	CONSTRAINT "release_context_translations_questions_json" CHECK(json_valid("release_context_translations"."open_questions_json"))
+) STRICT;
+
+CREATE TABLE `release_contexts` (
+	`id` text PRIMARY KEY NOT NULL,
+	`code` text NOT NULL,
+	`sort_order` integer,
+	`status` text NOT NULL,
+	`chronicle_release_id` text NOT NULL,
+	`region_id` text,
+	`released_on` text,
+	FOREIGN KEY (`chronicle_release_id`) REFERENCES `chronicle_releases`(`id`) ON UPDATE no action ON DELETE no action,
+	FOREIGN KEY (`region_id`) REFERENCES `regions`(`id`) ON UPDATE no action ON DELETE no action,
+	CONSTRAINT "context_status" CHECK("release_contexts"."status" IN ('missing', 'partial', 'documented')),
+	CONSTRAINT "context_date" CHECK("release_contexts"."released_on" IS NULL OR (length("release_contexts"."released_on") IN (4, 7, 10) AND substr("release_contexts"."released_on", 1, 4) GLOB '[0-9][0-9][0-9][0-9]'))
+) STRICT;
+
+CREATE UNIQUE INDEX `release_contexts_chronicle_release_id_code_unique` ON `release_contexts` (`chronicle_release_id`,`code`);
 
 CREATE TABLE `scenario_protocols` (
 	`scenario_id` text NOT NULL,

@@ -1,0 +1,10 @@
+{
+  "chronicle_id": "906d43de-c147-4933-aa68-77d9a15a8da6",
+  "locale": "en",
+  "title": "Chronicle 2: Age of Splendor",
+  "summary": "Chronicle 2: Age of Splendor is a catalog record in Main / Live.",
+  "description": "Chronicle 2: Age of Splendor is a catalog record in Main / Live.\n\nNamed parts are separate releases. Catalog order is not a release date; protocols are explicitly linked to releases and knowledge applicability is not inherited.",
+  "sources_json": "[{\"id\":\"723931cd-e7ab-4eb2-96e2-2581ef71438d\",\"url\":\"https://web.archive.org/web/20260207220723id_/http://akumu.ru/lineage2/protocols.html\",\"title\":\"Akumu: таблица протоколов, архивный снимок 07.02.2026\",\"summary\":\"Evidence and limitations are described in the cited source and the project research dated 27–30 October 2026. This is not a capture or validation of an official client.\"},{\"id\":\"6ef534ee-6573-4420-9fcd-48cc0dd1d457\",\"url\":\"https://github.com/l2ce/dev-reference/blob/bf02a206a5c73f22320d70145a8db90b158e9602/docs/research/lineage2-classification.md\",\"title\":\"L2CE: классификация веток, выпусков и протоколов, 27.10.2026\",\"summary\":\"Evidence and limitations are described in the cited source and the project research dated 27–30 October 2026. This is not a capture or validation of an official client.\"}]",
+  "translation_status": "ready",
+  "open_questions_json": "[]"
+}

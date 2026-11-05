@@ -161,7 +161,12 @@ test('неверные колонки, имена, FK и переводы отк
     await writeFile(file, JSON.stringify({ ...row, ...patch }))
     await assert.rejects(
       importDatabase({ database: target, input: output }),
-      (error) => error.details.path === file || error.details.path === `packet_revisions/${row.id}.json`
+      (error) =>
+        error.details.path === file ||
+        error.details.path === `packet_revisions/${row.id}.json` ||
+        (error.code === 'DATABASE_INTEGRITY_ERROR' &&
+          /^packet_protocols\/.+\.json$/.test(error.details.path) &&
+          error.details.violations.some((violation) => violation.table === 'packet_protocols'))
     )
     assert.equal(existsSync(target), false)
   }

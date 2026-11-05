@@ -1,0 +1,10 @@
+{
+  "chronicle_id": "ab710512-c578-4b96-8855-00c14da61f01",
+  "locale": "en",
+  "title": "Lindvior",
+  "summary": "Lindvior is a catalog record in Main / Live.",
+  "description": "Lindvior is a catalog record in Main / Live.\n\nNamed parts are separate releases. Catalog order is not a release date; protocols are explicitly linked to releases and knowledge applicability is not inherited.",
+  "sources_json": "[{\"id\":\"a2b9f035-99e9-4aef-8009-7a1c3f09236c\",\"url\":\"https://web.archive.org/web/20260207220723id_/http://akumu.ru/lineage2/protocols.html\",\"title\":\"Akumu: таблица протоколов, архивный снимок 07.02.2026\",\"summary\":\"Evidence and limitations are described in the cited source and the project research dated 27–30 October 2026. This is not a capture or validation of an official client.\"},{\"id\":\"d151f054-af6c-4018-a076-5fbc6bf9b5ef\",\"url\":\"https://github.com/l2ce/dev-reference/blob/bf02a206a5c73f22320d70145a8db90b158e9602/docs/research/lineage2-classification.md\",\"title\":\"L2CE: классификация веток, выпусков и протоколов, 27.10.2026\",\"summary\":\"Evidence and limitations are described in the cited source and the project research dated 27–30 October 2026. This is not a capture or validation of an official client.\"}]",
+  "translation_status": "ready",
+  "open_questions_json": "[]"
+}

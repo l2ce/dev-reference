@@ -1,8 +1,0 @@
-{
-  "id": "d483fcaf-6b01-427f-9afd-c9c07bbd3f60",
-  "code": "server-list",
-  "sort_order": 30,
-  "name": "ServerList",
-  "server": "login",
-  "direction": "server-to-client"
-}

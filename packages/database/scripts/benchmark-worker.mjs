@@ -1,16 +1,7 @@
 import assert from 'node:assert/strict'
 import Sqlite from 'better-sqlite3'
-import {
-  databaseStatus,
-  defaultDataDirectory,
-  exportDatabase,
-  importDatabase,
-  openDatabase,
-  snapshotRevision
-} from '../dist/index.js'
+import { databaseStatus, exportDatabase, importDatabase, openDatabase, snapshotRevision } from '../dist/index.js'
 import { createTerminalProgress } from '../dist/cli/progress.js'
-import { readDirectory } from '../dist/exchange/directory.js'
-import { createProgress } from '../dist/exchange/progress.js'
 import { benchmarkFixture } from './benchmark-fixture.mjs'
 
 /**
@@ -28,13 +19,12 @@ function resources(startedCpu) {
  * Наполняет отдельный файл ровно указанным числом записей через обычный проверяемый API.
  */
 async function seed(options) {
-  const base = await readDirectory(defaultDataDirectory, createProgress('import'))
   const database = openDatabase({ database: options.database })
   let snapshot
   let durationMs
   let resource
   try {
-    snapshot = benchmarkFixture(base, options.records, options.descriptionBytes)
+    snapshot = benchmarkFixture(options.records, options.descriptionBytes)
     const startedCpu = process.cpuUsage()
     const startedAt = performance.now()
     database.replaceSnapshot(snapshot)

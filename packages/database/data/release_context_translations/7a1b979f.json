@@ -1,0 +1,10 @@
+{
+  "release_context_id": "e36dcc85-bfab-460e-931e-301f02f71a52",
+  "locale": "en",
+  "title": "NA",
+  "summary": "Regional release context: base / NA.",
+  "description": "Associations were transferred from the original contextual catalog records, not from the protocol-wide region union. These are source claims, not validation of an official client. The release date and countries have not been established.\n\nGame protocol 362: Vanguard.",
+  "sources_json": "[{\"id\":\"c0ea1b7a-9658-4dbf-867e-0e17a0608386\",\"url\":\"https://web.archive.org/web/20260207220723id_/http://akumu.ru/lineage2/protocols.html\",\"title\":\"Akumu: таблица протоколов, архивный снимок 07.02.2026\",\"summary\":\"Evidence and limitations are described in the cited source and the project research dated 27–30 October 2026. This is not a capture or validation of an official client.\"},{\"id\":\"08b28e9d-a3d4-4a54-89c1-8ee71905440c\",\"url\":\"https://github.com/l2ce/dev-reference/blob/bf02a206a5c73f22320d70145a8db90b158e9602/docs/research/lineage2-classification.md\",\"title\":\"L2CE: классификация веток, выпусков и протоколов, 27.10.2026\",\"summary\":\"Evidence and limitations are described in the cited source and the project research dated 27–30 October 2026. This is not a capture or validation of an official client.\"}]",
+  "translation_status": "ready",
+  "open_questions_json": "[\"Verify the number and exact official client build; preserve an artifact or exchange capture.\",\"Establish the Login revision, framing, encoding, encryption and packet formats for this profile.\",\"Compare regional builds: listing regions from the same catalog row does not prove identical wire formats.\"]"
+}

@@ -1,0 +1,10 @@
+{
+  "chronicle_release_id": "2be6d135-4e61-41af-8d8f-76bae62dfc5e",
+  "locale": "en",
+  "title": "Shadows of Light Part 2",
+  "summary": "Shadows of Light Part 2 is a release in Main / Live.",
+  "description": "Shadows of Light Part 2 is a release in Main / Live.\n\nThe name or distinct stage is recorded in the research references. Its exact Game number has not been established: numbers from adjacent, broader or combined releases are not inherited.\n\nRegional date from the official history or patch notes: **KR, 2015-01-14**. This is not a client build date and does not establish a protocol number.",
+  "sources_json": "[{\"id\":\"ecb8fcdd-0f15-4199-a8ec-ffbcac6fc307\",\"url\":\"https://lineage2.plaync.com/history/index\",\"title\":\"NCsoft Korea: официальная история обновлений\",\"summary\":\"Evidence and limitations are described in the cited source and the project research dated 27–30 October 2026. This is not a capture or validation of an official client.\"},{\"id\":\"032a54a7-354c-401d-b68f-b166abe30b30\",\"url\":\"https://github.com/l2ce/dev-reference/blob/bf02a206a5c73f22320d70145a8db90b158e9602/docs/research/lineage2-classification.md\",\"title\":\"L2CE: классификация веток, выпусков и протоколов, 27.10.2026\",\"summary\":\"Evidence and limitations are described in the cited source and the project research dated 27–30 October 2026. This is not a capture or validation of an official client.\"}]",
+  "translation_status": "ready",
+  "open_questions_json": "[\"Establish the exact Game number using a client artifact or another concrete source; do not substitute a number from an adjacent release.\"]"
+}

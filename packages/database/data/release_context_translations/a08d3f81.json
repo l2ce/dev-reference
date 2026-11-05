@@ -1,0 +1,10 @@
+{
+  "release_context_id": "56a42ca3-1471-4fd2-82b6-db29d78338fe",
+  "locale": "en",
+  "title": "RU",
+  "summary": "Regional release context: shadows-of-light / RU.",
+  "description": "Associations were transferred from the original contextual catalog records, not from the protocol-wide region union. These are source claims, not validation of an official client. The release date and countries have not been established.\n\nGame protocol 24: Infinite Odyssey: Shadows of Light.",
+  "sources_json": "[{\"id\":\"facca0d7-cc36-4076-8edb-c89a3e38be29\",\"url\":\"https://web.archive.org/web/20260207220723id_/http://akumu.ru/lineage2/protocols.html\",\"title\":\"Akumu: таблица протоколов, архивный снимок 07.02.2026\",\"summary\":\"Evidence and limitations are described in the cited source and the project research dated 27–30 October 2026. This is not a capture or validation of an official client.\"},{\"id\":\"bc6793e1-e5f3-41fb-b700-57d3c103c574\",\"url\":\"https://github.com/l2ce/dev-reference/blob/bf02a206a5c73f22320d70145a8db90b158e9602/docs/research/lineage2-classification.md\",\"title\":\"L2CE: классификация веток, выпусков и протоколов, 27.10.2026\",\"summary\":\"Evidence and limitations are described in the cited source and the project research dated 27–30 October 2026. This is not a capture or validation of an official client.\"}]",
+  "translation_status": "ready",
+  "open_questions_json": "[\"Verify the number and exact official client build; preserve an artifact or exchange capture.\",\"Establish the Login revision, framing, encoding, encryption and packet formats for this profile.\",\"Compare regional builds: listing regions from the same catalog row does not prove identical wire formats.\"]"
+}

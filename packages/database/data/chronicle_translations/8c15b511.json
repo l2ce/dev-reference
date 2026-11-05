@@ -2,9 +2,9 @@
   "chronicle_id": "74348ef1-cfd4-4b91-a7f6-45396bddea05",
   "locale": "en",
   "title": "Orfen",
-  "summary": "A later context reusing game revision 152.",
-  "description": "# Orfen\n\nA later context reusing game revision 152.\n\nSelect a protocol to access packets, scenarios and articles. Identifying a particular release part remains a separate research task.\n",
-  "sources_json": "[]",
+  "summary": "Orfen is a catalog record in Main / Live.",
+  "description": "Orfen is a catalog record in Main / Live.\n\nNamed parts are separate releases. Catalog order is not a release date; protocols are explicitly linked to releases and knowledge applicability is not inherited.",
+  "sources_json": "[{\"id\":\"8f5502ac-6108-4c6e-be3a-5565b3319995\",\"url\":\"https://web.archive.org/web/20260207220723id_/http://akumu.ru/lineage2/protocols.html\",\"title\":\"Akumu: таблица протоколов, архивный снимок 07.02.2026\",\"summary\":\"Evidence and limitations are described in the cited source and the project research dated 27–30 October 2026. This is not a capture or validation of an official client.\"},{\"id\":\"b74f2afc-a612-4bef-9df6-0fa3a03212e3\",\"url\":\"https://github.com/l2ce/dev-reference/blob/bf02a206a5c73f22320d70145a8db90b158e9602/docs/research/lineage2-classification.md\",\"title\":\"L2CE: классификация веток, выпусков и протоколов, 27.10.2026\",\"summary\":\"Evidence and limitations are described in the cited source and the project research dated 27–30 October 2026. This is not a capture or validation of an official client.\"},{\"id\":\"6c0a9d6f-9ba0-4b9a-be5d-571e40f229ae\",\"url\":\"https://web.archive.org/web/20190201164527id_/http://l2-scripts.com:80/index.php?news_id=458\",\"title\":\"L2-Scripts: архивная публикация Orfen и Classic Seven Signs\",\"summary\":\"Evidence and limitations are described in the cited source and the project research dated 27–30 October 2026. This is not a capture or validation of an official client.\"},{\"id\":\"f5a67c33-dddd-4e70-a7ba-5256e30f57dc\",\"url\":\"https://github.com/l2ce/dev-reference/blob/bf02a206a5c73f22320d70145a8db90b158e9602/docs/research/independent-protocol-verification.md\",\"title\":\"L2CE: независимая проверка повторяющихся номеров, 27.10.2026\",\"summary\":\"Evidence and limitations are described in the cited source and the project research dated 27–30 October 2026. This is not a capture or validation of an official client.\"}]",
   "translation_status": "ready",
   "open_questions_json": "[]"
 }

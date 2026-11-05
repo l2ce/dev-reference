@@ -1,0 +1,10 @@
+{
+  "chronicle_id": "a0498865-40ce-433b-b065-84d5a6a92d66",
+  "locale": "ru",
+  "title": "Chronicle 4: Scions of Destiny",
+  "summary": "Chronicle 4: Scions of Destiny — запись каталога ветки Основная линия.",
+  "description": "Chronicle 4: Scions of Destiny — запись каталога ветки Основная линия.\n\nИменованные части представлены отдельными выпусками. Порядок каталога не является датой выхода; протоколы связаны с выпусками явно, без наследования применимости.",
+  "sources_json": "[{\"id\":\"ca2d1a37-d2d9-4456-bd8a-35ab7b5fe624\",\"url\":\"https://web.archive.org/web/20260207220723id_/http://akumu.ru/lineage2/protocols.html\",\"title\":\"Akumu: таблица протоколов, архивный снимок 07.02.2026\",\"summary\":\"Заявленные названия, регионы и Game-номера. Не подтверждает форматы пакетов, совместимость или проверку официального клиента.\"},{\"id\":\"c90bac26-ae34-43f1-bc41-cc5824e7731b\",\"url\":\"https://github.com/l2ce/dev-reference/blob/bf02a206a5c73f22320d70145a8db90b158e9602/docs/research/lineage2-classification.md\",\"title\":\"L2CE: классификация веток, выпусков и протоколов, 27.10.2026\",\"summary\":\"Производное исследование: происхождение утверждений, региональные различия, неустановленные связи и ограничения источников.\"}]",
+  "translation_status": "ready",
+  "open_questions_json": "[]"
+}

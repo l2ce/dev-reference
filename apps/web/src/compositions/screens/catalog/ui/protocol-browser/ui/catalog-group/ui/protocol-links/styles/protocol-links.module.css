@@ -1,0 +1,45 @@
+.root {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.25rem 0.65rem;
+  min-width: 0;
+}
+
+.link {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.15rem;
+  color: var(--app-text);
+  text-decoration-color: var(--app-border);
+  text-underline-offset: 0.2em;
+
+  &:hover {
+    color: var(--app-accent-hover);
+    text-decoration-color: currentColor;
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--app-accent);
+    outline-offset: 3px;
+  }
+}
+
+.number {
+  font-family: var(--mantine-font-family-monospace);
+  font-size: 0.8125rem;
+  line-height: 1.75;
+
+  &._available {
+    font-weight: 700;
+  }
+}
+
+.availability {
+  color: var(--app-positive);
+  font-size: 0.5rem;
+}
+
+.empty {
+  color: var(--app-muted);
+}

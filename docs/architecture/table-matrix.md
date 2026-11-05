@@ -1,6 +1,6 @@
 # Матрица таблиц базы
 
-Реализованная SQL-структура, схема **19**. Смысл сущностей описан в
+Реализованная SQL-структура, схема **20**. Смысл сущностей описан в
 [предметной модели](domain-model.md), правила операций — в
 [контракте базы](database-contract.md).
 
@@ -12,7 +12,8 @@ SQLite — источник истины. `packages/database/data/` — гене
 - `id`, `code`, ссылки на UUID, языки, статусы и содержательные строки — TEXT.
 - `number`, `variant`, `rev`, `position`, `sort_order` — INTEGER.
 - `*_json` — TEXT с JSON, а не отдельный SQLite-тип.
-- Все перечисленные колонки обязательны, кроме `sort_order`, допускающего NULL.
+- Все перечисленные колонки обязательны, кроме `sort_order`, `region_id` и
+  `released_on`, допускающих NULL.
 - Предметные таблицы имеют UUID PK. Переводы и связи используют составные PK;
   у них нет дополнительного UUID отношения.
 - Вычисляемые публичные ключи, файловые имена и языковые копии технических данных
@@ -20,18 +21,21 @@ SQLite — источник истины. `packages/database/data/` — гене
 
 ## Основные таблицы
 
-| Таблица              | Одна строка                   | Поля кроме UUID `id`                                 | Уникальность           |
-| -------------------- | ----------------------------- | ---------------------------------------------------- | ---------------------- |
-| `branches`           | Ветка                         | `code`, `sort_order?`                                | `code`                 |
-| `chronicles`         | Хроника                       | `branch_id`, `code`, `sort_order?`                   | `code`                 |
-| `chronicle_releases` | Выпуск хроники                | `chronicle_id`, `code`, `sort_order?`, `status`      | `(chronicle_id, code)` |
-| `protocols`          | Самостоятельный протокол      | `number`, `variant`, `status`                        | `(number, variant)`    |
-| `packets`            | Карточка пакета               | `code`, `name`, `server`, `direction`, `sort_order?` | `code`                 |
-| `scenarios`          | Карточка сценария             | `code`, `sort_order?`                                | `code`                 |
-| `articles`           | Карточка статьи               | `code`, `sort_order?`                                | `code`                 |
-| `packet_revisions`   | Техническая редакция пакета   | `packet_id`, `rev`, `status`                         | `(packet_id, rev)`     |
-| `scenario_revisions` | Техническая редакция сценария | `scenario_id`, `rev`, `status`                       | `(scenario_id, rev)`   |
-| `article_revisions`  | Техническая редакция статьи   | `article_id`, `rev`, `status`                        | `(article_id, rev)`    |
+| Таблица              | Одна строка                   | Поля кроме UUID `id`                                                                  | Уникальность                   |
+| -------------------- | ----------------------------- | ------------------------------------------------------------------------------------- | ------------------------------ |
+| `branches`           | Ветка                         | `code`, `sort_order?`                                                                 | `code`                         |
+| `regions`            | Регион распространения        | `code`, `sort_order?`                                                                 | `code`                         |
+| `countries`          | Страна                        | `code`, `sort_order?`                                                                 | `code`                         |
+| `chronicles`         | Хроника                       | `branch_id`, `code`, `sort_order?`                                                    | `code`                         |
+| `chronicle_releases` | Выпуск хроники                | `chronicle_id`, `code`, `sort_order?`, `status`                                       | `(chronicle_id, code)`         |
+| `release_contexts`   | Региональный контекст выпуска | `chronicle_release_id`, `region_id?`, `released_on?`, `code`, `sort_order?`, `status` | `(chronicle_release_id, code)` |
+| `protocols`          | Самостоятельный протокол      | `number`, `variant`, `status`                                                         | `(number, variant)`            |
+| `packets`            | Карточка пакета               | `code`, `name`, `server`, `direction`, `sort_order?`                                  | `code`                         |
+| `scenarios`          | Карточка сценария             | `code`, `sort_order?`                                                                 | `code`                         |
+| `articles`           | Карточка статьи               | `code`, `sort_order?`                                                                 | `code`                         |
+| `packet_revisions`   | Техническая редакция пакета   | `packet_id`, `rev`, `status`                                                          | `(packet_id, rev)`             |
+| `scenario_revisions` | Техническая редакция сценария | `scenario_id`, `rev`, `status`                                                        | `(scenario_id, rev)`           |
+| `article_revisions`  | Техническая редакция статьи   | `article_id`, `rev`, `status`                                                         | `(article_id, rev)`            |
 
 `?` означает NULL. `id` — UUID v4 в нижнем регистре. Глобальную уникальность UUID
 записей и вложенных источников проверяет валидатор. SQL-FK используют UUID.
@@ -43,6 +47,11 @@ SQLite — источник истины. `packages/database/data/` — гене
 | 152    | 0       | `152`                   |
 | 152    | 1       | `152-rev-1`             |
 | 152    | 2       | `152-rev-2`             |
+
+Это примеры допустимых обозначений, не перечень текущего наполнения.
+`variant > 0` назначается при установленных различиях пакетного контракта под
+одинаковым номером, а не из-за другой страны, ветки или выпуска. До такой проверки
+используется `variant: 0`, а неизвестные различия остаются открытыми вопросами.
 
 У технической редакции `rev` — положительное целое. Обычная правка текста не
 создаёт редакцию. У выпуска хроники собственный `code`, числового `rev` нет.
@@ -57,6 +66,8 @@ SQLite — источник истины. `packages/database/data/` — гене
 | Таблица                       | Поля                                                             | Первичный ключ    |
 | ----------------------------- | ---------------------------------------------------------------- | ----------------- |
 | `chronicle_release_protocols` | `chronicle_release_id`, `protocol_id`, `position`                | выпуск/протокол   |
+| `release_context_protocols`   | `release_context_id`, `protocol_id`, `position`                  | контекст/протокол |
+| `release_context_countries`   | `release_context_id`, `country_id`, `position`                   | контекст/страна   |
 | `packet_protocols`            | `packet_id`, `protocol_id`, `packet_revision_id`, `position`     | пакет/протокол    |
 | `scenario_protocols`          | `scenario_id`, `protocol_id`, `scenario_revision_id`, `position` | сценарий/протокол |
 | `article_protocols`           | `article_id`, `protocol_id`, `article_revision_id`, `position`   | статья/протокол   |
@@ -68,6 +79,13 @@ SQLite — источник истины. `packages/database/data/` — гене
 позиции уникальны внутри этого списка. В таблицах применимости `position`
 не входит в PK и не задаёт приоритет редакций.
 
+`chronicle_release_protocols` содержит только ещё неуточнённые по контексту связи.
+Региональные соответствия принадлежат `release_context_protocols`; таблицы не
+используются как два независимых полных списка одного факта. У контекста свои
+источники и nullable регион. Несколько контекстов одного региона допустимы.
+`released_on` — TEXT с точностью года/месяца/дня либо NULL; SQL проверяет форму,
+предметный валидатор — календарь и наличие источника у региональных фактов.
+
 Протокол может существовать без привязки к выпуску. Ветка и хроника не дублируются
 в протоколе. Все статьи используют явную применимость.
 
@@ -76,6 +94,9 @@ SQLite — источник истины. `packages/database/data/` — гене
 | Таблица                          | Предметный FK          |
 | -------------------------------- | ---------------------- |
 | `branch_translations`            | `branch_id`            |
+| `region_translations`            | `region_id`            |
+| `country_translations`           | `country_id`           |
+| `release_context_translations`   | `release_context_id`   |
 | `chronicle_translations`         | `chronicle_id`         |
 | `chronicle_release_translations` | `chronicle_release_id` |
 | `protocol_translations`          | `protocol_id`          |
@@ -103,7 +124,6 @@ SQL проверяет форму массивов JSON; контракт объ
 
 | Таблица                    | Поля                                              | Первичный ключ      |
 | -------------------------- | ------------------------------------------------- | ------------------- |
-| `protocol_regions`         | `protocol_id`, `region`, `position`               | профиль/регион      |
 | `protocol_login_revisions` | `protocol_id`, `number`, `position`               | профиль/login-номер |
 | `packet_revision_opcodes`  | `packet_revision_id`, `position`, `type`, `value` | редакция/позиция    |
 | `packet_revision_states`   | `packet_revision_id`, `state`, `position`         | редакция/состояние  |
@@ -123,17 +143,18 @@ SQLite проверяет разрядность `value`; валидатор —
 
 - `locales(code TEXT PK, position INTEGER UNIQUE)` — языки и неотрицательный порядок реестра;
 - `metadata(id INTEGER PK, schema_rev INTEGER, data_version TEXT, default_locale TEXT FK)` —
-  после инициализации одна строка с `id = 1`, `schema_rev = 19`; основной язык входит в `locales`.
+  после инициализации одна строка с `id = 1`, `schema_rev = 20`; основной язык входит в `locales`.
 
-Всего **29 таблиц**, все `STRICT`, с первичными ключами. FK включены при обычных
+Всего **36 таблиц**, все `STRICT`, с первичными ключами. FK включены при обычных
 операциях. Семантика удаления:
 
-| Связь                                                             | Поведение SQL                                                   |
-| ----------------------------------------------------------------- | --------------------------------------------------------------- |
-| Хроника → ветка; выпуск → хроника; редакция → карточка            | Используемого владельца нельзя удалить, пока сохраняется ссылка |
-| Применимость → протокол; перевод → язык; metadata → основной язык | Используемая запись защищена FK                                 |
-| Перевод или техническая деталь → владелец                         | `ON DELETE CASCADE`                                             |
-| Применимость → выпуск или пара карточка/редакция                  | `ON DELETE CASCADE`                                             |
+| Связь                                                             | Поведение SQL                                                                  |
+| ----------------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| Хроника → ветка; выпуск → хроника; редакция → карточка            | Используемого владельца нельзя удалить, пока сохраняется ссылка                |
+| Контекст → выпуск/регион; контекстная связь → страна              | Используемый выпуск, регион или страну нельзя удалить, пока сохраняется ссылка |
+| Применимость → протокол; перевод → язык; metadata → основной язык | Используемая запись защищена FK                                                |
+| Перевод или техническая деталь → владелец                         | `ON DELETE CASCADE`                                                            |
+| Применимость → выпуск или пара карточка/редакция                  | `ON DELETE CASCADE`                                                            |
 
 API удаления карточки знания явно удаляет её редакции и проверяет конечный снимок
 одной транзакцией. Это поведение API дополняет ограничения физической схемы.

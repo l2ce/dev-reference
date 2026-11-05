@@ -1,0 +1,10 @@
+{
+  "chronicle_release_id": "3b673451-ae35-463f-ad65-bf150e699dff",
+  "locale": "ru",
+  "title": "Classic Beta",
+  "summary": "Classic Beta — выпуск в контексте Classic / Legacy.",
+  "description": "Classic Beta — выпуск в контексте Classic / Legacy.\n\nИсходная строка технического каталога: «Beta». Названия строки сохранены для проверки происхождения; их совместное написание не устанавливает глобальную синонимию. Номера относятся к Game, не к Login. Даты региональных выпусков и форматы пакетов из этой таблицы не следуют.",
+  "sources_json": "[{\"id\":\"3da54750-5aaf-44e5-b62f-3b3a89629c3e\",\"url\":\"https://web.archive.org/web/20260207220723id_/http://akumu.ru/lineage2/protocols.html\",\"title\":\"Akumu: таблица протоколов, архивный снимок 07.02.2026\",\"summary\":\"Заявленные названия, регионы и Game-номера. Не подтверждает форматы пакетов, совместимость или проверку официального клиента.\"},{\"id\":\"c2f8db23-0c2a-4496-b99c-b86043c4c868\",\"url\":\"https://github.com/l2ce/dev-reference/blob/bf02a206a5c73f22320d70145a8db90b158e9602/docs/research/lineage2-classification.md\",\"title\":\"L2CE: классификация веток, выпусков и протоколов, 27.10.2026\",\"summary\":\"Производное исследование: происхождение утверждений, региональные различия, неустановленные связи и ограничения источников.\"}]",
+  "translation_status": "ready",
+  "open_questions_json": "[]"
+}

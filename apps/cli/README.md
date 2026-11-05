@@ -9,10 +9,10 @@
 Из корня проекта, Node.js 24 и pnpm:
 
 ```bash
-pnpm db:build
-pnpm db import
-pnpm db status
-pnpm db --help
+pnpm cli:build
+pnpm cli import
+pnpm cli status
+pnpm cli --help
 ```
 
 По умолчанию используется `packages/database/.local/database.sqlite`.
@@ -22,21 +22,21 @@ pnpm db --help
 ## Поиск и чтение
 
 ```bash
-pnpm db protocols list --branch main --number 152
-pnpm db protocols get 152 152-rev-1 --locale ru
-pnpm db chronicles list --branch main
-pnpm db releases get high-five:base
+pnpm cli protocols list --branch main --number 152
+pnpm cli protocols get 152 152-rev-1 --locale ru
+pnpm cli chronicles list --branch main
+pnpm cli releases get high-five:base
 
-pnpm db packets list --protocol 273 --server game
-pnpm db search --protocol 273 --locale ru --query "соединение"
-pnpm db search --protocol 273 --kind packet --status missing
-pnpm db packets get protocol-version key-packet --protocol 273 --locale ru
-pnpm db read packet:protocol-version scenario:game-connection --protocol 273 --json
+pnpm cli packets list --protocol 273 --server game
+pnpm cli search --protocol 273 --locale ru --query "соединение"
+pnpm cli search --protocol 273 --kind packet --status missing
+pnpm cli packets get protocol-version key-packet --protocol 273 --locale ru
+pnpm cli read packet:protocol-version scenario:game-connection --protocol 273 --json
 ```
 
-Группы: `branches`, `chronicles`, `releases`, `protocols`, `packets`, `scenarios`,
+Группы: `branches`, `chronicles`, `releases`, `contexts`, `regions`, `countries`, `protocols`, `packets`, `scenarios`,
 `articles`. Внутри группы достаточно короткого ключа: `key-packet`, `273`,
-`152-rev-1`, `high-five:base`. Полные `packet:...`, `protocol:...` тоже принимаются.
+`152-rev-1`, `high-five:base`, `high-five:base:na`. Полные `packet:...`, `protocol:...` тоже принимаются.
 Для смешанного чтения через `read` указываются полные ключи.
 
 `get` знаний требует протокол. Выбирается только применимая редакция и указанный
@@ -53,10 +53,10 @@ Markdown возвращается буквально, включая внутр�
 Для исследования исходных данных:
 
 ```bash
-pnpm db packets inspect key-packet
-pnpm db packets revisions key-packet
-pnpm db packets inspect key-packet --rev 1 --json
-pnpm db packets schema --rev 1 --json
+pnpm cli packets inspect key-packet
+pnpm cli packets revisions key-packet
+pnpm cli packets inspect key-packet --rev 1 --json
+pnpm cli packets schema --rev 1 --json
 ```
 
 `inspect` возвращает технические поля и все переводы. `schema` доступна до
@@ -65,12 +65,31 @@ pnpm db packets schema --rev 1 --json
 
 ## Создание и изменение
 
+Региональные контексты редактируются независимо от номера протокола:
+
 ```bash
-pnpm db protocols create 152-rev-2 --title "Отдельный клиентский контекст"
-pnpm db packets create example --name ExamplePacket --server game --direction client-to-server
-pnpm db packets add-revision example --rev 1 --protocols 268,273 --title "Пример" --markdown example.md
-pnpm db packets update example --name ExampleMessage
-pnpm db packets update-revision example --rev 1 --protocols 268,273 --file technical-patch.json
+pnpm cli regions list
+pnpm cli contexts list --release high-five:base --region na
+pnpm cli contexts get high-five:base:na --locale ru
+pnpm cli protocols list --chronicle high-five --region na
+pnpm cli contexts update high-five:base:na --file regional-patch.json --dry-run
+```
+
+В JSON контекста доступны `regionKey`, `releasedOn`, `countryKeys`, `protocolKeys`,
+`order`, `status`, `translations`. Дата сохраняет точность `YYYY`, `YYYY-MM`,
+`YYYY-MM-DD`; неизвестное значение — `null`. Для конкретных региональных фактов
+передайте источники в переводах. Регион и язык `--locale` независимы.
+При создании короткого `code` можно указать `--release high-five:base`;
+`--file` и `batch` поддерживают полный контракт. Прямые `protocolKeys` выпуска —
+только связи с ещё неустановленным контекстом; региональная применимость задаётся
+в `contexts`, не в протоколе.
+
+```bash
+pnpm cli protocols create 152-rev-2 --title "Отдельный клиентский контекст"
+pnpm cli packets create example --name ExamplePacket --server game --direction client-to-server
+pnpm cli packets add-revision example --rev 1 --protocols 268,273 --title "Пример" --markdown example.md
+pnpm cli packets update example --name ExampleMessage
+pnpm cli packets update-revision example --rev 1 --protocols 268,273 --file technical-patch.json
 ```
 
 `--file` принимает поля записи или patch в JSON. `--file -` читает stdin.
@@ -82,8 +101,8 @@ JSON Schema описывает полный контракт базы; `generate
 Отдельный перевод удобно изменять командой `translate`:
 
 ```bash
-pnpm db packets translate example --rev 1 --locale en --title "Example" --markdown example.en.md
-pnpm db packets translate example --rev 1 --locale ru --file translation.json
+pnpm cli packets translate example --rev 1 --locale en --title "Example" --markdown example.en.md
+pnpm cli packets translate example --rev 1 --locale ru --file translation.json
 ```
 
 Она объединяет переданные поля с выбранным переводом, сохраняя остальные языки,
@@ -92,10 +111,10 @@ pnpm db packets translate example --rev 1 --locale ru --file translation.json
 В обычном `update` массивы, включая `translations`, заменяются целиком.
 
 ```bash
-pnpm db packets update example --name NewName --dry-run --json
-pnpm db packets update example --name NewName --if-revision <revision>
-pnpm db packets delete example --rev 1
-pnpm db packets delete example
+pnpm cli packets update example --name NewName --dry-run --json
+pnpm cli packets update example --name NewName --if-revision <revision>
+pnpm cli packets delete example --rev 1
+pnpm cli packets delete example
 ```
 
 Запись выводит действие, читаемые ключи, изменяемые поля, число изменённых записей
@@ -111,8 +130,8 @@ pnpm db packets delete example
 ## Пакеты операций
 
 ```bash
-pnpm db batch --file changes.json --dry-run --json
-pnpm db batch --file changes.json
+pnpm cli batch --file changes.json --dry-run --json
+pnpm cli batch --file changes.json
 ```
 
 Формат: `{ "operations": [...], "ifRevision": "необязательный SHA-256" }`.

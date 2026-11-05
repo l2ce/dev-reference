@@ -1,8 +1,0 @@
-{
-  "id": "fea177fe-e419-4bd8-82f4-6f69f0d54160",
-  "code": "user-info",
-  "sort_order": 40,
-  "name": "UserInfo",
-  "server": "game",
-  "direction": "server-to-client"
-}

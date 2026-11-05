@@ -1,8 +1,0 @@
-{
-  "id": "3a153386-aae2-4e1d-a8b3-a81767f5924b",
-  "code": "protocol-version",
-  "sort_order": 10,
-  "name": "ProtocolVersion",
-  "server": "game",
-  "direction": "client-to-server"
-}

@@ -1,13 +1,8 @@
 .root {
   display: grid;
   min-width: 0;
-  padding: 2rem 1.25rem 4rem;
+  padding-block: 2.5rem 4rem;
   gap: 2.5rem;
-  max-width: 82rem;
-  margin: 0 auto;
-  @media (--md) {
-    padding: 2.5rem 2.5rem 5rem;
-  }
   @media (--xl) {
     grid-template-columns: minmax(0, 1fr) 10rem;
   }

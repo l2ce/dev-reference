@@ -20,6 +20,7 @@ function htmlFiles(directory) {
 const files = htmlFiles(root)
 assert.ok(existsSync(resolve(root, '404.html')), 'Экспорт должен содержать 404.html')
 for (const file of files) {
+  assert.ok(!file.includes('/__empty__/'), `${file}: технический маршрут не должен публиковаться`)
   const source = readFileSync(file, 'utf8')
   assert.ok(
     source.indexOf('id="l2ce-theme-bootstrap"') < source.indexOf('<body'),
@@ -41,6 +42,11 @@ for (const file of files) {
     assert.ok(existsSync(target), `${file}: ссылка на отсутствующий файл ${url}`)
   }
 }
+assert.doesNotMatch(
+  readFileSync(resolve(root, 'sitemap.xml'), 'utf8'),
+  /__empty__/,
+  'Технический маршрут попал в sitemap'
+)
 for (const locale of ['ru', 'en']) {
   const directory = locale === 'en' ? root : resolve(root, locale)
   const html = readFileSync(resolve(directory, 'index.html'), 'utf8')

@@ -1,14 +1,4 @@
-import type { ReferenceCatalogSummary, ReferenceSummary } from '@l2ce/core/reference'
-
-/**
- * Карточка выбора протокола с реальной полнотой его каталога.
- */
-export interface ProtocolCard extends ReferenceCatalogSummary {
-  /* Число применимых документов, включая неполные описания. */
-  readonly documentCount: number
-  /* Установленные регионы; пустой список означает отсутствие данных. */
-  readonly regions: readonly string[]
-}
+import type { ReferenceSummary } from '@l2ce/core/reference'
 
 /**
  * Статический индекс документов одного профиля и выбранного языка.

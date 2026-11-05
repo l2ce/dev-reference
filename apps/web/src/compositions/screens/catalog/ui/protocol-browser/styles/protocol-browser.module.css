@@ -1,0 +1,53 @@
+.root {
+  min-width: 0;
+}
+
+.introduction {
+  display: grid;
+  align-items: start;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+
+  @media (--lg) {
+    grid-template-columns: minmax(0, 1fr) 23rem;
+    gap: 3rem;
+    margin-bottom: 2.5rem;
+  }
+}
+
+.hint {
+  margin: 0 0 0.75rem;
+  color: var(--app-muted);
+  font-size: 0.8125rem;
+  white-space: pre-line;
+}
+
+.navigation {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  margin-bottom: 0.875rem;
+  font-size: 0.875rem;
+}
+
+.groups {
+  display: grid;
+  gap: 2rem;
+}
+
+.empty {
+  padding: 2.5rem 1rem;
+  border-block: 1px solid var(--app-border);
+  text-align: center;
+}
+
+.emptyTitle {
+  margin: 0 0 0.75rem;
+  font-size: 1.25rem;
+}
+
+.emptyHint {
+  margin: 0 0 1.25rem;
+  color: var(--app-muted);
+  font-size: 0.9375rem;
+}

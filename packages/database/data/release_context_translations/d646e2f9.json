@@ -1,0 +1,10 @@
+{
+  "release_context_id": "bf773a1e-af4f-4cdf-bf92-2c07781a41fe",
+  "locale": "en",
+  "title": "KR",
+  "summary": "Regional release context: base / KR.",
+  "description": "Associations were transferred from the original contextual catalog records, not from the protocol-wide region union. These are source claims, not validation of an official client. The release date and countries have not been established.\n\nGame protocol 269: Homunculus.\n\nGame protocol 273: Homunculus.\n\nGame protocol 274: Homunculus.\n\nGame protocol 275: Homunculus.",
+  "sources_json": "[{\"id\":\"f2d64f81-4350-4de2-af90-4a8515b2df2b\",\"url\":\"https://web.archive.org/web/20260207220723id_/http://akumu.ru/lineage2/protocols.html\",\"title\":\"Akumu: таблица протоколов, архивный снимок 07.02.2026\",\"summary\":\"Evidence and limitations are described in the cited source and the project research dated 27–30 October 2026. This is not a capture or validation of an official client.\"},{\"id\":\"c7981b92-68f7-4990-8065-470aa1fe6169\",\"url\":\"https://github.com/l2ce/dev-reference/blob/bf02a206a5c73f22320d70145a8db90b158e9602/docs/research/lineage2-classification.md\",\"title\":\"L2CE: классификация веток, выпусков и протоколов, 27.10.2026\",\"summary\":\"Evidence and limitations are described in the cited source and the project research dated 27–30 October 2026. This is not a capture or validation of an official client.\"}]",
+  "translation_status": "ready",
+  "open_questions_json": "[\"Verify the number and exact official client build; preserve an artifact or exchange capture.\",\"Establish the Login revision, framing, encoding, encryption and packet formats for this profile.\",\"Homunculus KR / 273 has not been independently confirmed outside Akumu; do not treat it as a verified reuse of the number.\"]"
+}

@@ -1,0 +1,10 @@
+{
+  "chronicle_release_id": "34190f21-d1d8-43f6-94f6-734dcf22db94",
+  "locale": "en",
+  "title": "Kamael Part 2",
+  "summary": "Kamael Part 2 is a release in Aden / Essence.",
+  "description": "Kamael Part 2 is a release in Aden / Essence.\n\nOriginal technical catalog row: “Kamael Part 2”. The row names are preserved for provenance, not as globally established synonyms. Numbers refer to Game, not Login. This table does not establish regional release dates or packet formats.",
+  "sources_json": "[{\"id\":\"08749df7-3ebc-4a19-bf3b-f5158770043a\",\"url\":\"https://web.archive.org/web/20260207220723id_/http://akumu.ru/lineage2/protocols.html\",\"title\":\"Akumu: таблица протоколов, архивный снимок 07.02.2026\",\"summary\":\"Evidence and limitations are described in the cited source and the project research dated 27–30 October 2026. This is not a capture or validation of an official client.\"},{\"id\":\"46159294-74dc-4a50-b3a2-d2ec181fe692\",\"url\":\"https://github.com/l2ce/dev-reference/blob/bf02a206a5c73f22320d70145a8db90b158e9602/docs/research/lineage2-classification.md\",\"title\":\"L2CE: классификация веток, выпусков и протоколов, 27.10.2026\",\"summary\":\"Evidence and limitations are described in the cited source and the project research dated 27–30 October 2026. This is not a capture or validation of an official client.\"}]",
+  "translation_status": "ready",
+  "open_questions_json": "[]"
+}

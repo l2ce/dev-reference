@@ -1,7 +1,7 @@
 import * as z from 'zod'
 
 /**
- * Формат 19: общая предметная база, независимые переводы и варианты номера протокола.
+ * Формат 20: общая предметная база и региональные контексты выпусков.
  */
 export const localeSchema = z.string().regex(/^[a-z]{2,3}(?:-[A-Za-z0-9]{2,8})*$/)
 export const idSchema = z.uuidv4().regex(/^[0-9a-f-]+$/)
@@ -10,7 +10,7 @@ export const revSchema = z.number().int().positive().max(Number.MAX_SAFE_INTEGER
 export const keySchema = z
   .string()
   .regex(
-    /^(branch|packet|scenario|article|protocol|chronicle):[a-z0-9]+(?:[.-][a-z0-9]+)*(?::[a-z0-9]+(?:[.-][a-z0-9]+)*)*$/
+    /^(branch|packet|scenario|article|protocol|chronicle|region|country):[a-z0-9]+(?:[.-][a-z0-9]+)*(?::[a-z0-9]+(?:[.-][a-z0-9]+)*)*$/
   )
 export const serverSchema = z.enum(['login', 'game'])
 export const statusSchema = z.enum(['missing', 'partial', 'documented'])
@@ -42,6 +42,23 @@ const named = {
   order: z.number().int().nullable().default(null)
 }
 const research = { status: statusSchema.default('missing') }
+/**
+ * Проверяет календарную дату с явно сохранённой точностью года, месяца или дня.
+ */
+export const releaseDateSchema = z
+  .string()
+  .regex(/^\d{4}(?:-\d{2}(?:-\d{2})?)?$/)
+  .refine((value) => {
+    const [year, month, day] = value.split('-').map(Number)
+    if (year < 1 || (month !== undefined && (month < 1 || month > 12))) {
+      return false
+    }
+    if (day === undefined) {
+      return true
+    }
+    const date = new Date(`${value}T00:00:00Z`)
+    return date.getUTCFullYear() === year && date.getUTCMonth() + 1 === month && date.getUTCDate() === day
+  })
 export const opcodeSchema = z
   .array(
     z.strictObject({
@@ -54,10 +71,22 @@ export const opcodeSchema = z
   .nullable()
 export const entitySchemas = {
   branches: z.strictObject({ ...named, translations }),
+  regions: z.strictObject({ ...named, translations }),
+  countries: z.strictObject({ ...named, translations }),
   chronicles: z.strictObject({ ...named, branchKey: keySchema, translations }),
   'chronicle-releases': z.strictObject({
     ...named,
     chronicleKey: keySchema,
+    protocolKeys: z.array(keySchema).default([]),
+    ...research,
+    translations
+  }),
+  'release-contexts': z.strictObject({
+    ...named,
+    releaseKey: keySchema,
+    regionKey: keySchema.nullable().default(null),
+    releasedOn: releaseDateSchema.nullable().default(null),
+    countryKeys: z.array(keySchema).default([]),
     protocolKeys: z.array(keySchema).default([]),
     ...research,
     translations
@@ -67,7 +96,6 @@ export const entitySchemas = {
     number: z.number().int().nonnegative(),
     variant: z.number().int().nonnegative().default(0),
     ...research,
-    regions: z.array(text).default([]),
     loginRevisions: z.array(z.number().int().nonnegative()).default([]),
     translations
   }),
@@ -127,7 +155,7 @@ export const entryEnvelopeSchema = z.discriminatedUnion('kind', [
 ])
 export const manifestSchema = z
   .strictObject({
-    schemaVersion: z.literal(19),
+    schemaVersion: z.literal(20),
     dataVersion: z.string().regex(/^[a-zA-Z0-9][a-zA-Z0-9._-]{0,63}$/),
     defaultLocale: localeSchema,
     locales: z.array(localeSchema).min(1)

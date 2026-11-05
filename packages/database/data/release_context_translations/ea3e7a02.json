@@ -1,0 +1,10 @@
+{
+  "release_context_id": "fbb529d5-325c-4ff4-9972-6ef24c1359d6",
+  "locale": "en",
+  "title": "RU",
+  "summary": "Regional release context: base / RU.",
+  "description": "Associations were transferred from the original contextual catalog records, not from the protocol-wide region union. These are source claims, not validation of an official client. The release date and countries have not been established.\n\nGame protocol 447: Kelbim's Fortress.",
+  "sources_json": "[{\"id\":\"bc9a638e-8951-4f31-8d8d-2dc6f36d9bcc\",\"url\":\"https://web.archive.org/web/20260207220723id_/http://akumu.ru/lineage2/protocols.html\",\"title\":\"Akumu: таблица протоколов, архивный снимок 07.02.2026\",\"summary\":\"Evidence and limitations are described in the cited source and the project research dated 27–30 October 2026. This is not a capture or validation of an official client.\"},{\"id\":\"60d32be3-9919-4c0d-91d5-92ba5d37e56b\",\"url\":\"https://github.com/l2ce/dev-reference/blob/bf02a206a5c73f22320d70145a8db90b158e9602/docs/research/lineage2-classification.md\",\"title\":\"L2CE: классификация веток, выпусков и протоколов, 27.10.2026\",\"summary\":\"Evidence and limitations are described in the cited source and the project research dated 27–30 October 2026. This is not a capture or validation of an official client.\"}]",
+  "translation_status": "ready",
+  "open_questions_json": "[\"Verify the number and exact official client build; preserve an artifact or exchange capture.\",\"Establish the Login revision, framing, encoding, encryption and packet formats for this profile.\",\"Compare regional builds: listing regions from the same catalog row does not prove identical wire formats.\"]"
+}

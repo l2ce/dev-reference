@@ -1,10 +1,10 @@
 {
   "branch_id": "e8b3798b-649e-406c-9277-b9f9c15c9a32",
   "locale": "en",
-  "title": "Main",
-  "summary": "The original Lineage II development line, from early chronicles to later updates.",
-  "description": "# Main\n\nChronicles of the main game line. Releases help locate a protocol; technical documentation belongs to a specific exchange profile.\n\n## In this reference\n\n- Gracia Epilogue\n- High Five\n- Orfen\n",
-  "sources_json": "[]",
+  "title": "Main / Live",
+  "summary": "Main / Live is a historical development line of PC Lineage II.",
+  "description": "Main / Live is a historical development line of PC Lineage II.\n\nBranch, service name, region, client build and protocol number are separate concepts. Sharing a number with another branch does not establish compatibility.",
+  "sources_json": "[{\"id\":\"695cfc88-a55b-4902-8dcd-808e856d4987\",\"url\":\"https://web.archive.org/web/20191114161726/https://forums.lineage2.com/topic/2767-classic-launch-faq/\",\"title\":\"NCsoft West: Classic Launch FAQ, 20.09.2018\",\"summary\":\"Evidence and limitations are described in the cited source and the project research dated 27–30 October 2026. This is not a capture or validation of an official client.\"},{\"id\":\"0392be04-df89-4808-b9c4-cced8fe45734\",\"url\":\"https://github.com/l2ce/dev-reference/blob/bf02a206a5c73f22320d70145a8db90b158e9602/docs/research/lineage2-classification.md\",\"title\":\"L2CE: классификация веток, выпусков и протоколов, 27.10.2026\",\"summary\":\"Evidence and limitations are described in the cited source and the project research dated 27–30 October 2026. This is not a capture or validation of an official client.\"}]",
   "translation_status": "ready",
   "open_questions_json": "[]"
 }

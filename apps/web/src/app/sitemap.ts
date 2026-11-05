@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next'
-import { documentPath, protocolPath, sectionPath, KNOWLEDGE_SECTIONS } from 'domains/reference'
+import { documentPath, protocolPath, chroniclePath, sectionPath, KNOWLEDGE_SECTIONS } from 'domains/reference'
 import { localePath } from 'shared/localization'
-import { getDocumentRoutes, getLocales, getProtocolRoutes } from 'domains/reference/server'
+import { getDocumentRoutes, getLocales, getProtocolRoutes, getChronicleRoutes } from 'domains/reference/server'
 import { siteConfig } from 'infra/site-config'
 
 export const dynamic = 'force-static'
@@ -16,6 +16,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       KNOWLEDGE_SECTIONS.map((section) => sectionPath(route.locale, route.protocol, section.kind))
     ),
     ...getProtocolRoutes().map((route) => protocolPath(route.locale, route.protocol)),
+    ...getChronicleRoutes().map((route) => chroniclePath(route.locale, route.chronicle)),
     ...getDocumentRoutes().map((route) => documentPath(route.locale, route.protocol, `${route.kind}:${route.code}`))
   ]
   return paths.map((path) => ({

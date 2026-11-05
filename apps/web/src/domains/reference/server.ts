@@ -9,4 +9,6 @@ export {
   getProtocolRoutes,
   getDocumentRoutes
 } from './reference'
-export { getProtocolCatalog, getKnowledgeIndex, getProtocolTargets } from './navigation'
+export { getKnowledgeIndex, getProtocolTargets } from './navigation'
+export { getProtocolCatalog } from './operations/get-protocol-catalog.server'
+export { getChronicle, getChronicleRoutes } from './operations/get-chronicle.server'

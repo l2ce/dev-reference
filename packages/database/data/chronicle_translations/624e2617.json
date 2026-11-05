@@ -1,0 +1,10 @@
+{
+  "chronicle_id": "55d41413-e21a-4f9d-af7f-85718d5ef806",
+  "locale": "ru",
+  "title": "Samurai Crow",
+  "summary": "Samurai Crow — запись каталога ветки Основная линия.",
+  "description": "Samurai Crow — запись каталога ветки Основная линия.\n\nИменованные части представлены отдельными выпусками. Порядок каталога не является датой выхода; протоколы связаны с выпусками явно, без наследования применимости.",
+  "sources_json": "[{\"id\":\"67dc2b4a-3004-4d99-8f96-b39b7d0ebfcd\",\"url\":\"https://na-lineage2.plaync.com/en-us/board/l2live/view?articleId=69016abd74d3e141c20b1b68\",\"title\":\"NCsoft NA: Live Samurai Crow Update Details\",\"summary\":\"Официальное название обновления Live; номер протокола в исследовании не установлен.\"},{\"id\":\"02a47115-88b5-47f9-a1b4-12d637b239a0\",\"url\":\"https://github.com/l2ce/dev-reference/blob/bf02a206a5c73f22320d70145a8db90b158e9602/docs/research/lineage2-classification.md\",\"title\":\"L2CE: классификация веток, выпусков и протоколов, 27.10.2026\",\"summary\":\"Производное исследование: происхождение утверждений, региональные различия, неустановленные связи и ограничения источников.\"}]",
+  "translation_status": "ready",
+  "open_questions_json": "[]"
+}

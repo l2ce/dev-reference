@@ -4,7 +4,9 @@ import { createTheme, Input } from '@mantine/core'
  * Общая типографика и визуальные параметры справочника.
  */
 export const theme = createTheme({
-  primaryColor: 'indigo',
+  primaryColor: 'gray',
+  primaryShade: { light: 8, dark: 2 },
+  autoContrast: true,
   defaultRadius: 'xs',
   radius: { xs: '2px', sm: '3px', md: '3px', lg: '3px', xl: '3px' },
   fontFamily: 'ui-sans-serif, system-ui, -apple-system, sans-serif',

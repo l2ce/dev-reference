@@ -10,6 +10,13 @@ export function protocolPath(locale: Locale, protocol: string): string {
 }
 
 /**
+ * Адрес постоянной карточки хроники, независимый от порядка её выпусков.
+ */
+export function chroniclePath(locale: Locale, chronicle: string): string {
+  return localePath(locale, `/chronicles/${encodeURIComponent(chronicle.replace(/^chronicle:/, ''))}/`)
+}
+
+/**
  * Строит контекстную ссылку на логическую карточку знания.
  */
 export function documentPath(locale: Locale, protocol: string, key: string): string {

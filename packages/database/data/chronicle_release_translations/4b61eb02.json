@@ -2,9 +2,9 @@
   "chronicle_release_id": "49d09ca4-6360-4789-8464-fde522ff42be",
   "locale": "en",
   "title": "High Five",
-  "summary": "Release with no named part assigned.",
-  "description": "# High Five\n\n## Protocols\n\n- `268`\n- `273`\n\nThe correspondence with regional release parts remains to be established.\n",
-  "sources_json": "[]",
+  "summary": "High Five is a release in Main / Live.",
+  "description": "High Five is a release in Main / Live.\n\nThe base code means no more specific named part has been established; it is not a release number or priority.\n\nOriginal technical catalog row: “High Five”. The row names are preserved for provenance, not as globally established synonyms. Numbers refer to Game, not Login. This table does not establish regional release dates or packet formats.",
+  "sources_json": "[{\"id\":\"d4c5574d-54dd-49f8-aee5-9c2a3675af1c\",\"url\":\"https://web.archive.org/web/20260207220723id_/http://akumu.ru/lineage2/protocols.html\",\"title\":\"Akumu: таблица протоколов, архивный снимок 07.02.2026\",\"summary\":\"Evidence and limitations are described in the cited source and the project research dated 27–30 October 2026. This is not a capture or validation of an official client.\"},{\"id\":\"e2801fd8-9ea4-4d85-aa62-c03e0194db51\",\"url\":\"https://github.com/l2ce/dev-reference/blob/bf02a206a5c73f22320d70145a8db90b158e9602/docs/research/lineage2-classification.md\",\"title\":\"L2CE: классификация веток, выпусков и протоколов, 27.10.2026\",\"summary\":\"Evidence and limitations are described in the cited source and the project research dated 27–30 October 2026. This is not a capture or validation of an official client.\"}]",
   "translation_status": "ready",
-  "open_questions_json": "[]"
+  "open_questions_json": "[\"Establish High Five parts from specific builds: Part 4/5 and Update 1/2/3 cannot automatically be assigned to all numbers.\"]"
 }

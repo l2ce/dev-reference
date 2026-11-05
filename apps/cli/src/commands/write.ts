@@ -50,6 +50,7 @@ function normalizePayload(input: Readonly<Record<string, unknown>>): Record<stri
   for (const [field, kind] of [
     ['branchKey', 'branch'],
     ['chronicleKey', 'chronicle'],
+    ['releaseKey', 'chronicle'],
     ['packetKey', 'packet'],
     ['scenarioKey', 'scenario'],
     ['articleKey', 'article']
@@ -57,6 +58,15 @@ function normalizePayload(input: Readonly<Record<string, unknown>>): Record<stri
     if (field in result) {
       result[field] = referenceKey(kind, z.string().parse(result[field]))
     }
+  }
+  if ('regionKey' in result && result.regionKey !== null) {
+    result.regionKey = referenceKey('region', z.string().parse(result.regionKey))
+  }
+  if ('countryKeys' in result) {
+    result.countryKeys = z
+      .array(z.string())
+      .parse(result.countryKeys)
+      .map((key) => referenceKey('country', key))
   }
   if ('protocolKeys' in result) {
     result.protocolKeys = z
@@ -117,6 +127,9 @@ export async function prepareWrite(args: CliArguments, snapshot: DatabaseSnapsho
   if (args.group === 'releases' && args.chronicle && !value.includes(':')) {
     value = `${args.chronicle.replace(/^chronicle:/, '')}:${value}`
   }
+  if (args.group === 'contexts' && args.release && !value.includes(':')) {
+    value = `${args.release.replace(/^chronicle:/, '')}:${value}`
+  }
   const target = commandAddress(args.group, value, args.rev)
   if (args.command === 'delete') {
     return { op: 'delete', target }
@@ -143,6 +156,12 @@ export async function prepareWrite(args: CliArguments, snapshot: DatabaseSnapsho
   if (args.chronicle !== undefined) {
     payload.chronicleKey = referenceKey('chronicle', args.chronicle)
   }
+  if (args.region !== undefined) {
+    payload.regionKey = referenceKey('region', args.region)
+  }
+  if (args.group === 'contexts' && args.release !== undefined) {
+    payload.releaseKey = referenceKey('chronicle', args.release)
+  }
   for (const field of ['name', 'server', 'direction', 'status'] as const) {
     if (args[field] !== undefined) {
       payload[field] = args[field]
@@ -168,6 +187,12 @@ export async function prepareWrite(args: CliArguments, snapshot: DatabaseSnapsho
       number: Number(number),
       variant: Number(variant ?? 0)
     })
+  } else if (args.group === 'contexts') {
+    const parts = target.key.split(':')
+    if (parts.length !== 4) {
+      throw new DatabaseError('USAGE', messages.identityMismatch)
+    }
+    payload = withIdentity(payload, { key: target.key, code: parts[3], releaseKey: parts.slice(0, 3).join(':') })
   } else if (args.group === 'releases') {
     const parts = target.key.split(':')
     if (parts.length !== 3) {

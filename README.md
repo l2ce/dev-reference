@@ -53,10 +53,10 @@ pnpm run database import
 pnpm run database status
 
 # Предметное чтение и запись:
-pnpm db:build
-pnpm db protocols list
-pnpm db batch --file changes.json
-pnpm db export
+pnpm cli:build
+pnpm cli protocols list
+pnpm cli batch --file changes.json
+pnpm cli export
 git diff -- packages/database/data
 ```
 

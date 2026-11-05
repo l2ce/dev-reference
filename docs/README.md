@@ -36,3 +36,7 @@
 - [Ветки, выпуски и номера протоколов](research/lineage2-classification.md).
 - [Независимая проверка повторяющихся номеров](research/independent-protocol-verification.md).
 - [Серверный обмен и основания модели](research/server-protocol-model.md).
+- [Первичное наполнение каталога](research/catalog-population.md) — перенесённые
+  данные, группировка выпусков, различение профилей и оставшиеся неопределённости.
+- [Региональный каталог, схема 20](research/regional-catalog-transition.md) — перенос
+  исходных региональных соответствий, порядок Akumu и границы наполнения.

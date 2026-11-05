@@ -114,7 +114,7 @@ import fcntl, os, pty, struct, sys, termios
 pid, fd = pty.fork()
 if pid == 0:
     os.execv(sys.argv[1], sys.argv[1:])
-fcntl.ioctl(fd, termios.TIOCSWINSZ, struct.pack('HHHH', 32, 160, 0, 0))
+fcntl.ioctl(fd, termios.TIOCSWINSZ, struct.pack('HHHH', 48, 160, 0, 0))
 while True:
     try:
         data = os.read(fd, 65536)

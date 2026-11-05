@@ -55,3 +55,13 @@ export type EnglishProtocolPageProps = RouteProps<Omit<ProtocolRoute, 'locale'>>
  * Параметры документа в английской ветке без locale-сегмента.
  */
 export type EnglishDocumentPageProps = RouteProps<Omit<DocumentRoute, 'locale'>>
+
+/**
+ * Параметры английской страницы хроники.
+ */
+export type EnglishChroniclePageProps = RouteProps<{ readonly chronicle: string }>
+
+/**
+ * Параметры локализованной страницы хроники.
+ */
+export type ChroniclePageProps = RouteProps<{ readonly chronicle: string; readonly locale: string }>

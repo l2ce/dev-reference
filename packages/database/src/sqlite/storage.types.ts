@@ -6,6 +6,12 @@ import type { Collection, ImplementationCollection, EntityValue, RevisionValue }
  * Таблицы предметных коллекций; тип колонок сохраняется при выборе конкретной коллекции.
  */
 export interface RecordTables {
+  /** Регионы распространения, не языки и не страны. */
+  readonly regions: typeof tables.regions
+  /** Страны с независимыми связями распространения. */
+  readonly countries: typeof tables.countries
+  /** Региональные контексты выпусков с собственными источниками. */
+  readonly 'release-contexts': typeof tables.releaseContexts
   /* Ветки игры. */
   readonly branches: typeof tables.branches
   /* Хроники. */
@@ -42,7 +48,10 @@ export type RecordRow = {
  * Предметные поля строки без внутренних FK; вариант строки сохраняется в объединении.
  */
 export type RecordFields = {
-  [C in Collection]: Omit<InferSelectModel<RecordTables[C]>, 'ownerId' | 'branchId' | 'chronicleId'>
+  [C in Collection]: Omit<
+    InferSelectModel<RecordTables[C]>,
+    'ownerId' | 'branchId' | 'chronicleId' | 'releaseId' | 'regionId'
+  >
 }[Collection]
 /**
  * Карта читаемых ключей на постоянные UUID одного атомарного пакета.
@@ -86,7 +95,8 @@ export interface ImplementationStorage {
  * Поля, собираемые из типизированных предметных связей, без универсальных SQL-строк.
  */
 export type StoredRelations = Partial<
-  Pick<EntityValue<'protocols'>, 'regions' | 'loginRevisions'> &
+  Pick<EntityValue<'protocols'>, 'loginRevisions'> &
+    Pick<EntityValue<'release-contexts'>, 'countryKeys'> &
     Pick<EntityValue<'scenarios'>, 'servers'> &
     Pick<RevisionValue<'packet-revisions'>, 'packetKey' | 'protocolKeys' | 'opcode' | 'states'> &
     Pick<RevisionValue<'scenario-revisions'>, 'scenarioKey'> &

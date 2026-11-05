@@ -26,10 +26,14 @@ export const metadata = sqliteTable(
       .notNull()
       .references(() => locales.code)
   },
-  (t) => [check('metadata_singleton', sql`${t.id} = 1`), check('metadata_version', sql`${t.schemaVersion} = 19`)]
+  (t) => [check('metadata_singleton', sql`${t.id} = 1`), check('metadata_version', sql`${t.schemaVersion} = 20`)]
 )
 
 export const branches = sqliteTable('branches', { ...commonFields, ...navigationFields }, (t) => [unique().on(t.code)])
+export const regions = sqliteTable('regions', { ...commonFields, ...navigationFields }, (t) => [unique().on(t.code)])
+export const countries = sqliteTable('countries', { ...commonFields, ...navigationFields }, (t) => [
+  unique().on(t.code)
+])
 export const chronicles = sqliteTable(
   'chronicles',
   {
@@ -69,6 +73,64 @@ export const protocols = sqliteTable(
     check('protocol_number', sql`${t.number} >= 0 AND ${t.number} <= 9007199254740991`),
     check('protocol_variant', sql`${t.variant} >= 0 AND ${t.variant} <= 9007199254740991`),
     check('protocol_status', sql`${t.status} IN ('missing', 'partial', 'documented')`)
+  ]
+)
+/**
+ * Регион и календарная дата принадлежат выпуску, а не техническому протоколу.
+ */
+export const releaseContexts = sqliteTable(
+  'release_contexts',
+  {
+    ...commonFields,
+    ...navigationFields,
+    ...researchFields,
+    releaseId: text('chronicle_release_id')
+      .notNull()
+      .references(() => chronicleReleases.id),
+    regionId: text('region_id').references(() => regions.id),
+    releasedOn: text('released_on')
+  },
+  (t) => [
+    unique().on(t.releaseId, t.code),
+    check('context_status', sql`${t.status} IN ('missing', 'partial', 'documented')`),
+    check(
+      'context_date',
+      sql`${t.releasedOn} IS NULL OR (length(${t.releasedOn}) IN (4, 7, 10) AND substr(${t.releasedOn}, 1, 4) GLOB '[0-9][0-9][0-9][0-9]')`
+    )
+  ]
+)
+export const releaseContextProtocols = sqliteTable(
+  'release_context_protocols',
+  {
+    contextId: text('release_context_id')
+      .notNull()
+      .references(() => releaseContexts.id, { onDelete: 'cascade' }),
+    protocolId: text('protocol_id')
+      .notNull()
+      .references(() => protocols.id),
+    position: integer('position').notNull()
+  },
+  (t) => [
+    primaryKey({ columns: [t.contextId, t.protocolId] }),
+    unique().on(t.contextId, t.position),
+    check('context_protocol_position', sql`${t.position} >= 0`)
+  ]
+)
+export const releaseContextCountries = sqliteTable(
+  'release_context_countries',
+  {
+    contextId: text('release_context_id')
+      .notNull()
+      .references(() => releaseContexts.id, { onDelete: 'cascade' }),
+    countryId: text('country_id')
+      .notNull()
+      .references(() => countries.id),
+    position: integer('position').notNull()
+  },
+  (t) => [
+    primaryKey({ columns: [t.contextId, t.countryId] }),
+    unique().on(t.contextId, t.position),
+    check('context_country_position', sql`${t.position} >= 0`)
   ]
 )
 export const packets = sqliteTable(
@@ -231,6 +293,13 @@ function translationTable(
   )
 }
 export const branchTranslations = translationTable('branch_translations', branches.id, 'branch_id')
+export const regionTranslations = translationTable('region_translations', regions.id, 'region_id')
+export const countryTranslations = translationTable('country_translations', countries.id, 'country_id')
+export const releaseContextTranslations = translationTable(
+  'release_context_translations',
+  releaseContexts.id,
+  'release_context_id'
+)
 export const chronicleTranslations = translationTable('chronicle_translations', chronicles.id, 'chronicle_id')
 export const chronicleReleaseTranslations = translationTable(
   'chronicle_release_translations',
@@ -268,22 +337,6 @@ export const protocolLoginRevisions = sqliteTable(
     unique().on(t.protocolId, t.position),
     check('login_number', sql`${t.number} >= 0 AND ${t.number} <= 9007199254740991`),
     check('login_position', sql`${t.position} >= 0`)
-  ]
-)
-export const protocolRegions = sqliteTable(
-  'protocol_regions',
-  {
-    protocolId: text('protocol_id')
-      .notNull()
-      .references(() => protocols.id, { onDelete: 'cascade' }),
-    region: text('region').notNull(),
-    position: integer('position').notNull()
-  },
-  (t) => [
-    primaryKey({ columns: [t.protocolId, t.region] }),
-    unique().on(t.protocolId, t.position),
-    check('region_text', sql`length(trim(${t.region})) > 0`),
-    check('region_position', sql`${t.position} >= 0`)
   ]
 )
 export const packetRevisionOpcodes = sqliteTable(

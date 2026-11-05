@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs'
 import { McpServer } from '@modelcontextprotocol/server'
 import * as z from 'zod'
-import { DatabaseError, localeSchema } from '@l2ce/database'
+import { DatabaseError, localeSchema, keySchema } from '@l2ce/database'
 import {
   referenceProtocolsSchema,
   referenceKnowledgeSchema,
@@ -88,6 +88,17 @@ export function createServer(manager: DatasetManager): McpServer {
       annotations
     },
     async (input) => query(manager, (reader) => reader.protocols(input))
+  )
+  server.registerTool(
+    'get_catalog_record',
+    {
+      description:
+        'Читает описание, источники и структурированные поля хроники, выпуска, регионального контекста, региона или страны.',
+      inputSchema: z.strictObject({ key: keySchema, locale: localeSchema.optional() }),
+      annotations
+    },
+    async (input) =>
+      query(manager, (reader) => ({ revision: reader.revision, ...reader.catalogRecord(input.key, input.locale) }))
   )
   server.registerTool(
     'get_protocol',

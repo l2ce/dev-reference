@@ -5,9 +5,31 @@ import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import test from 'node:test'
 import { runInTerminal, terminalLines } from './terminal.mjs'
+import { benchmarkFixture } from '../scripts/benchmark-fixture.mjs'
 
 const benchmark = fileURLToPath(new URL('../scripts/benchmark.mjs', import.meta.url))
 const artifacts = fileURLToPath(new URL('../.local/benchmarks/', import.meta.url))
+
+test('синтетический бенчмарк не зависит от размера и содержимого опубликованного каталога', () => {
+  const snapshot = benchmarkFixture(100, 1024)
+  assert.equal(snapshot.entries.length, 100)
+  assert.deepEqual(snapshot.locales, ['ru', 'en'])
+  assert.equal(snapshot.defaultLocale, 'ru')
+  assert.equal(snapshot.dataVersion, 'benchmark-100')
+  for (const entry of snapshot.entries) {
+    if ('code' in entry.value) assert.match(entry.value.code, /^benchmark-/)
+    for (const translation of entry.value.translations ?? []) {
+      assert.match(translation.title, /^Benchmark /)
+      assert.equal(Buffer.byteLength(translation.description), 1024)
+      assert.ok(translation.source.every((source) => source.url === 'https://example.invalid/benchmark'))
+    }
+  }
+})
+
+test('бенчмарк отклоняет недостаточное число записей и слишком короткое описание', () => {
+  assert.throws(() => benchmarkFixture(2, 1024), /Too few benchmark records/)
+  assert.throws(() => benchmarkFixture(100, 1), /Description size is too small/)
+})
 
 test(
   'бенчмарк выполняет один цикл и завершает динамический список SQL-таблиц в TTY',

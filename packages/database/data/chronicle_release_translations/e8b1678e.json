@@ -1,0 +1,10 @@
+{
+  "chronicle_release_id": "a933faeb-a2aa-4dd4-a567-23623d594391",
+  "locale": "en",
+  "title": "Chronicle 4: Scions of Destiny",
+  "summary": "Chronicle 4: Scions of Destiny is a release in Main / Live.",
+  "description": "Chronicle 4: Scions of Destiny is a release in Main / Live.\n\nThe base code means no more specific named part has been established; it is not a release number or priority.\n\nOriginal technical catalog row: “Scions of Destiny”. The row names are preserved for provenance, not as globally established synonyms. Numbers refer to Game, not Login. This table does not establish regional release dates or packet formats.",
+  "sources_json": "[{\"id\":\"2937ae59-7fa4-4866-a4f7-f95156d3d657\",\"url\":\"https://web.archive.org/web/20260207220723id_/http://akumu.ru/lineage2/protocols.html\",\"title\":\"Akumu: таблица протоколов, архивный снимок 07.02.2026\",\"summary\":\"Evidence and limitations are described in the cited source and the project research dated 27–30 October 2026. This is not a capture or validation of an official client.\"},{\"id\":\"2f992d21-d5e0-47c1-aef3-f82b7802b08e\",\"url\":\"https://github.com/l2ce/dev-reference/blob/bf02a206a5c73f22320d70145a8db90b158e9602/docs/research/lineage2-classification.md\",\"title\":\"L2CE: классификация веток, выпусков и протоколов, 27.10.2026\",\"summary\":\"Evidence and limitations are described in the cited source and the project research dated 27–30 October 2026. This is not a capture or validation of an official client.\"}]",
+  "translation_status": "ready",
+  "open_questions_json": "[]"
+}

@@ -1,0 +1,10 @@
+{
+  "chronicle_release_id": "1e60908a-6e71-4b4b-95aa-34c08ddd096e",
+  "locale": "en",
+  "title": "Death Knight Reborn",
+  "summary": "Death Knight Reborn is a release in Classic / Legacy.",
+  "description": "Death Knight Reborn is a release in Classic / Legacy.\n\nThe base code means no more specific named part has been established; it is not a release number or priority.\n\nThe name or distinct stage is recorded in the research references. Its exact Game number has not been established: numbers from adjacent, broader or combined releases are not inherited. The technical catalog combines multiple names in one row; its numbers remain separate profiles without assignment to a specific release.",
+  "sources_json": "[{\"id\":\"45c4ddd6-dce6-434a-bd5a-67ce90256875\",\"url\":\"https://web.archive.org/web/20260207220723id_/http://akumu.ru/lineage2/protocols.html\",\"title\":\"Akumu: таблица протоколов, архивный снимок 07.02.2026\",\"summary\":\"Evidence and limitations are described in the cited source and the project research dated 27–30 October 2026. This is not a capture or validation of an official client.\"},{\"id\":\"9c3c462a-8fd5-4316-a85c-0ec3e9847ad4\",\"url\":\"https://github.com/l2ce/dev-reference/blob/bf02a206a5c73f22320d70145a8db90b158e9602/docs/research/lineage2-classification.md\",\"title\":\"L2CE: классификация веток, выпусков и протоколов, 27.10.2026\",\"summary\":\"Evidence and limitations are described in the cited source and the project research dated 27–30 October 2026. This is not a capture or validation of an official client.\"}]",
+  "translation_status": "ready",
+  "open_questions_json": "[\"Establish the exact Game number using a client artifact or another concrete source; do not substitute a number from an adjacent release.\"]"
+}

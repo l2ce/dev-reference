@@ -1,0 +1,10 @@
+{
+  "chronicle_id": "6dbd0dd7-f0d3-4f5a-811c-10db0cfa392a",
+  "locale": "ru",
+  "title": "Warg",
+  "summary": "Warg — запись каталога ветки Aden / Essence.",
+  "description": "Warg — запись каталога ветки Aden / Essence.\n\nИменованные части представлены отдельными выпусками. Порядок каталога не является датой выхода; протоколы связаны с выпусками явно, без наследования применимости.",
+  "sources_json": "[{\"id\":\"03f2bf61-1b3a-4f23-a4b8-ac0a267d1f8c\",\"url\":\"https://web.archive.org/web/20260207220723id_/http://akumu.ru/lineage2/protocols.html\",\"title\":\"Akumu: таблица протоколов, архивный снимок 07.02.2026\",\"summary\":\"Заявленные названия, регионы и Game-номера. Не подтверждает форматы пакетов, совместимость или проверку официального клиента.\"},{\"id\":\"02b20d13-b1fd-4a20-83bd-3907d9a5da8d\",\"url\":\"https://github.com/l2ce/dev-reference/blob/bf02a206a5c73f22320d70145a8db90b158e9602/docs/research/lineage2-classification.md\",\"title\":\"L2CE: классификация веток, выпусков и протоколов, 27.10.2026\",\"summary\":\"Производное исследование: происхождение утверждений, региональные различия, неустановленные связи и ограничения источников.\"}]",
+  "translation_status": "ready",
+  "open_questions_json": "[]"
+}

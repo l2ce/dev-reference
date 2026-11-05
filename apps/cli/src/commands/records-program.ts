@@ -82,10 +82,13 @@ export function registerRecordCommands(program: Command): void {
         .option('--branch <code>', messages.flags.branch)
         .option('--chronicle <code>', messages.flags.chronicle)
         .option('--release <key>', messages.flags.release)
+        .option('--region <code>', messages.flags.region)
     } else if (group === 'chronicles') {
       list.option('--branch <code>', messages.flags.branch)
     } else if (group === 'releases') {
       list.option('--chronicle <code>', messages.flags.chronicle)
+    } else if (group === 'contexts') {
+      list.option('--release <key>', messages.flags.release).option('--region <code>', messages.flags.region)
     }
     if (knowledge) {
       knowledgeOptions(list, group === 'packets')
@@ -126,6 +129,12 @@ export function registerRecordCommands(program: Command): void {
       if (group === 'releases') {
         command
           .option('--chronicle <code>', messages.flags.chronicle)
+          .option('--protocols <keys>', messages.flags.protocols)
+      }
+      if (group === 'contexts') {
+        command
+          .option('--release <key>', messages.flags.release)
+          .option('--region <code>', messages.flags.region)
           .option('--protocols <keys>', messages.flags.protocols)
       }
       command.action(executeAction)

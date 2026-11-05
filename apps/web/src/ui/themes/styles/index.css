@@ -11,6 +11,7 @@
 html {
   /* Системная палитра выбирается CSS до загрузки React и при каждой навигации. */
   color-scheme: light dark;
+  scrollbar-gutter: stable;
   --mantine-color-text: var(--app-text);
   --mantine-color-body: var(--app-canvas);
   --mantine-color-placeholder: var(--app-muted);
@@ -66,5 +67,5 @@ h3 {
 }
 
 ::selection {
-  background: light-dark(#dfe6ff, #3c456d);
+  background: light-dark(#dfe1e5, #494e58);
 }

@@ -39,6 +39,8 @@ export interface ListQuery<C extends Collection = Collection> {
   readonly protocolKey?: string
   /* Только protocols: ключ выпуска хроники, определяющего список профилей. */
   readonly chronicleReleaseKey?: string
+  /** Регион только для release-contexts; не фильтрует язык перевода. */
+  readonly regionKey?: string
   /* Пакеты, сценарии, статьи и их имплементации: принадлежность к Login или Game. */
   readonly server?: Server
   /* Пакеты и их имплементации: отправитель относительно сервера, независимо от server. */
@@ -69,7 +71,7 @@ export type UpdateOperation =
         readonly target: EntityAddress<C> & { readonly kind: 'entity' }
         /* Изменяемое содержание карточки без UUID и составляющих вычисляемого адреса. */
         readonly patch: Partial<
-          Omit<EntityValue<C>, 'id' | 'key' | 'code' | 'number' | 'variant' | 'rev' | 'chronicleKey'>
+          Omit<EntityValue<C>, 'id' | 'key' | 'code' | 'number' | 'variant' | 'rev' | 'chronicleKey' | 'releaseKey'>
         >
       }
     }[EntityCollection]

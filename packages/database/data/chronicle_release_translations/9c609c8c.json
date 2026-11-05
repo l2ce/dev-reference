@@ -1,0 +1,10 @@
+{
+  "chronicle_release_id": "47f2e784-93a2-451e-ba77-541f003129dd",
+  "locale": "en",
+  "title": "Salvation: First Chapter",
+  "summary": "Salvation: First Chapter is a release in Main / Live.",
+  "description": "Salvation: First Chapter is a release in Main / Live.\n\nOriginal technical catalog row: “Salvation: First Chapter”. The row names are preserved for provenance, not as globally established synonyms. Numbers refer to Game, not Login. This table does not establish regional release dates or packet formats.",
+  "sources_json": "[{\"id\":\"fb2d04ef-4191-4af4-8a44-1fd756a907fb\",\"url\":\"https://web.archive.org/web/20260207220723id_/http://akumu.ru/lineage2/protocols.html\",\"title\":\"Akumu: таблица протоколов, архивный снимок 07.02.2026\",\"summary\":\"Evidence and limitations are described in the cited source and the project research dated 27–30 October 2026. This is not a capture or validation of an official client.\"},{\"id\":\"a1509cba-5dd9-4536-925c-32ac7d7aac08\",\"url\":\"https://github.com/l2ce/dev-reference/blob/bf02a206a5c73f22320d70145a8db90b158e9602/docs/research/lineage2-classification.md\",\"title\":\"L2CE: классификация веток, выпусков и протоколов, 27.10.2026\",\"summary\":\"Evidence and limitations are described in the cited source and the project research dated 27–30 October 2026. This is not a capture or validation of an official client.\"}]",
+  "translation_status": "ready",
+  "open_questions_json": "[]"
+}

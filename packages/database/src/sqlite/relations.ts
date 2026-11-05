@@ -19,11 +19,22 @@ export function writeEntityRelations(
 ): void {
   const id = entry.value.id
   if (entry.collection === 'protocols') {
-    entry.value.regions.forEach((region, position) =>
-      connection.orm.insert(tables.protocolRegions).values({ protocolId: id, region, position }).run()
-    )
     entry.value.loginRevisions.forEach((number, position) =>
       connection.orm.insert(tables.protocolLoginRevisions).values({ protocolId: id, number, position }).run()
+    )
+  }
+  if (entry.collection === 'release-contexts') {
+    entry.value.protocolKeys.forEach((key, position) =>
+      connection.orm
+        .insert(tables.releaseContextProtocols)
+        .values({ contextId: id, protocolId: internalId(identities, key), position })
+        .run()
+    )
+    entry.value.countryKeys.forEach((key, position) =>
+      connection.orm
+        .insert(tables.releaseContextCountries)
+        .values({ contextId: id, countryId: internalId(identities, key), position })
+        .run()
     )
   }
   if (entry.collection === 'chronicle-releases') {
@@ -94,13 +105,6 @@ export function writeImplementationRelations(
 function readEntityRelations(connection: Connection, layout: StorageLayout, id: string): StoredRelations {
   if (layout.collection === 'protocols') {
     return {
-      regions: connection.orm
-        .select()
-        .from(tables.protocolRegions)
-        .where(eq(tables.protocolRegions.protocolId, id))
-        .orderBy(tables.protocolRegions.position)
-        .all()
-        .map((row) => row.region),
       loginRevisions: connection.orm
         .select()
         .from(tables.protocolLoginRevisions)
@@ -108,6 +112,24 @@ function readEntityRelations(connection: Connection, layout: StorageLayout, id: 
         .orderBy(tables.protocolLoginRevisions.position)
         .all()
         .map((row) => row.number)
+    }
+  }
+  if (layout.collection === 'release-contexts') {
+    return {
+      protocolKeys: connection.orm
+        .select()
+        .from(tables.releaseContextProtocols)
+        .where(eq(tables.releaseContextProtocols.contextId, id))
+        .orderBy(tables.releaseContextProtocols.position)
+        .all()
+        .map((row) => publicKey(connection, tables.protocols, row.protocolId)),
+      countryKeys: connection.orm
+        .select()
+        .from(tables.releaseContextCountries)
+        .where(eq(tables.releaseContextCountries.contextId, id))
+        .orderBy(tables.releaseContextCountries.position)
+        .all()
+        .map((row) => publicKey(connection, tables.countries, row.countryId))
     }
   }
   if (layout.collection === 'chronicle-releases') {

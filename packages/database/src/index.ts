@@ -22,7 +22,8 @@ export {
   keySchema,
   idSchema,
   codeSchema,
-  revSchema
+  revSchema,
+  releaseDateSchema
 } from './model/schema.js'
 export { defaultDatabasePath, defaultDataDirectory } from './paths.js'
 export { DatabaseError, hasErrorCode } from './errors.js'

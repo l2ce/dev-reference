@@ -8,11 +8,15 @@ export function documentFields(row: RecordRow): RecordFields {
     ownerId: _ownerId,
     branchId: _branchId,
     chronicleId: _chronicleId,
+    releaseId: _releaseId,
+    regionId: _regionId,
     ...fields
   } = {
     ownerId: undefined,
     branchId: undefined,
     chronicleId: undefined,
+    releaseId: undefined,
+    regionId: undefined,
     ...row
   }
   return fields

@@ -1,0 +1,10 @@
+{
+  "chronicle_id": "4182c9df-ce11-4619-86bf-61cc4562670c",
+  "locale": "en",
+  "title": "Antharas Rising",
+  "summary": "Antharas Rising is a catalog record in Classic / Legacy.",
+  "description": "Antharas Rising is a catalog record in Classic / Legacy.\n\nNamed parts are separate releases. Catalog order is not a release date; protocols are explicitly linked to releases and knowledge applicability is not inherited.",
+  "sources_json": "[{\"id\":\"22000f17-b681-4d24-82a4-a931cde337d6\",\"url\":\"https://ru.4game.com/lineage2legacy/\",\"title\":\"4game RU: Lineage 2 Legacy\",\"summary\":\"Evidence and limitations are described in the cited source and the project research dated 27–30 October 2026. This is not a capture or validation of an official client.\"},{\"id\":\"9cccc227-b2b5-40d6-b21d-261000d5e162\",\"url\":\"https://github.com/l2ce/dev-reference/blob/bf02a206a5c73f22320d70145a8db90b158e9602/docs/research/lineage2-classification.md\",\"title\":\"L2CE: классификация веток, выпусков и протоколов, 27.10.2026\",\"summary\":\"Evidence and limitations are described in the cited source and the project research dated 27–30 October 2026. This is not a capture or validation of an official client.\"}]",
+  "translation_status": "ready",
+  "open_questions_json": "[]"
+}
