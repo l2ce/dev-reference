@@ -1,0 +1,42 @@
+[
+  {
+    "path": "/",
+    "status": 200,
+    "serverRendered": true,
+    "fixtureAbsent": true
+  },
+  {
+    "path": "/ru/",
+    "status": 200,
+    "serverRendered": true,
+    "fixtureAbsent": true
+  },
+  {
+    "path": "/protocols/",
+    "status": 200,
+    "serverRendered": true,
+    "fixtureAbsent": true
+  },
+  {
+    "path": "/ru/protocols/",
+    "status": 200,
+    "serverRendered": true,
+    "fixtureAbsent": true
+  },
+  {
+    "path": "/chronicles/the-kamael/",
+    "status": 404
+  },
+  {
+    "path": "/protocols/900000000/",
+    "status": 404
+  },
+  {
+    "path": "/protocols/__empty__/",
+    "status": 404
+  },
+  {
+    "path": "/ru/protocols/__empty__/articles/",
+    "status": 404
+  }
+]

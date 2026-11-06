@@ -6,8 +6,9 @@ import type { ProductGroup } from '../input/arguments.types.js'
 
 export const groupCollections = {
   branches: 'branches',
+  sagas: 'sagas',
   chronicles: 'chronicles',
-  releases: 'chronicle-releases',
+  releases: 'releases',
   contexts: 'release-contexts',
   regions: 'regions',
   countries: 'countries',
@@ -18,9 +19,10 @@ export const groupCollections = {
 } as const satisfies Record<ProductGroup, EntityCollection>
 export const groupKinds = {
   branches: 'branch',
+  sagas: 'saga',
   chronicles: 'chronicle',
-  releases: 'chronicle',
-  contexts: 'chronicle',
+  releases: 'release',
+  contexts: 'release-context',
   regions: 'region',
   countries: 'country',
   protocols: 'protocol',

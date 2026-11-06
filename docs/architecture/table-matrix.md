@@ -1,6 +1,6 @@
 # Матрица таблиц базы
 
-Реализованная SQL-структура, схема **20**. Смысл сущностей описан в
+Реализованная SQL-структура, схема **21**. Смысл сущностей описан в
 [предметной модели](domain-model.md), правила операций — в
 [контракте базы](database-contract.md).
 
@@ -12,7 +12,7 @@ SQLite — источник истины. `packages/database/data/` — гене
 - `id`, `code`, ссылки на UUID, языки, статусы и содержательные строки — TEXT.
 - `number`, `variant`, `rev`, `position`, `sort_order` — INTEGER.
 - `*_json` — TEXT с JSON, а не отдельный SQLite-тип.
-- Все перечисленные колонки обязательны, кроме `sort_order`, `region_id` и
+- Все перечисленные колонки обязательны, кроме `sort_order`, `saga_id`, `region_id` и
   `released_on`, допускающих NULL.
 - Предметные таблицы имеют UUID PK. Переводы и связи используют составные PK;
   у них нет дополнительного UUID отношения.
@@ -21,21 +21,22 @@ SQLite — источник истины. `packages/database/data/` — гене
 
 ## Основные таблицы
 
-| Таблица              | Одна строка                   | Поля кроме UUID `id`                                                                  | Уникальность                   |
-| -------------------- | ----------------------------- | ------------------------------------------------------------------------------------- | ------------------------------ |
-| `branches`           | Ветка                         | `code`, `sort_order?`                                                                 | `code`                         |
-| `regions`            | Регион распространения        | `code`, `sort_order?`                                                                 | `code`                         |
-| `countries`          | Страна                        | `code`, `sort_order?`                                                                 | `code`                         |
-| `chronicles`         | Хроника                       | `branch_id`, `code`, `sort_order?`                                                    | `code`                         |
-| `chronicle_releases` | Выпуск хроники                | `chronicle_id`, `code`, `sort_order?`, `status`                                       | `(chronicle_id, code)`         |
-| `release_contexts`   | Региональный контекст выпуска | `chronicle_release_id`, `region_id?`, `released_on?`, `code`, `sort_order?`, `status` | `(chronicle_release_id, code)` |
-| `protocols`          | Самостоятельный протокол      | `number`, `variant`, `status`                                                         | `(number, variant)`            |
-| `packets`            | Карточка пакета               | `code`, `name`, `server`, `direction`, `sort_order?`                                  | `code`                         |
-| `scenarios`          | Карточка сценария             | `code`, `sort_order?`                                                                 | `code`                         |
-| `articles`           | Карточка статьи               | `code`, `sort_order?`                                                                 | `code`                         |
-| `packet_revisions`   | Техническая редакция пакета   | `packet_id`, `rev`, `status`                                                          | `(packet_id, rev)`             |
-| `scenario_revisions` | Техническая редакция сценария | `scenario_id`, `rev`, `status`                                                        | `(scenario_id, rev)`           |
-| `article_revisions`  | Техническая редакция статьи   | `article_id`, `rev`, `status`                                                         | `(article_id, rev)`            |
+| Таблица              | Одна строка                   | Поля кроме UUID `id`                                                        | Уникальность         |
+| -------------------- | ----------------------------- | --------------------------------------------------------------------------- | -------------------- |
+| `branches`           | Ветка                         | `code`, `sort_order?`                                                       | `code`               |
+| `sagas`              | Историческая группа хроник    | `branch_id`, `code`, `sort_order?`                                          | `code`               |
+| `regions`            | Регион распространения        | `code`, `sort_order?`                                                       | `code`               |
+| `countries`          | Страна                        | `code`, `sort_order?`                                                       | `code`               |
+| `chronicles`         | Группа релизов                | `branch_id`, `saga_id?`, `code`, `sort_order?`                              | `code`               |
+| `releases`           | Самостоятельный релиз         | `chronicle_id`, `code`, `sort_order?`, `status`                             | `code`               |
+| `release_contexts`   | Региональный выход релиза     | `release_id`, `region_id?`, `released_on?`, `code`, `sort_order?`, `status` | `(release_id, code)` |
+| `protocols`          | Самостоятельный протокол      | `number`, `variant`, `status`                                               | `(number, variant)`  |
+| `packets`            | Карточка пакета               | `code`, `name`, `server`, `direction`, `sort_order?`                        | `code`               |
+| `scenarios`          | Карточка сценария             | `code`, `sort_order?`                                                       | `code`               |
+| `articles`           | Карточка статьи               | `code`, `sort_order?`                                                       | `code`               |
+| `packet_revisions`   | Техническая редакция пакета   | `packet_id`, `rev`, `status`                                                | `(packet_id, rev)`   |
+| `scenario_revisions` | Техническая редакция сценария | `scenario_id`, `rev`, `status`                                              | `(scenario_id, rev)` |
+| `article_revisions`  | Техническая редакция статьи   | `article_id`, `rev`, `status`                                               | `(article_id, rev)`  |
 
 `?` означает NULL. `id` — UUID v4 в нижнем регистре. Глобальную уникальность UUID
 записей и вложенных источников проверяет валидатор. SQL-FK используют UUID.
@@ -63,14 +64,14 @@ SQLite — источник истины. `packages/database/data/` — гене
 
 ## Применимость
 
-| Таблица                       | Поля                                                             | Первичный ключ    |
-| ----------------------------- | ---------------------------------------------------------------- | ----------------- |
-| `chronicle_release_protocols` | `chronicle_release_id`, `protocol_id`, `position`                | выпуск/протокол   |
-| `release_context_protocols`   | `release_context_id`, `protocol_id`, `position`                  | контекст/протокол |
-| `release_context_countries`   | `release_context_id`, `country_id`, `position`                   | контекст/страна   |
-| `packet_protocols`            | `packet_id`, `protocol_id`, `packet_revision_id`, `position`     | пакет/протокол    |
-| `scenario_protocols`          | `scenario_id`, `protocol_id`, `scenario_revision_id`, `position` | сценарий/протокол |
-| `article_protocols`           | `article_id`, `protocol_id`, `article_revision_id`, `position`   | статья/протокол   |
+| Таблица                     | Поля                                                             | Первичный ключ    |
+| --------------------------- | ---------------------------------------------------------------- | ----------------- |
+| `release_protocols`         | `release_id`, `protocol_id`, `position`                          | релиз/протокол    |
+| `release_context_protocols` | `release_context_id`, `protocol_id`, `position`                  | контекст/протокол |
+| `release_context_countries` | `release_context_id`, `country_id`, `position`                   | контекст/страна   |
+| `packet_protocols`          | `packet_id`, `protocol_id`, `packet_revision_id`, `position`     | пакет/протокол    |
+| `scenario_protocols`        | `scenario_id`, `protocol_id`, `scenario_revision_id`, `position` | сценарий/протокол |
+| `article_protocols`         | `article_id`, `protocol_id`, `article_revision_id`, `position`   | статья/протокол   |
 
 Выпуски и протоколы связаны M:N. Для пары карточка знания/протокол выбирается одна
 редакция. Составной FK карточка/редакция запрещает выбрать чужую редакцию.
@@ -79,12 +80,12 @@ SQLite — источник истины. `packages/database/data/` — гене
 позиции уникальны внутри этого списка. В таблицах применимости `position`
 не входит в PK и не задаёт приоритет редакций.
 
-`chronicle_release_protocols` содержит только ещё неуточнённые по контексту связи.
+`release_protocols` содержит только ещё неуточнённые по контексту связи.
 Региональные соответствия принадлежат `release_context_protocols`; таблицы не
 используются как два независимых полных списка одного факта. У контекста свои
 источники и nullable регион. Несколько контекстов одного региона допустимы.
 `released_on` — TEXT с точностью года/месяца/дня либо NULL; SQL проверяет форму,
-предметный валидатор — календарь и наличие источника у региональных фактов.
+предметный валидатор — календарь. Источники региональных фактов необязательны.
 
 Протокол может существовать без привязки к выпуску. Ветка и хроника не дублируются
 в протоколе. Все статьи используют явную применимость.
@@ -94,11 +95,12 @@ SQLite — источник истины. `packages/database/data/` — гене
 | Таблица                          | Предметный FK          |
 | -------------------------------- | ---------------------- |
 | `branch_translations`            | `branch_id`            |
+| `saga_translations`              | `saga_id`              |
 | `region_translations`            | `region_id`            |
 | `country_translations`           | `country_id`           |
 | `release_context_translations`   | `release_context_id`   |
 | `chronicle_translations`         | `chronicle_id`         |
-| `chronicle_release_translations` | `chronicle_release_id` |
+| `release_translations`           | `release_id`           |
 | `protocol_translations`          | `protocol_id`          |
 | `packet_revision_translations`   | `packet_revision_id`   |
 | `scenario_revision_translations` | `scenario_revision_id` |
@@ -111,7 +113,8 @@ SQLite — источник истины. `packages/database/data/` — гене
 - `translation_status` — `ready`, `missing`, `outdated`;
 - `open_questions_json` — JSON-массив текстов открытых вопросов.
 
-Пустой текст допустим. Отсутствующая строка перевода отличается от строки,
+Пустой текст и пустой массив источников допустимы; референсы необязательны при любом статусе.
+Отсутствующая строка перевода отличается от строки,
 помеченной `missing`. Источники не переиспользуются через глобальную коллекцию;
 одинаковые URL у разных владельцев получают независимые UUID.
 
@@ -143,9 +146,9 @@ SQLite проверяет разрядность `value`; валидатор —
 
 - `locales(code TEXT PK, position INTEGER UNIQUE)` — языки и неотрицательный порядок реестра;
 - `metadata(id INTEGER PK, schema_rev INTEGER, data_version TEXT, default_locale TEXT FK)` —
-  после инициализации одна строка с `id = 1`, `schema_rev = 20`; основной язык входит в `locales`.
+  после инициализации одна строка с `id = 1`, `schema_rev = 21`; основной язык входит в `locales`.
 
-Всего **36 таблиц**, все `STRICT`, с первичными ключами. FK включены при обычных
+Всего **38 таблиц**, все `STRICT`, с первичными ключами. FK включены при обычных
 операциях. Семантика удаления:
 
 | Связь                                                             | Поведение SQL                                                                  |
@@ -160,7 +163,9 @@ API удаления карточки знания явно удаляет её 
 одной транзакцией. Это поведение API дополняет ограничения физической схемы.
 
 Предметный валидатор проверяет UUID, коды, источники, зарегистрированные языки,
-однозначность применимости и опкоды. Markdown хранится буквально: директивы
+однозначность применимости, опкоды и совпадение ветки саги с веткой её хроник.
+Хроника — классификация релиза; изменение `releases.chronicle_id` не меняет его код и адрес.
+Markdown хранится буквально: директивы
 `{{link ...}}` не разбираются базой и не создают SQL-связей.
 
 Декларации: [schema.ts](../../packages/database/src/sqlite/schema.ts) и

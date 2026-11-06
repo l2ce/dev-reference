@@ -1,11 +1,12 @@
-import { renderMarkdown } from '@l2ce/core/markdown'
-import type { Directive } from '@l2ce/core/markdown'
+import { renderReferenceMarkdown } from '@l2ce/core/markdown'
+import type { ReferenceDirective as Directive } from '@l2ce/core/markdown'
 import type { ReferenceDocument, ReferenceReader } from '@l2ce/core/reference'
 import { isDefined } from 'shared/lib/value-predicates'
 import type { Locale } from 'shared/localization'
 import { referenceErrors, referenceMessages } from '../config/messages'
 import type { PreparedDocument } from '../types/reference.type'
 import { documentPath } from './reference-paths'
+import { catalogMarkdownLink } from './prepare-catalog-markdown'
 
 /**
  * Экранирует подпись для безопасной вставки в Markdown-ссылку.
@@ -66,11 +67,17 @@ export function prepareDocument(
     for (const source of document.sources) {
       sources.set(source.id, source)
     }
-    return renderMarkdown(document.markdown ?? '', {
+    return renderReferenceMarkdown(document.markdown ?? '', {
       /**
        * Создаёт ссылку с basePath для обычного Markdown-якоря.
        */
       link(directive): string {
+        if (!['packet', 'scenario', 'article'].includes(directive.kind)) {
+          const link = catalogMarkdownLink(reader, directive, locale, basePath)
+          if (link !== null) return link
+          issues.add(`${messages.unresolved}: ${directive.kind}:${directive.id}`)
+          return escapeLabel(`${messages.unresolved}: ${directive.kind}:${directive.id}`)
+        }
         const target = resolve(directive)
         if (!target) {
           return escapeLabel(`${messages.unresolved}: ${directive.kind}:${directive.id}`)

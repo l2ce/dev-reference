@@ -13,10 +13,10 @@ export function regionalFixture() {
     ['countries', 'country:us', { code: 'us' }],
     [
       'release-contexts',
-      'chronicle:high-five:base:na',
+      'release-context:high-five:na',
       {
         code: 'na',
-        releaseKey: 'chronicle:high-five:base',
+        releaseKey: 'release:high-five',
         regionKey: 'region:na',
         releasedOn: '2010-07',
         countryKeys: ['country:us'],
@@ -26,10 +26,10 @@ export function regionalFixture() {
     ],
     [
       'release-contexts',
-      'chronicle:high-five:base:kr',
+      'release-context:high-five:kr',
       {
         code: 'kr',
-        releaseKey: 'chronicle:high-five:base',
+        releaseKey: 'release:high-five',
         regionKey: 'region:kr',
         releasedOn: '2020-02-29',
         protocolKeys: ['protocol:152-rev-1'],
@@ -38,10 +38,10 @@ export function regionalFixture() {
     ],
     [
       'release-contexts',
-      'chronicle:c4:base:unknown',
+      'release-context:c4:unknown',
       {
         code: 'unknown',
-        releaseKey: 'chronicle:c4:base',
+        releaseKey: 'release:c4',
         protocolKeys: ['protocol:656']
       }
     ]
@@ -69,6 +69,6 @@ export function regionalFixture() {
       })
     )
   }
-  snapshot.entries.find((entry) => entry.key === 'chronicle:high-five:base').value.protocolKeys = []
+  snapshot.entries.find((entry) => entry.key === 'release:high-five').value.protocolKeys = []
   return validateSnapshot(snapshot)
 }

@@ -25,7 +25,7 @@ pnpm cli --help
 pnpm cli protocols list --branch main --number 152
 pnpm cli protocols get 152 152-rev-1 --locale ru
 pnpm cli chronicles list --branch main
-pnpm cli releases get high-five:base
+pnpm cli releases get high-five
 
 pnpm cli packets list --protocol 273 --server game
 pnpm cli search --protocol 273 --locale ru --query "соединение"
@@ -34,9 +34,9 @@ pnpm cli packets get protocol-version key-packet --protocol 273 --locale ru
 pnpm cli read packet:protocol-version scenario:game-connection --protocol 273 --json
 ```
 
-Группы: `branches`, `chronicles`, `releases`, `contexts`, `regions`, `countries`, `protocols`, `packets`, `scenarios`,
+Группы: `branches`, `sagas`, `chronicles`, `releases`, `contexts`, `regions`, `countries`, `protocols`, `packets`, `scenarios`,
 `articles`. Внутри группы достаточно короткого ключа: `key-packet`, `273`,
-`152-rev-1`, `high-five:base`, `high-five:base:na`. Полные `packet:...`, `protocol:...` тоже принимаются.
+`152-rev-1`, `high-five`, `high-five:na`. Полные `release:...`, `saga:...`, `region:...`, `packet:...`, `protocol:...` тоже принимаются.
 Для смешанного чтения через `read` указываются полные ключи.
 
 `get` знаний требует протокол. Выбирается только применимая редакция и указанный
@@ -65,21 +65,34 @@ pnpm cli packets schema --rev 1 --json
 
 ## Создание и изменение
 
+Группы и самостоятельные релизы имеют независимые адреса:
+
+```bash
+pnpm cli sagas create the-chaotic-throne --branch main --title "The Chaotic Throne"
+pnpm cli chronicles create the-kamael --branch main --saga the-chaotic-throne --title "The Kamael"
+pnpm cli releases create the-kamael --chronicle the-kamael --title "The Kamael"
+pnpm cli releases update the-kamael --chronicle another-group --dry-run
+```
+
+Коды саг, хроник и релизов уникальны внутри своего вида. `chronicleKey` — изменяемая
+классификация релиза, а не часть его адреса. Необязательный `sagaKey` можно очистить
+через `--file` с `null`. Специального кода `base` нет.
+
 Региональные контексты редактируются независимо от номера протокола:
 
 ```bash
 pnpm cli regions list
-pnpm cli contexts list --release high-five:base --region na
-pnpm cli contexts get high-five:base:na --locale ru
+pnpm cli contexts list --release high-five --region na
+pnpm cli contexts get high-five:na --locale ru
 pnpm cli protocols list --chronicle high-five --region na
-pnpm cli contexts update high-five:base:na --file regional-patch.json --dry-run
+pnpm cli contexts update high-five:na --file regional-patch.json --dry-run
 ```
 
 В JSON контекста доступны `regionKey`, `releasedOn`, `countryKeys`, `protocolKeys`,
 `order`, `status`, `translations`. Дата сохраняет точность `YYYY`, `YYYY-MM`,
-`YYYY-MM-DD`; неизвестное значение — `null`. Для конкретных региональных фактов
-передайте источники в переводах. Регион и язык `--locale` независимы.
-При создании короткого `code` можно указать `--release high-five:base`;
+`YYYY-MM-DD`; неизвестное значение — `null`. Источники в переводах необязательны,
+в том числе для конкретных региональных фактов. Регион и язык `--locale` независимы.
+При создании короткого `code` можно указать `--release high-five`;
 `--file` и `batch` поддерживают полный контракт. Прямые `protocolKeys` выпуска —
 только связи с ещё неустановленным контекстом; региональная применимость задаётся
 в `contexts`, не в протоколе.
@@ -106,7 +119,8 @@ pnpm cli packets translate example --rev 1 --locale ru --file translation.json
 ```
 
 Она объединяет переданные поля с выбранным переводом, сохраняя остальные языки,
-применимость и технические признаки. `source` — массив `{ id?, url, title, summary? }`.
+применимость и технические признаки. `source` — необязательный массив `{ id?, url, title, summary? }`;
+пустой или отсутствующий список допустим при любом статусе записи.
 Для каталоговых записей `translate` используется без `--rev`.
 В обычном `update` массивы, включая `translations`, заменяются целиком.
 

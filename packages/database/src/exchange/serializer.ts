@@ -9,6 +9,8 @@ const FIELD_ORDER = [
   'code',
   'rev',
   'branchKey',
+  'sagaKey',
+  'releaseKey',
   'chronicleKey',
   'packetKey',
   'scenarioKey',

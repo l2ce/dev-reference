@@ -28,7 +28,7 @@ test('источники принадлежат конкретному пере�
   assert.notEqual(saved.translations[0].source[0].id, saved.translations[1].source[0].id)
 })
 
-test('подтверждённая полнота требует источников; неполная запись без описания допустима', async (t) => {
+test('источники необязательны при любом статусе; documented по-прежнему требует описания', async (t) => {
   const { database } = await fixture(t)
   const entry = articleEntry()
   const revision = articleImplementation(entry)
@@ -36,20 +36,11 @@ test('подтверждённая полнота требует источни�
     { op: 'create', entry },
     { op: 'create', entry: revision }
   ])
-  assert.throws(
-    () =>
-      database.update({
-        target: address(revision),
-        patch: { status: 'partial' }
-      }),
-    { code: 'VALIDATION_ERROR' }
-  )
-  const translation = revision.value.translations[0]
-  translation.source = [{ id: randomUUID(), url: 'https://example.org', title: 'Source' }]
   database.update({
     target: address(revision),
-    patch: { status: 'partial', translations: [translation] }
+    patch: { status: 'partial' }
   })
+  assert.deepEqual(database.getRevision(address(revision)).translations[0].source, [])
   assert.throws(
     () =>
       database.update({
@@ -58,6 +49,33 @@ test('подтверждённая полнота требует источни�
       }),
     { code: 'VALIDATION_ERROR' }
   )
+  const translation = { ...revision.value.translations[0], description: '# Описание без референсов' }
+  delete translation.source
+  database.update({
+    target: address(revision),
+    patch: { status: 'documented', translations: [translation] }
+  })
+  const saved = database.getRevision(address(revision))
+  assert.equal(saved.status, 'documented')
+  assert.deepEqual(saved.translations[0].source, [])
+})
+
+test('все коллекции сохраняются без источников независимо от статуса', async (t) => {
+  const { database } = await fixture(t)
+  const snapshot = database.snapshot()
+  for (const entry of snapshot.entries) {
+    for (const translation of entry.value.translations ?? []) delete translation.source
+  }
+  for (const status of ['missing', 'partial', 'documented']) {
+    for (const entry of snapshot.entries) {
+      if ('status' in entry.value) entry.value.status = status
+    }
+    database.replaceSnapshot(snapshot)
+    for (const entry of database.snapshot().entries) {
+      if ('status' in entry.value) assert.equal(entry.value.status, status)
+      for (const translation of entry.value.translations ?? []) assert.deepEqual(translation.source, [])
+    }
+  }
 })
 
 test('неверный UUID, не-HTTP URL, повтор источника и удалённые поля отклоняются', async (t) => {

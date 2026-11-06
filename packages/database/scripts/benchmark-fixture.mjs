@@ -74,7 +74,7 @@ export function benchmarkFixture(records, descriptionBytes) {
         translations: translations(code)
       })
     if (kind === 'release')
-      add('chronicle-releases', `chronicle:benchmark-root:${code}`, {
+      add('releases', `release:${code}`, {
         code,
         chronicleKey: 'chronicle:benchmark-root',
         protocolKeys: ['protocol:900000000'],
@@ -101,7 +101,7 @@ export function benchmarkFixture(records, descriptionBytes) {
     }
   }
   return validateSnapshot({
-    schemaVersion: 20,
+    schemaVersion: 21,
     defaultLocale: 'ru',
     locales,
     dataVersion: `benchmark-${records}`,

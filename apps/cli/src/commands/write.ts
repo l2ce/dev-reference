@@ -50,7 +50,7 @@ function normalizePayload(input: Readonly<Record<string, unknown>>): Record<stri
   for (const [field, kind] of [
     ['branchKey', 'branch'],
     ['chronicleKey', 'chronicle'],
-    ['releaseKey', 'chronicle'],
+    ['releaseKey', 'release'],
     ['packetKey', 'packet'],
     ['scenarioKey', 'scenario'],
     ['articleKey', 'article']
@@ -61,6 +61,9 @@ function normalizePayload(input: Readonly<Record<string, unknown>>): Record<stri
   }
   if ('regionKey' in result && result.regionKey !== null) {
     result.regionKey = referenceKey('region', z.string().parse(result.regionKey))
+  }
+  if ('sagaKey' in result && result.sagaKey !== null) {
+    result.sagaKey = referenceKey('saga', z.string().parse(result.sagaKey))
   }
   if ('countryKeys' in result) {
     result.countryKeys = z
@@ -124,11 +127,8 @@ export async function prepareWrite(args: CliArguments, snapshot: DatabaseSnapsho
     throw new DatabaseError('USAGE', messages.invalidGroup)
   }
   let value = args.operands[0]
-  if (args.group === 'releases' && args.chronicle && !value.includes(':')) {
-    value = `${args.chronicle.replace(/^chronicle:/, '')}:${value}`
-  }
   if (args.group === 'contexts' && args.release && !value.includes(':')) {
-    value = `${args.release.replace(/^chronicle:/, '')}:${value}`
+    value = `${args.release.replace(/^release:/, '')}:${value}`
   }
   const target = commandAddress(args.group, value, args.rev)
   if (args.command === 'delete') {
@@ -153,6 +153,9 @@ export async function prepareWrite(args: CliArguments, snapshot: DatabaseSnapsho
   if (args.branch !== undefined) {
     payload.branchKey = referenceKey('branch', args.branch)
   }
+  if (args.saga !== undefined) {
+    payload.sagaKey = referenceKey('saga', args.saga)
+  }
   if (args.chronicle !== undefined) {
     payload.chronicleKey = referenceKey('chronicle', args.chronicle)
   }
@@ -160,7 +163,7 @@ export async function prepareWrite(args: CliArguments, snapshot: DatabaseSnapsho
     payload.regionKey = referenceKey('region', args.region)
   }
   if (args.group === 'contexts' && args.release !== undefined) {
-    payload.releaseKey = referenceKey('chronicle', args.release)
+    payload.releaseKey = referenceKey('release', args.release)
   }
   for (const field of ['name', 'server', 'direction', 'status'] as const) {
     if (args[field] !== undefined) {
@@ -189,20 +192,10 @@ export async function prepareWrite(args: CliArguments, snapshot: DatabaseSnapsho
     })
   } else if (args.group === 'contexts') {
     const parts = target.key.split(':')
-    if (parts.length !== 4) {
-      throw new DatabaseError('USAGE', messages.identityMismatch)
-    }
-    payload = withIdentity(payload, { key: target.key, code: parts[3], releaseKey: parts.slice(0, 3).join(':') })
-  } else if (args.group === 'releases') {
-    const parts = target.key.split(':')
     if (parts.length !== 3) {
       throw new DatabaseError('USAGE', messages.identityMismatch)
     }
-    payload = withIdentity(payload, {
-      key: target.key,
-      code: parts[2],
-      chronicleKey: `${parts[0]}:${parts[1]}`
-    })
+    payload = withIdentity(payload, { key: target.key, code: parts[2], releaseKey: `release:${parts[1]}` })
   } else {
     payload = withIdentity(payload, {
       key: target.key,

@@ -1,7 +1,7 @@
 import * as z from 'zod'
 
 /**
- * Формат 20: общая предметная база и региональные контексты выпусков.
+ * Формат 21: самостоятельные релизы, саги и региональные выходы.
  */
 export const localeSchema = z.string().regex(/^[a-z]{2,3}(?:-[A-Za-z0-9]{2,8})*$/)
 export const idSchema = z.uuidv4().regex(/^[0-9a-f-]+$/)
@@ -10,7 +10,7 @@ export const revSchema = z.number().int().positive().max(Number.MAX_SAFE_INTEGER
 export const keySchema = z
   .string()
   .regex(
-    /^(branch|packet|scenario|article|protocol|chronicle|region|country):[a-z0-9]+(?:[.-][a-z0-9]+)*(?::[a-z0-9]+(?:[.-][a-z0-9]+)*)*$/
+    /^(branch|saga|release|release-context|packet|scenario|article|protocol|chronicle|region|country):[a-z0-9]+(?:[.-][a-z0-9]+)*(?::[a-z0-9]+(?:[.-][a-z0-9]+)*)*$/
   )
 export const serverSchema = z.enum(['login', 'game'])
 export const statusSchema = z.enum(['missing', 'partial', 'documented'])
@@ -71,10 +71,16 @@ export const opcodeSchema = z
   .nullable()
 export const entitySchemas = {
   branches: z.strictObject({ ...named, translations }),
+  sagas: z.strictObject({ ...named, branchKey: keySchema, translations }),
   regions: z.strictObject({ ...named, translations }),
   countries: z.strictObject({ ...named, translations }),
-  chronicles: z.strictObject({ ...named, branchKey: keySchema, translations }),
-  'chronicle-releases': z.strictObject({
+  chronicles: z.strictObject({
+    ...named,
+    branchKey: keySchema,
+    sagaKey: keySchema.nullable().default(null),
+    translations
+  }),
+  releases: z.strictObject({
     ...named,
     chronicleKey: keySchema,
     protocolKeys: z.array(keySchema).default([]),
@@ -155,7 +161,7 @@ export const entryEnvelopeSchema = z.discriminatedUnion('kind', [
 ])
 export const manifestSchema = z
   .strictObject({
-    schemaVersion: z.literal(20),
+    schemaVersion: z.literal(21),
     dataVersion: z.string().regex(/^[a-zA-Z0-9][a-zA-Z0-9._-]{0,63}$/),
     defaultLocale: localeSchema,
     locales: z.array(localeSchema).min(1)

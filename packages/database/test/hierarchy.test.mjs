@@ -11,21 +11,21 @@ test('ветки, хроники и выпуски фильтруются отд
   })
   assert.equal(chronicles.total, 2)
   const release = {
-    collection: 'chronicle-releases',
+    collection: 'releases',
     kind: 'entity',
-    key: 'chronicle:high-five:base'
+    key: 'release:high-five'
   }
   database.update({
     target: release,
     patch: { protocolKeys: ['protocol:273', 'protocol:656'] }
   })
   assert.deepEqual(
-    database.list({ collection: 'protocols', chronicleReleaseKey: release.key }).items.map((value) => value.number),
+    database.list({ collection: 'protocols', releaseKey: release.key }).items.map((value) => value.number),
     [273, 656]
   )
   assert.equal(
     database.list({
-      collection: 'chronicle-releases',
+      collection: 'releases',
       protocolKey: 'protocol:656'
     }).total,
     2
@@ -53,7 +53,7 @@ test('неполная хроника допустима, битые связи 
       branchKey: 'branch:main'
     }
   })
-  assert.equal(database.list({ collection: 'chronicle-releases', ownerKey: key }).total, 0)
+  assert.equal(database.list({ collection: 'releases', ownerKey: key }).total, 0)
   const before = database.revision()
   assert.throws(
     () =>

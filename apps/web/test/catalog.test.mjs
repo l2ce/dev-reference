@@ -51,9 +51,9 @@ test('региональные ячейки не используют общий
  */
 const linkedFixture = () => {
   const snapshot = sharedFixture()
-  snapshot.entries.find((entry) => entry.key === 'chronicle:high-five:base').value.protocolKeys.push('protocol:152')
+  snapshot.entries.find((entry) => entry.key === 'release:high-five').value.protocolKeys.push('protocol:152')
   snapshot.entries
-    .find((entry) => entry.key === 'chronicle:c4:base')
+    .find((entry) => entry.key === 'release:c4')
     .value.protocolKeys.push('protocol:152', 'protocol:152-rev-1')
   return snapshot
 }
@@ -112,7 +112,7 @@ test('неполные записи, отсутствие перевода и н
   const snapshot = sharedFixture()
   const chronicle = snapshot.entries.find((entry) => entry.key === 'chronicle:c4')
   chronicle.value.translations = chronicle.value.translations.filter((translation) => translation.locale === 'en')
-  snapshot.entries.find((entry) => entry.key === 'chronicle:c4:base').value.protocolKeys = []
+  snapshot.entries.find((entry) => entry.key === 'release:c4').value.protocolKeys = []
   const catalog = buildProtocolCatalog(new ReferenceReader(snapshot), 'ru')
   const untranslated = catalog.branches[0].chronicles.find((entry) => entry.key === 'chronicle:c4')
   assert.equal(untranslated.title, 'chronicle:c4')

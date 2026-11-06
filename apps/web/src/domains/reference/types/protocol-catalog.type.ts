@@ -38,8 +38,6 @@ export type CatalogRelease = CatalogRecord & {
   readonly contexts: readonly CatalogReleaseContext[]
   /** Номера, для которых регион ещё не установлен. */
   readonly unscopedProtocols: readonly CatalogProtocol[]
-  /** Технический выпуск без отдельного именованного этапа. */
-  readonly isBase: boolean
   /** Профили в порядке явных связей выпуска. */
   readonly protocols: readonly CatalogProtocol[]
 }

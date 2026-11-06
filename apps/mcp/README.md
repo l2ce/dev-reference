@@ -83,11 +83,14 @@ node apps/mcp/dist/index.js --data-dir packages/database/data --cache-dir /tmp/o
 
 Каталог и поиск поддерживают `limit` (1–100), `offset`, возвращают `nextOffset`.
 Поиск также принимает `status`: `missing`, `partial` или `documented`.
-`list_catalog.collection`: `branches`, `chronicles`, `chronicle-releases`,
+`list_catalog.collection`: `branches`, `sagas`, `chronicles`, `releases`,
 `release-contexts`, `regions`, `countries`. Контексты фильтруются по `release?`
 и `region?`; протоколы также поддерживают `region?`. Каталог сохраняет редакционный
 `order`, а не сортируется по дате или номеру. `get_protocol.contexts` возвращает
 точные региональные связи и даты; общий `regions` вычислен из этих связей.
+Саги фильтруются по `branch?`, хроники — по `branch?` и `saga?`, протоколы — также
+по `saga?`. `get_catalog_record` принимает независимые адреса `saga:…`, `chronicle:…`,
+`release:…`, `region:…`. Региональный выход имеет адрес `release-context:<release-code>:<code>`.
 У `read_knowledge.keys` от 1 до 50 адресов вида `packet:key-packet`,
 `scenario:game-connection`, `article:game-framing`.
 

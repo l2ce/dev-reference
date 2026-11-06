@@ -1,5 +1,6 @@
 import type { ReactElement } from 'react'
 import { KnowledgeLayout } from 'compositions/layouts/knowledge/server'
+import { requireStaticProtocol } from '../../../helpers/route-params'
 import type { EnglishProtocolPageProps, LayoutChildren } from '../../../types/route-props.type'
 
 /**
@@ -10,7 +11,7 @@ export default async function ProtocolLayout({
   params
 }: EnglishProtocolPageProps & LayoutChildren): Promise<ReactElement> {
   return (
-    <KnowledgeLayout locale="en" protocol={(await params).protocol}>
+    <KnowledgeLayout locale="en" protocol={requireStaticProtocol((await params).protocol)}>
       {children}
     </KnowledgeLayout>
   )

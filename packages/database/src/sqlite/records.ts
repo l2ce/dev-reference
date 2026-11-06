@@ -3,7 +3,7 @@ import { DatabaseError } from '../errors.js'
 import { parseEntry } from '../model/entry.js'
 import { entityAddressSchema, implementationAddressSchema, manifestSchema } from '../model/schema.js'
 import { sqliteMessages as messages } from './messages.js'
-import { metadata, locales, branches, chronicles, chronicleReleases, regions } from './schema.js'
+import { metadata, locales, branches, sagas, chronicles, releases, regions } from './schema.js'
 import { publicKey } from './identities.js'
 import { layouts } from './layout.js'
 import { documentFields } from './record-fields.js'
@@ -69,8 +69,9 @@ function decodeEntry(connection: Connection, layout: StorageLayout, row: RecordR
     key: publicKey(connection, layout.table, row.id),
     ...readRelations(connection, layout, row),
     ...('branchId' in row ? { branchKey: publicKey(connection, branches, row.branchId) } : {}),
+    ...('sagaId' in row ? { sagaKey: row.sagaId === null ? null : publicKey(connection, sagas, row.sagaId) } : {}),
     ...('chronicleId' in row ? { chronicleKey: publicKey(connection, chronicles, row.chronicleId) } : {}),
-    ...('releaseId' in row ? { releaseKey: publicKey(connection, chronicleReleases, row.releaseId) } : {}),
+    ...('releaseId' in row ? { releaseKey: publicKey(connection, releases, row.releaseId) } : {}),
     ...('regionId' in row
       ? { regionKey: row.regionId === null ? null : publicKey(connection, regions, row.regionId) }
       : {}),

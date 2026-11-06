@@ -119,6 +119,7 @@ function readCommand(args: CliArguments, snapshot: DatabaseSnapshot): unknown {
         query: args.query,
         number: args.number,
         branch: args.branch,
+        saga: args.saga,
         chronicle: args.chronicle,
         release: args.release,
         region: args.region
@@ -142,13 +143,17 @@ function readCommand(args: CliArguments, snapshot: DatabaseSnapshot): unknown {
       items: args.operands.map((key) => reader.catalogRecord(commandAddress(group, key).key, args.locale))
     }
   }
-  if (args.group && ['branches', 'chronicles', 'releases', 'contexts', 'regions', 'countries'].includes(args.group)) {
+  if (
+    args.group &&
+    ['branches', 'sagas', 'chronicles', 'releases', 'contexts', 'regions', 'countries'].includes(args.group)
+  ) {
     return reader.catalog({
       ...page,
       collection: z
-        .enum(['branches', 'chronicles', 'chronicle-releases', 'release-contexts', 'regions', 'countries'])
+        .enum(['branches', 'sagas', 'chronicles', 'releases', 'release-contexts', 'regions', 'countries'])
         .parse(groupCollections[args.group]),
       branch: args.branch,
+      saga: args.saga,
       chronicle: args.chronicle,
       query: args.query,
       release: args.release,
@@ -202,8 +207,6 @@ export async function runCommand(args: CliArguments): Promise<unknown> {
       generatedFields.push('number', 'variant')
     } else if (args.group === 'contexts') {
       generatedFields.push('code', 'releaseKey')
-    } else if (args.group === 'releases') {
-      generatedFields.push('code', 'chronicleKey')
     } else {
       generatedFields.push('code')
     }
@@ -245,7 +248,7 @@ export async function runCommand(args: CliArguments): Promise<unknown> {
         throw new DatabaseError('ALREADY_EXISTS', messages.alreadyInitialized)
       }
       database.replaceSnapshot({
-        schemaVersion: 20,
+        schemaVersion: 21,
         dataVersion: '1.0.0',
         defaultLocale: 'ru',
         locales: ['ru', 'en'],

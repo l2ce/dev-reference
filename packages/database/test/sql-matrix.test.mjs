@@ -10,7 +10,7 @@ test('SQL хранит общие предметные поля; язык, Markd
   for (const table of [
     'branches',
     'chronicles',
-    'chronicle_releases',
+    'releases',
     'protocols',
     'packets',
     'packet_revisions',

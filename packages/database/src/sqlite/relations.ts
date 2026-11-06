@@ -37,12 +37,12 @@ export function writeEntityRelations(
         .run()
     )
   }
-  if (entry.collection === 'chronicle-releases') {
+  if (entry.collection === 'releases') {
     entry.value.protocolKeys.forEach((key, position) =>
       connection.orm
-        .insert(tables.chronicleReleaseProtocols)
+        .insert(tables.releaseProtocols)
         .values({
-          chronicleReleaseId: id,
+          releaseId: id,
           protocolId: internalId(identities, key),
           position
         })
@@ -132,13 +132,13 @@ function readEntityRelations(connection: Connection, layout: StorageLayout, id: 
         .map((row) => publicKey(connection, tables.countries, row.countryId))
     }
   }
-  if (layout.collection === 'chronicle-releases') {
+  if (layout.collection === 'releases') {
     return {
       protocolKeys: connection.orm
         .select()
-        .from(tables.chronicleReleaseProtocols)
-        .where(eq(tables.chronicleReleaseProtocols.chronicleReleaseId, id))
-        .orderBy(tables.chronicleReleaseProtocols.position)
+        .from(tables.releaseProtocols)
+        .where(eq(tables.releaseProtocols.releaseId, id))
+        .orderBy(tables.releaseProtocols.position)
         .all()
         .map((row) => publicKey(connection, tables.protocols, row.protocolId))
     }

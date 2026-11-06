@@ -62,9 +62,7 @@ export const buildProtocolCatalog = (reader: ReferenceReader, locale: Locale): P
     reader.catalog({ collection: 'release-contexts', locale, offset, limit: 100 })
   )
   const chronicles = collectPages((offset) => reader.catalog({ collection: 'chronicles', locale, offset, limit: 100 }))
-  const releases = collectPages((offset) =>
-    reader.catalog({ collection: 'chronicle-releases', locale, offset, limit: 100 })
-  )
+  const releases = collectPages((offset) => reader.catalog({ collection: 'releases', locale, offset, limit: 100 }))
   const protocols = collectPages((offset) => reader.protocols({ locale, offset, limit: 100 })).map((protocol) =>
     prepareCatalogProtocol(protocol, reader, locale)
   )
@@ -104,7 +102,6 @@ export const buildProtocolCatalog = (reader: ReferenceReader, locale: Locale): P
                   protocols: resolveProtocols(context.protocolKeys ?? [])
                 })),
               unscopedProtocols: resolveProtocols(release.unscopedProtocolKeys ?? []),
-              isBase: release.key.endsWith(':base'),
               protocols: resolveProtocols(release.protocolKeys ?? [])
             }))
         }))

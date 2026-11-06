@@ -15,6 +15,41 @@ test('новый читатель различает повторные номе
   assert.equal('markdown' in reader.protocols().items[0], false)
 })
 
+test('саги классифицируют хроники; релизы читаются по собственным адресам независимо от группы', () => {
+  const snapshot = sharedFixture()
+  snapshot.entries.push({
+    collection: 'sagas',
+    kind: 'entity',
+    key: 'saga:the-chaotic-throne',
+    value: {
+      id: '00000000-0000-4000-8000-ffffffffffff',
+      key: 'saga:the-chaotic-throne',
+      code: 'the-chaotic-throne',
+      branchKey: 'branch:main',
+      order: 0,
+      translations: [
+        {
+          locale: 'ru',
+          title: 'The Chaotic Throne',
+          summary: '',
+          description: '',
+          source: [],
+          translationStatus: 'ready',
+          openQuestions: []
+        }
+      ]
+    }
+  })
+  snapshot.entries.find((entry) => entry.key === 'chronicle:high-five').value.sagaKey = 'saga:the-chaotic-throne'
+  const reader = new ReferenceReader(snapshot)
+  assert.equal(reader.catalog({ collection: 'sagas', branch: 'main' }).total, 1)
+  assert.equal(reader.catalog({ collection: 'chronicles', saga: 'the-chaotic-throne' }).total, 1)
+  assert.equal(reader.protocols({ saga: 'the-chaotic-throne' }).items[0].key, 'protocol:273')
+  assert.equal(reader.catalogRecord('release:high-five').chronicleKey, 'chronicle:high-five')
+  assert.throws(() => reader.catalogRecord('chronicle:high-five:base'), { code: 'NOT_FOUND' })
+  assert.equal(reader.catalogRecord('saga:the-chaotic-throne', 'en').translationStatus, 'missing')
+})
+
 test('множественное чтение не переносит редакции и переводы между контекстами', () => {
   const snapshot = structuredClone(sharedFixture())
   const revision = snapshot.entries.find((entry) => entry.key === 'packet:key-packet:rev-1')

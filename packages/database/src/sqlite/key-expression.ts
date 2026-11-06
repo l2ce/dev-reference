@@ -3,7 +3,7 @@ import type { SQL } from 'drizzle-orm'
 import { QueryBuilder } from 'drizzle-orm/sqlite-core'
 import { entityKinds, ownerCollection } from '../model/entry.js'
 import { implementationStorage } from './layout.js'
-import { chronicles, chronicleReleases } from './schema.js'
+import { releases } from './schema.js'
 import type { StorageLayout } from './storage.types.js'
 
 const builder = new QueryBuilder()
@@ -16,20 +16,9 @@ export function keyExpression(layout: StorageLayout): SQL<string> {
   if (layout.collection === 'protocols') {
     return sql<string>`'protocol:' || ${layout.table.number} || CASE WHEN ${layout.table.variant} = 0 THEN '' ELSE '-rev-' || ${layout.table.variant} END`
   }
-  if (layout.collection === 'chronicle-releases') {
-    const owner = builder
-      .select({ code: chronicles.code })
-      .from(chronicles)
-      .where(eq(chronicles.id, layout.table.chronicleId))
-    return sql<string>`'chronicle:' || (${owner}) || ':' || ${layout.table.code}`
-  }
   if (layout.collection === 'release-contexts') {
-    const owner = builder
-      .select({ key: sql<string>`${chronicles.code} || ':' || ${chronicleReleases.code}` })
-      .from(chronicleReleases)
-      .innerJoin(chronicles, eq(chronicles.id, chronicleReleases.chronicleId))
-      .where(eq(chronicleReleases.id, layout.table.releaseId))
-    return sql<string>`'chronicle:' || (${owner}) || ':' || ${layout.table.code}`
+    const owner = builder.select({ code: releases.code }).from(releases).where(eq(releases.id, layout.table.releaseId))
+    return sql<string>`'release-context:' || (${owner}) || ':' || ${layout.table.code}`
   }
   const prefix = `${entityKinds[ownerCollection(layout.collection)]}:`
   if (layout.kind === 'implementation') {

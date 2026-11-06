@@ -28,5 +28,7 @@ test('реальные документы сохраняют профиль, в�
   ]
   assert.deepEqual(staticDocumentParams(documents, [], 'en'), [documents[0]])
   assert.deepEqual(staticDocumentParams(documents, [], 'ru'), [documents[1]])
-  assert.throws(() => staticDocumentParams([], [], 'ru'), /without a protocol/)
+  assert.deepEqual(staticDocumentParams([], [], 'ru'), [
+    { locale: 'ru', protocol: '__empty__', kind: 'article', code: EMPTY_DOCUMENT_CODE }
+  ])
 })

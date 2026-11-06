@@ -6,6 +6,7 @@ import { localeSchema } from '@l2ce/database'
  */
 export const groupSchema = z.enum([
   'branches',
+  'sagas',
   'chronicles',
   'releases',
   'contexts',
@@ -51,6 +52,7 @@ export const argumentSchema = z.strictObject({
   protocol: z.string().optional(),
   protocols: z.string().optional(),
   branch: z.string().optional(),
+  saga: z.string().optional(),
   chronicle: z.string().optional(),
   release: z.string().optional(),
   region: z.string().optional(),

@@ -66,13 +66,12 @@ function validateContent(snapshot: DatabaseSnapshot, entry: DatabaseEntry, ids: 
         invalidEntry(messages.locale, entry)
       }
     }
-    if ('status' in value && value.status !== 'missing') {
-      if (!value.translations.some((translation) => translation.source.length > 0)) {
-        invalidEntry(messages.sources, entry)
-      }
-      if (value.status === 'documented' && !value.translations.some((translation) => translation.description.trim())) {
-        invalidEntry(messages.content, entry)
-      }
+    if (
+      'status' in value &&
+      value.status === 'documented' &&
+      !value.translations.some((translation) => translation.description.trim())
+    ) {
+      invalidEntry(messages.content, entry)
     }
   }
 }
@@ -131,26 +130,26 @@ function validateRelations(
   bindings: Set<string>,
   selectors: Map<string, readonly string[][]>
 ): void {
-  if (entry.collection === 'chronicles') {
+  if (entry.collection === 'chronicles' || entry.collection === 'sagas') {
     requireEntity(index, entry, 'branches', entry.value.branchKey)
   }
-  if (entry.collection === 'chronicle-releases') {
+  if (entry.collection === 'chronicles' && entry.value.sagaKey !== null) {
+    const saga = requireEntity(index, entry, 'sagas', entry.value.sagaKey)
+    if (saga.collection !== 'sagas' || saga.value.branchKey !== entry.value.branchKey) {
+      invalidEntry(messages.reference, entry)
+    }
+  }
+  if (entry.collection === 'releases') {
     requireEntity(index, entry, 'chronicles', entry.value.chronicleKey)
   }
   if (entry.collection === 'release-contexts') {
-    requireEntity(index, entry, 'chronicle-releases', entry.value.releaseKey)
+    requireEntity(index, entry, 'releases', entry.value.releaseKey)
     if (entry.value.regionKey !== null) {
       requireEntity(index, entry, 'regions', entry.value.regionKey)
     }
     unique(entry.value.countryKeys, entry)
     for (const country of entry.value.countryKeys) {
       requireEntity(index, entry, 'countries', country)
-    }
-    if (
-      (entry.value.regionKey !== null || entry.value.releasedOn !== null || entry.value.countryKeys.length > 0) &&
-      !entry.value.translations.some((translation) => translation.source.length > 0)
-    ) {
-      invalidEntry(messages.sources, entry)
     }
   }
   if (isImplementation(entry)) {

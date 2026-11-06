@@ -18,6 +18,14 @@ import type { Connection } from './sqlite.types.js'
  */
 function writeEntity(connection: Connection, entry: EntityEntry, identities: InternalIdentities): void {
   switch (entry.collection) {
+    case 'sagas': {
+      const { id, code, order, branchKey } = entry.value
+      connection.orm
+        .insert(tables.sagas)
+        .values({ id, code, order, branchId: internalId(identities, branchKey) })
+        .run()
+      break
+    }
     case 'regions': {
       const { id, code, order } = entry.value
       connection.orm.insert(tables.regions).values({ id, code, order }).run()
@@ -50,22 +58,23 @@ function writeEntity(connection: Connection, entry: EntityEntry, identities: Int
       break
     }
     case 'chronicles': {
-      const { id, code, order, branchKey } = entry.value
+      const { id, code, order, branchKey, sagaKey } = entry.value
       connection.orm
         .insert(tables.chronicles)
         .values({
           id,
           code,
           order,
-          branchId: internalId(identities, branchKey)
+          branchId: internalId(identities, branchKey),
+          sagaId: sagaKey === null ? null : internalId(identities, sagaKey)
         })
         .run()
       break
     }
-    case 'chronicle-releases': {
+    case 'releases': {
       const { id, code, order, status, chronicleKey } = entry.value
       connection.orm
-        .insert(tables.chronicleReleases)
+        .insert(tables.releases)
         .values({
           id,
           code,

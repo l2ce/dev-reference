@@ -10,7 +10,7 @@ import {
   packets,
   scenarioServers,
   articleServers,
-  chronicleReleaseProtocols,
+  releaseProtocols,
   releaseContexts,
   releaseContextProtocols
 } from './schema.js'
@@ -67,14 +67,14 @@ function protocolCondition(layout: StorageLayout, protocol: string): SQL {
         .where(inArray(releaseContextProtocols.protocolId, profile))
     )
   }
-  if (layout.collection === 'chronicle-releases') {
+  if (layout.collection === 'releases') {
     return sql`${or(
       inArray(
         layout.table.id,
         builder
-          .select({ id: chronicleReleaseProtocols.chronicleReleaseId })
-          .from(chronicleReleaseProtocols)
-          .where(inArray(chronicleReleaseProtocols.protocolId, profile))
+          .select({ id: releaseProtocols.releaseId })
+          .from(releaseProtocols)
+          .where(inArray(releaseProtocols.protocolId, profile))
       ),
       inArray(
         layout.table.id,
@@ -170,32 +170,30 @@ export function listFilter(layout: StorageLayout, query: ListQuery): RecordPredi
   if (query.search) {
     conditions.push(searchCondition(layout, query.search))
   }
-  if (query.branchKey && layout.collection === 'chronicles') {
+  if (query.branchKey && (layout.collection === 'chronicles' || layout.collection === 'sagas')) {
     conditions.push(inArray(layout.table.branchId, targetId('branches', query.branchKey)))
   }
+  if (query.sagaKey && layout.collection === 'chronicles') {
+    conditions.push(inArray(layout.table.sagaId, targetId('sagas', query.sagaKey)))
+  }
   if (query.ownerKey) {
-    if (layout.collection === 'chronicle-releases') {
+    if (layout.collection === 'releases') {
       conditions.push(inArray(layout.table.chronicleId, targetId('chronicles', query.ownerKey)))
     } else if (layout.collection === 'release-contexts') {
-      conditions.push(inArray(layout.table.releaseId, targetId('chronicle-releases', query.ownerKey)))
+      conditions.push(inArray(layout.table.releaseId, targetId('releases', query.ownerKey)))
     } else if (layout.kind === 'implementation') {
       conditions.push(inArray(layout.table.ownerId, targetId(ownerCollection(layout.collection), query.ownerKey)))
     }
   }
-  if (query.chronicleReleaseKey && layout.collection === 'protocols') {
+  if (query.releaseKey && layout.collection === 'protocols') {
     conditions.push(
       or(
         inArray(
           layout.table.id,
           builder
-            .select({ id: chronicleReleaseProtocols.protocolId })
-            .from(chronicleReleaseProtocols)
-            .where(
-              inArray(
-                chronicleReleaseProtocols.chronicleReleaseId,
-                targetId('chronicle-releases', query.chronicleReleaseKey)
-              )
-            )
+            .select({ id: releaseProtocols.protocolId })
+            .from(releaseProtocols)
+            .where(inArray(releaseProtocols.releaseId, targetId('releases', query.releaseKey)))
         ),
         inArray(
           layout.table.id,
@@ -203,7 +201,7 @@ export function listFilter(layout: StorageLayout, query: ListQuery): RecordPredi
             .select({ id: releaseContextProtocols.protocolId })
             .from(releaseContextProtocols)
             .innerJoin(releaseContexts, eq(releaseContexts.id, releaseContextProtocols.contextId))
-            .where(inArray(releaseContexts.releaseId, targetId('chronicle-releases', query.chronicleReleaseKey)))
+            .where(inArray(releaseContexts.releaseId, targetId('releases', query.releaseKey)))
         )
       )
     )

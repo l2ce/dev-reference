@@ -21,6 +21,8 @@
 
 - [Руководство базы](../packages/database/README.md) — команды работы с SQLite.
 - [CLI](../apps/cli/README.md) — чтение и наполнение справочника.
+- [Проект целевого CLI](development/cli-design.md) — предлагаемая спецификация
+  текстового интерфейса для агента; не описание текущей реализации.
 - [MCP](../apps/mcp/README.md) — поиск, чтение и настройки источника.
 - [Знания проекта и skills](development/skills.md).
 - [Стиль TypeScript](../.agents/skills/ts-styleguide/SKILL.md).

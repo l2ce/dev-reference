@@ -6,6 +6,8 @@ import type { Collection, ImplementationCollection, EntityValue, RevisionValue }
  * Таблицы предметных коллекций; тип колонок сохраняется при выборе конкретной коллекции.
  */
 export interface RecordTables {
+  /** Исторические группы хроник. */
+  readonly sagas: typeof tables.sagas
   /** Регионы распространения, не языки и не страны. */
   readonly regions: typeof tables.regions
   /** Страны с независимыми связями распространения. */
@@ -17,7 +19,7 @@ export interface RecordTables {
   /* Хроники. */
   readonly chronicles: typeof tables.chronicles
   /* Самостоятельные выпуски. */
-  readonly 'chronicle-releases': typeof tables.chronicleReleases
+  readonly releases: typeof tables.releases
   /* Профили сетевого обмена. */
   readonly protocols: typeof tables.protocols
   /* Логические пакеты. */
@@ -50,7 +52,7 @@ export type RecordRow = {
 export type RecordFields = {
   [C in Collection]: Omit<
     InferSelectModel<RecordTables[C]>,
-    'ownerId' | 'branchId' | 'chronicleId' | 'releaseId' | 'regionId'
+    'ownerId' | 'branchId' | 'sagaId' | 'chronicleId' | 'releaseId' | 'regionId'
   >
 }[Collection]
 /**

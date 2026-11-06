@@ -7,6 +7,7 @@ export function documentFields(row: RecordRow): RecordFields {
   const {
     ownerId: _ownerId,
     branchId: _branchId,
+    sagaId: _sagaId,
     chronicleId: _chronicleId,
     releaseId: _releaseId,
     regionId: _regionId,
@@ -14,6 +15,7 @@ export function documentFields(row: RecordRow): RecordFields {
   } = {
     ownerId: undefined,
     branchId: undefined,
+    sagaId: undefined,
     chronicleId: undefined,
     releaseId: undefined,
     regionId: undefined,

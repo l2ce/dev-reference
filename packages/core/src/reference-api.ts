@@ -1,5 +1,5 @@
 /**
- * Продуктовое чтение снимка схемы 19 для CLI и MCP; SQLite принадлежит вызывающему приложению.
+ * Продуктовое чтение классификации и знаний для CLI и MCP; SQLite принадлежит вызывающему приложению.
  */
 export { ReferenceReader, referenceKey } from './reference.js'
 export * from './reference-schema.js'

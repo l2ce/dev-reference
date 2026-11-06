@@ -1,6 +1,7 @@
 import type { ReactElement } from 'react'
 import { KnowledgeLayout } from 'compositions/layouts/knowledge/server'
 import { requireLocale } from '../../../helpers/route-metadata'
+import { requireStaticProtocol } from '../../../helpers/route-params'
 import type { ProtocolPageProps, LayoutChildren } from '../../../types/route-props.type'
 
 /**
@@ -12,7 +13,7 @@ export default async function ProtocolLayout({
 }: ProtocolPageProps & LayoutChildren): Promise<ReactElement> {
   const { protocol, locale } = await params
   return (
-    <KnowledgeLayout locale={requireLocale(locale)} protocol={protocol}>
+    <KnowledgeLayout locale={requireLocale(locale)} protocol={requireStaticProtocol(protocol)}>
       {children}
     </KnowledgeLayout>
   )

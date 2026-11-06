@@ -2,8 +2,10 @@ import 'server-only'
 import { hasErrorCode } from '@l2ce/database'
 import type { ReferenceCatalogItem } from '@l2ce/core/reference'
 import type { Locale } from 'shared/localization'
+import { siteConfig } from 'infra/site-config'
 import { readReference } from '../adapters/read-reference'
 import { collectPages } from '../helpers/collect-pages'
+import { prepareCatalogMarkdown } from '../helpers/prepare-catalog-markdown'
 import type { ChronicleDetails, ChronicleRoute } from '../types/chronicle.type'
 
 /**
@@ -24,21 +26,25 @@ export const getChronicle = (code: string, locale: Locale): ChronicleDetails | n
     return null
   }
   const releases = collectPages((offset) =>
-    reader.catalog({ collection: 'chronicle-releases', chronicle: profile.key, locale, offset, limit: 100 })
+    reader.catalog({ collection: 'releases', chronicle: profile.key, locale, offset, limit: 100 })
   )
   return {
-    profile,
+    profile: { ...profile, markdown: prepareCatalogMarkdown(reader, profile.markdown, locale, siteConfig.basePath) },
     branch: reader.catalogRecord(profile.branchKey, locale),
-    releases: releases.map((release) => ({
-      record: reader.catalogRecord(release.key, locale),
-      contexts: collectPages((offset) =>
-        reader.catalog({ collection: 'release-contexts', release: release.key, locale, offset, limit: 100 })
-      ).map((context) => ({
-        record: reader.catalogRecord(context.key, locale),
-        region: context.regionKey ? reader.catalogRecord(context.regionKey, locale) : null,
-        countries: (context.countryKeys ?? []).map((key) => reader.catalogRecord(key, locale))
-      }))
-    }))
+    saga: profile.sagaKey ? reader.catalogRecord(profile.sagaKey, locale) : null,
+    releases: releases.map((release) => {
+      const record = reader.catalogRecord(release.key, locale)
+      return {
+        record: { ...record, markdown: prepareCatalogMarkdown(reader, record.markdown, locale, siteConfig.basePath) },
+        contexts: collectPages((offset) =>
+          reader.catalog({ collection: 'release-contexts', release: release.key, locale, offset, limit: 100 })
+        ).map((context) => ({
+          record: reader.catalogRecord(context.key, locale),
+          region: context.regionKey ? reader.catalogRecord(context.regionKey, locale) : null,
+          countries: (context.countryKeys ?? []).map((key) => reader.catalogRecord(key, locale))
+        }))
+      }
+    })
   }
 }
 

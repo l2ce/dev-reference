@@ -1,6 +1,7 @@
 import { openDatabase } from '@l2ce/database'
 import { ReferenceReader } from '@l2ce/core/reference'
 import { SUPPORTED_LOCALES } from 'shared/localization'
+import { isNonEmptyString } from 'shared/lib/value-predicates'
 import { referenceErrors } from '../config/messages'
 import type { ReferenceContext } from '../types/reference.type'
 
@@ -14,7 +15,11 @@ export function readReference(): ReferenceContext {
   if (process.env.NODE_ENV === 'production' && buildContext) {
     return buildContext
   }
-  const database = openDatabase({ readOnly: true })
+  const configuredDatabase = process.env.L2CE_DATABASE
+  const database = openDatabase({
+    database: isNonEmptyString(configuredDatabase) ? configuredDatabase : undefined,
+    readOnly: true
+  })
   try {
     const snapshot = database.snapshot()
     for (const locale of SUPPORTED_LOCALES) {

@@ -4,7 +4,7 @@
     "@l2ce/web#build": {
       "dependsOn": ["^build"],
       "cache": false,
-      "env": ["NEXT_PUBLIC_BASE_PATH", "SITE_URL", "L2CE_SOURCE_GIT_COMMIT"],
+      "env": ["NEXT_PUBLIC_BASE_PATH", "SITE_URL", "L2CE_SOURCE_GIT_COMMIT", "L2CE_DATABASE"],
       "outputs": [".next/**", "!.next/cache/**", "out/**"]
     },
     "lint": {

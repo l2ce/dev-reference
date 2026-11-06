@@ -7,7 +7,7 @@ test('CLI редактирует контекст отдельно от прот
   success(await json(['regions', 'create', 'na', '--title', 'NA']))
   success(await json(['countries', 'create', 'us', '--title', 'US']))
   success(
-    await json(['contexts', 'create', 'na', '--release', 'high-five:base', '--file', '-'], {
+    await json(['contexts', 'create', 'na', '--release', 'high-five', '--file', '-'], {
       regionKey: 'na',
       countryKeys: ['us'],
       protocolKeys: ['273'],
@@ -23,21 +23,19 @@ test('CLI редактирует контекст отдельно от прот
       ]
     })
   )
-  const context = success(await json(['contexts', 'inspect', 'high-five:base:na'])).items[0].value
-  assert.equal(context.releaseKey, 'chronicle:high-five:base')
+  const context = success(await json(['contexts', 'inspect', 'high-five:na'])).items[0].value
+  assert.equal(context.releaseKey, 'release:high-five')
   assert.equal(context.regionKey, 'region:na')
   assert.equal(context.releasedOn, '2024-02')
   assert.deepEqual(context.countryKeys, ['country:us'])
-  assert.equal(success(await json(['contexts', 'list', '--release', 'high-five:base', '--region', 'na'])).total, 1)
+  assert.equal(success(await json(['contexts', 'list', '--release', 'high-five', '--region', 'na'])).total, 1)
   assert.equal(success(await json(['protocols', 'list', '--region', 'na'])).total, 1)
   assert.equal(success(await json(['protocols', 'list', '--region', 'kr'])).total, 0)
   const revision = success(await json(['status'])).revision
-  success(
-    await json(['contexts', 'update', 'high-five:base:na', '--file', '-', '--dry-run'], { releasedOn: '2024-02-29' })
-  )
+  success(await json(['contexts', 'update', 'high-five:na', '--file', '-', '--dry-run'], { releasedOn: '2024-02-29' }))
   assert.equal(success(await json(['status'])).revision, revision)
   failure(
-    await json(['contexts', 'update', 'high-five:base:na', '--file', '-'], { releasedOn: '2023-02-29' }),
+    await json(['contexts', 'update', 'high-five:na', '--file', '-'], { releasedOn: '2023-02-29' }),
     'VALIDATION_ERROR',
     2
   )

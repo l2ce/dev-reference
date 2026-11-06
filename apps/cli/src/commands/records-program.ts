@@ -80,11 +80,13 @@ export function registerRecordCommands(program: Command): void {
       list
         .option('--number <number>', messages.flags.number, nonnegativeInteger)
         .option('--branch <code>', messages.flags.branch)
+        .option('--saga <code>', messages.flags.saga)
         .option('--chronicle <code>', messages.flags.chronicle)
         .option('--release <key>', messages.flags.release)
         .option('--region <code>', messages.flags.region)
-    } else if (group === 'chronicles') {
+    } else if (group === 'chronicles' || group === 'sagas') {
       list.option('--branch <code>', messages.flags.branch)
+      if (group === 'chronicles') list.option('--saga <code>', messages.flags.saga)
     } else if (group === 'releases') {
       list.option('--chronicle <code>', messages.flags.chronicle)
     } else if (group === 'contexts') {
@@ -123,8 +125,9 @@ export function registerRecordCommands(program: Command): void {
             ])
           )
       }
-      if (group === 'chronicles') {
+      if (group === 'chronicles' || group === 'sagas') {
         command.option('--branch <code>', messages.flags.branch)
+        if (group === 'chronicles') command.option('--saga <code>', messages.flags.saga)
       }
       if (group === 'releases') {
         command

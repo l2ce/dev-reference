@@ -1,6 +1,7 @@
 import { isNonEmptyArray } from 'shared/lib/value-predicates'
 import type { DocumentRoute, ProtocolRoute } from 'domains/reference'
 import type { Locale } from 'shared/localization'
+import { staticProtocolParams } from './static-protocol-params'
 
 /**
  * Зарезервированный параметр сборки: подчёркивания запрещены в предметном code.
@@ -21,9 +22,6 @@ export function staticDocumentParams(
   if (isNonEmptyArray(routes)) {
     return routes
   }
-  const protocol = protocols.find((route) => route.locale === locale)
-  if (!protocol) {
-    throw new Error(`Cannot generate document routes without a protocol for locale ${locale}`)
-  }
+  const protocol = staticProtocolParams(protocols, locale)[0]
   return [{ ...protocol, kind: 'article', code: EMPTY_DOCUMENT_CODE }]
 }

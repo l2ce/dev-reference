@@ -1,0 +1,25 @@
+{
+  "session": "l2ce-classification-v21-20261106",
+  "fixtureOnly": true,
+  "checkedPages": [
+    {
+      "path": "/ru/chronicles/the-kamael/",
+      "status": 200,
+      "serverRendered": true,
+      "markdownResolved": true,
+      "inlineRscPresent": true
+    },
+    {
+      "path": "/chronicles/the-kamael/",
+      "status": 200,
+      "serverRendered": true,
+      "markdownResolved": true,
+      "inlineRscPresent": true
+    }
+  ],
+  "widths": [390, 768, 1440],
+  "languageSwitch": true,
+  "releaseAnchor": true,
+  "protocolNavigation": true,
+  "browserErrors": 0
+}

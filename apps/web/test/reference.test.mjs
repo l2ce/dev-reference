@@ -3,6 +3,7 @@ import test from 'node:test'
 import { ReferenceReader } from '@l2ce/core/reference'
 import { sharedFixture } from '../../../packages/database/test/fixtures/shared.mjs'
 import { prepareDocument } from '../src/domains/reference/helpers/prepare-document.ts'
+import { prepareCatalogMarkdown } from '../src/domains/reference/helpers/prepare-catalog-markdown.ts'
 
 /**
  * Заменяет текст одного перевода синтетического снимка, не затрагивая рабочую базу.
@@ -76,4 +77,27 @@ test('value name использует техническое имя пакета
     new Map([['packet:protocol-version', 'ProtocolVersion']])
   )
   assert.equal(result.markdown, 'ProtocolVersion')
+})
+
+test('Markdown различает группу и релиз; перегруппировка сохраняет маркер и меняет только целевую страницу', () => {
+  const snapshot = sharedFixture()
+  const markdown = '{{link chronicle:high-five}}\n\n{{link release:high-five}}\n\n{{link protocol:273}}'
+  const reader = new ReferenceReader(snapshot)
+  const before = prepareCatalogMarkdown(reader, markdown, 'ru', '/dev-reference')
+  assert.match(before, /\]\(\/dev-reference\/ru\/chronicles\/high-five\/\)/)
+  assert.match(before, /\]\(\/dev-reference\/ru\/chronicles\/high-five\/#high-five\)/)
+  assert.match(before, /\]\(\/dev-reference\/ru\/protocols\/273\/\)/)
+  snapshot.entries.find((entry) => entry.key === 'release:high-five').value.chronicleKey = 'chronicle:c4'
+  const after = prepareCatalogMarkdown(new ReferenceReader(snapshot), markdown, 'ru', '/dev-reference')
+  assert.match(after, /\]\(\/dev-reference\/ru\/chronicles\/c4\/#high-five\)/)
+  assert.equal(markdown.includes('release:high-five'), true)
+})
+
+test('технические описания поддерживают новые каталоговые ссылки, но не создают URL несуществующих страниц', () => {
+  const snapshot = sharedFixture()
+  setMarkdown(snapshot, 'packet:key-packet:rev-1', 'ru', '{{link release:high-five}}\n\n{{link branch:main}}')
+  const result = prepareDocument(new ReferenceReader(snapshot), '273', 'ru', 'packet:key-packet', '')
+  assert.match(result.markdown, /\]\(\/ru\/chronicles\/high-five\/#high-five\)/)
+  assert.equal(result.issues.length, 1)
+  assert.match(result.issues[0], /branch:main/)
 })

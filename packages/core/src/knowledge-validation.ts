@@ -126,8 +126,6 @@ export function validateKnowledge(input: unknown): KnowledgeSnapshot {
       }
       checkDocument(binding.documentVersionId, key)
       checkSources(binding.sourceIds, key)
-      if (binding.status !== 'missing')
-        requireValue(binding.sourceIds.length, `Researched binding needs sources: ${key}`)
       if ('opcode' in binding) {
         if (binding.status === 'documented') requireValue(binding.opcode, `Documented packet needs an opcode: ${key}`)
         for (const part of binding.opcode ?? []) {
@@ -142,8 +140,6 @@ export function validateKnowledge(input: unknown): KnowledgeSnapshot {
     checkDescription(document.description, document.id)
     requireValue(entities.has(entityKey(document.entity)), `Unknown document owner: ${document.id}`)
     checkSources(document.sourceIds, document.id)
-    if (document.status !== 'missing')
-      requireValue(document.sourceIds.length, `Researched document needs sources: ${document.id}`)
     if (document.status === 'documented')
       requireValue(document.description.join('\n').trim(), `Documented version needs content: ${document.id}`)
     if (document.previousVersionId) checkDocument(document.previousVersionId, entityKey(document.entity))

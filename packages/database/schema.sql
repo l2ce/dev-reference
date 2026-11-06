@@ -91,49 +91,6 @@ CREATE TABLE `branches` (
 
 CREATE UNIQUE INDEX `branches_code_unique` ON `branches` (`code`);
 
-CREATE TABLE `chronicle_release_protocols` (
-	`chronicle_release_id` text NOT NULL,
-	`protocol_id` text NOT NULL,
-	`position` integer NOT NULL,
-	PRIMARY KEY(`chronicle_release_id`, `protocol_id`),
-	FOREIGN KEY (`chronicle_release_id`) REFERENCES `chronicle_releases`(`id`) ON UPDATE no action ON DELETE cascade,
-	FOREIGN KEY (`protocol_id`) REFERENCES `protocols`(`id`) ON UPDATE no action ON DELETE no action,
-	CONSTRAINT "release_protocol_position" CHECK("chronicle_release_protocols"."position" >= 0)
-) STRICT;
-
-CREATE UNIQUE INDEX `chronicle_release_protocols_chronicle_release_id_position_unique` ON `chronicle_release_protocols` (`chronicle_release_id`,`position`);
-
-CREATE TABLE `chronicle_release_translations` (
-	`chronicle_release_id` text NOT NULL,
-	`locale` text NOT NULL,
-	`title` text NOT NULL,
-	`summary` text NOT NULL,
-	`description` text NOT NULL,
-	`sources_json` text NOT NULL,
-	`translation_status` text NOT NULL,
-	`open_questions_json` text NOT NULL,
-	PRIMARY KEY(`chronicle_release_id`, `locale`),
-	FOREIGN KEY (`chronicle_release_id`) REFERENCES `chronicle_releases`(`id`) ON UPDATE no action ON DELETE cascade,
-	FOREIGN KEY (`locale`) REFERENCES `locales`(`code`) ON UPDATE no action ON DELETE no action,
-	CONSTRAINT "chronicle_release_translations_status" CHECK("chronicle_release_translations"."translation_status" IN ('ready', 'missing', 'outdated')),
-	CONSTRAINT "chronicle_release_translations_sources" CHECK(json_type("chronicle_release_translations"."sources_json") = 'array'),
-	CONSTRAINT "chronicle_release_translations_questions" CHECK(json_type("chronicle_release_translations"."open_questions_json") = 'array'),
-	CONSTRAINT "chronicle_release_translations_sources_json" CHECK(json_valid("chronicle_release_translations"."sources_json")),
-	CONSTRAINT "chronicle_release_translations_questions_json" CHECK(json_valid("chronicle_release_translations"."open_questions_json"))
-) STRICT;
-
-CREATE TABLE `chronicle_releases` (
-	`id` text PRIMARY KEY NOT NULL,
-	`code` text NOT NULL,
-	`sort_order` integer,
-	`status` text NOT NULL,
-	`chronicle_id` text NOT NULL,
-	FOREIGN KEY (`chronicle_id`) REFERENCES `chronicles`(`id`) ON UPDATE no action ON DELETE no action,
-	CONSTRAINT "release_status" CHECK("chronicle_releases"."status" IN ('missing', 'partial', 'documented'))
-) STRICT;
-
-CREATE UNIQUE INDEX `chronicle_releases_chronicle_id_code_unique` ON `chronicle_releases` (`chronicle_id`,`code`);
-
 CREATE TABLE `chronicle_translations` (
 	`chronicle_id` text NOT NULL,
 	`locale` text NOT NULL,
@@ -158,7 +115,9 @@ CREATE TABLE `chronicles` (
 	`code` text NOT NULL,
 	`sort_order` integer,
 	`branch_id` text NOT NULL,
-	FOREIGN KEY (`branch_id`) REFERENCES `branches`(`id`) ON UPDATE no action ON DELETE no action
+	`saga_id` text,
+	FOREIGN KEY (`branch_id`) REFERENCES `branches`(`id`) ON UPDATE no action ON DELETE no action,
+	FOREIGN KEY (`saga_id`) REFERENCES `sagas`(`id`) ON UPDATE no action ON DELETE no action
 ) STRICT;
 
 CREATE UNIQUE INDEX `chronicles_code_unique` ON `chronicles` (`code`);
@@ -205,7 +164,7 @@ CREATE TABLE `metadata` (
 	`default_locale` text NOT NULL,
 	FOREIGN KEY (`default_locale`) REFERENCES `locales`(`code`) ON UPDATE no action ON DELETE no action,
 	CONSTRAINT "metadata_singleton" CHECK("metadata"."id" = 1),
-	CONSTRAINT "metadata_version" CHECK("metadata"."schema_rev" = 20)
+	CONSTRAINT "metadata_version" CHECK("metadata"."schema_rev" = 21)
 ) STRICT;
 
 CREATE TABLE `packet_protocols` (
@@ -408,16 +367,88 @@ CREATE TABLE `release_contexts` (
 	`code` text NOT NULL,
 	`sort_order` integer,
 	`status` text NOT NULL,
-	`chronicle_release_id` text NOT NULL,
+	`release_id` text NOT NULL,
 	`region_id` text,
 	`released_on` text,
-	FOREIGN KEY (`chronicle_release_id`) REFERENCES `chronicle_releases`(`id`) ON UPDATE no action ON DELETE no action,
+	FOREIGN KEY (`release_id`) REFERENCES `releases`(`id`) ON UPDATE no action ON DELETE no action,
 	FOREIGN KEY (`region_id`) REFERENCES `regions`(`id`) ON UPDATE no action ON DELETE no action,
 	CONSTRAINT "context_status" CHECK("release_contexts"."status" IN ('missing', 'partial', 'documented')),
 	CONSTRAINT "context_date" CHECK("release_contexts"."released_on" IS NULL OR (length("release_contexts"."released_on") IN (4, 7, 10) AND substr("release_contexts"."released_on", 1, 4) GLOB '[0-9][0-9][0-9][0-9]'))
 ) STRICT;
 
-CREATE UNIQUE INDEX `release_contexts_chronicle_release_id_code_unique` ON `release_contexts` (`chronicle_release_id`,`code`);
+CREATE UNIQUE INDEX `release_contexts_release_id_code_unique` ON `release_contexts` (`release_id`,`code`);
+
+CREATE TABLE `release_protocols` (
+	`release_id` text NOT NULL,
+	`protocol_id` text NOT NULL,
+	`position` integer NOT NULL,
+	PRIMARY KEY(`release_id`, `protocol_id`),
+	FOREIGN KEY (`release_id`) REFERENCES `releases`(`id`) ON UPDATE no action ON DELETE cascade,
+	FOREIGN KEY (`protocol_id`) REFERENCES `protocols`(`id`) ON UPDATE no action ON DELETE no action,
+	CONSTRAINT "release_protocol_position" CHECK("release_protocols"."position" >= 0)
+) STRICT;
+
+CREATE UNIQUE INDEX `release_protocols_release_id_position_unique` ON `release_protocols` (`release_id`,`position`);
+
+CREATE TABLE `release_translations` (
+	`release_id` text NOT NULL,
+	`locale` text NOT NULL,
+	`title` text NOT NULL,
+	`summary` text NOT NULL,
+	`description` text NOT NULL,
+	`sources_json` text NOT NULL,
+	`translation_status` text NOT NULL,
+	`open_questions_json` text NOT NULL,
+	PRIMARY KEY(`release_id`, `locale`),
+	FOREIGN KEY (`release_id`) REFERENCES `releases`(`id`) ON UPDATE no action ON DELETE cascade,
+	FOREIGN KEY (`locale`) REFERENCES `locales`(`code`) ON UPDATE no action ON DELETE no action,
+	CONSTRAINT "release_translations_status" CHECK("release_translations"."translation_status" IN ('ready', 'missing', 'outdated')),
+	CONSTRAINT "release_translations_sources" CHECK(json_type("release_translations"."sources_json") = 'array'),
+	CONSTRAINT "release_translations_questions" CHECK(json_type("release_translations"."open_questions_json") = 'array'),
+	CONSTRAINT "release_translations_sources_json" CHECK(json_valid("release_translations"."sources_json")),
+	CONSTRAINT "release_translations_questions_json" CHECK(json_valid("release_translations"."open_questions_json"))
+) STRICT;
+
+CREATE TABLE `releases` (
+	`id` text PRIMARY KEY NOT NULL,
+	`code` text NOT NULL,
+	`sort_order` integer,
+	`status` text NOT NULL,
+	`chronicle_id` text NOT NULL,
+	FOREIGN KEY (`chronicle_id`) REFERENCES `chronicles`(`id`) ON UPDATE no action ON DELETE no action,
+	CONSTRAINT "release_status" CHECK("releases"."status" IN ('missing', 'partial', 'documented'))
+) STRICT;
+
+CREATE UNIQUE INDEX `releases_code_unique` ON `releases` (`code`);
+
+CREATE TABLE `saga_translations` (
+	`saga_id` text NOT NULL,
+	`locale` text NOT NULL,
+	`title` text NOT NULL,
+	`summary` text NOT NULL,
+	`description` text NOT NULL,
+	`sources_json` text NOT NULL,
+	`translation_status` text NOT NULL,
+	`open_questions_json` text NOT NULL,
+	PRIMARY KEY(`saga_id`, `locale`),
+	FOREIGN KEY (`saga_id`) REFERENCES `sagas`(`id`) ON UPDATE no action ON DELETE cascade,
+	FOREIGN KEY (`locale`) REFERENCES `locales`(`code`) ON UPDATE no action ON DELETE no action,
+	CONSTRAINT "saga_translations_status" CHECK("saga_translations"."translation_status" IN ('ready', 'missing', 'outdated')),
+	CONSTRAINT "saga_translations_sources" CHECK(json_type("saga_translations"."sources_json") = 'array'),
+	CONSTRAINT "saga_translations_questions" CHECK(json_type("saga_translations"."open_questions_json") = 'array'),
+	CONSTRAINT "saga_translations_sources_json" CHECK(json_valid("saga_translations"."sources_json")),
+	CONSTRAINT "saga_translations_questions_json" CHECK(json_valid("saga_translations"."open_questions_json"))
+) STRICT;
+
+CREATE TABLE `sagas` (
+	`id` text PRIMARY KEY NOT NULL,
+	`code` text NOT NULL,
+	`sort_order` integer,
+	`branch_id` text NOT NULL,
+	FOREIGN KEY (`branch_id`) REFERENCES `branches`(`id`) ON UPDATE no action ON DELETE no action
+) STRICT;
+
+CREATE UNIQUE INDEX `sagas_code_unique` ON `sagas` (`code`);
 
 CREATE TABLE `scenario_protocols` (
 	`scenario_id` text NOT NULL,

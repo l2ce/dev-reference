@@ -136,7 +136,7 @@ export class ReferenceReader {
   /**
    * Объединяет явные контексты и связи с ещё неизвестным регионом без наследования знаний.
    */
-  private releaseProtocols(release: EntityEntry & { collection: 'chronicle-releases' }): string[] {
+  private releaseProtocols(release: EntityEntry & { collection: 'releases' }): string[] {
     const contexts = this.snapshot.entries
       .filter((entry) => entry.collection === 'release-contexts')
       .filter((entry) => entry.value.releaseKey === release.key)
@@ -162,7 +162,8 @@ export class ReferenceReader {
       ...('number' in value ? { number: value.number, variant: value.variant } : {}),
       ...('status' in value ? { status: value.status } : {}),
       ...('branchKey' in value ? { branchKey: value.branchKey } : {}),
-      ...(entry.collection === 'chronicle-releases'
+      ...('sagaKey' in value ? { sagaKey: value.sagaKey } : {}),
+      ...(entry.collection === 'releases'
         ? {
             chronicleKey: entry.value.chronicleKey,
             protocolKeys: this.releaseProtocols(entry),
@@ -188,8 +189,9 @@ export class ReferenceReader {
     const query = referenceCatalogSchema.parse(input)
     const locale = this.locale(query.locale)
     if (
-      (query.branch && query.collection !== 'chronicles') ||
-      (query.chronicle && query.collection !== 'chronicle-releases') ||
+      (query.branch && !['chronicles', 'sagas'].includes(query.collection)) ||
+      (query.saga && query.collection !== 'chronicles') ||
+      (query.chronicle && query.collection !== 'releases') ||
       (query.release && query.collection !== 'release-contexts') ||
       (query.region && query.collection !== 'release-contexts')
     ) {
@@ -208,7 +210,8 @@ export class ReferenceReader {
           ('chronicleKey' in entry.value && entry.value.chronicleKey === referenceKey('chronicle', query.chronicle))
       )
       .map((entry) => this.catalogItem(entry, locale))
-      .filter((item) => !query.release || item.releaseKey === referenceKey('chronicle', query.release))
+      .filter((item) => !query.saga || item.sagaKey === referenceKey('saga', query.saga))
+      .filter((item) => !query.release || item.releaseKey === referenceKey('release', query.release))
       .filter((item) => !query.region || item.regionKey === referenceKey('region', query.region))
       .filter((item) => matches(query.query, [item.key, item.title, item.summary]))
       .map(({ markdown: _markdown, sources: _sources, ...summary }) => summary)
@@ -222,14 +225,17 @@ export class ReferenceReader {
     const query = referenceProtocolsSchema.parse(input)
     const locale = this.locale(query.locale)
     const releases = this.snapshot.entries
-      .filter((entry) => entry.collection === 'chronicle-releases')
-      .filter((entry) => !query.release || entry.key === referenceKey('chronicle', query.release))
+      .filter((entry) => entry.collection === 'releases')
+      .filter((entry) => !query.release || entry.key === referenceKey('release', query.release))
       .filter((entry) => !query.chronicle || entry.value.chronicleKey === referenceKey('chronicle', query.chronicle))
       .filter((entry) => {
         const chronicle = this.entries.get(entry.value.chronicleKey)
         return (
-          !query.branch ||
-          (chronicle?.collection === 'chronicles' && chronicle.value.branchKey === referenceKey('branch', query.branch))
+          (!query.branch ||
+            (chronicle?.collection === 'chronicles' &&
+              chronicle.value.branchKey === referenceKey('branch', query.branch))) &&
+          (!query.saga ||
+            (chronicle?.collection === 'chronicles' && chronicle.value.sagaKey === referenceKey('saga', query.saga)))
         )
       })
     const releaseKeys = new Set(releases.map((entry) => entry.key))
@@ -245,7 +251,8 @@ export class ReferenceReader {
       .filter((entry) => entry.collection === 'protocols')
       .filter((entry) => query.number === undefined || entry.value.number === query.number)
       .filter(
-        (entry) => !(query.branch || query.chronicle || query.release || query.region) || permitted.has(entry.key)
+        (entry) =>
+          !(query.branch || query.saga || query.chronicle || query.release || query.region) || permitted.has(entry.key)
       )
       .map((entry) => this.catalogItem(entry, locale))
       .filter((item) => matches(query.query, [item.key, item.title, item.summary]))
@@ -275,7 +282,7 @@ export class ReferenceReader {
       }),
       loginRevisions: entry.value.loginRevisions,
       releases: this.snapshot.entries
-        .filter((release) => release.collection === 'chronicle-releases')
+        .filter((release) => release.collection === 'releases')
         .filter((release) => this.releaseProtocols(release).includes(entry.key))
         .map((release) => this.catalogItem(release, locale))
     })
@@ -289,7 +296,7 @@ export class ReferenceReader {
     if (
       !entry ||
       entry.kind !== 'entity' ||
-      !['branches', 'chronicles', 'chronicle-releases', 'release-contexts', 'regions', 'countries'].includes(
+      !['branches', 'sagas', 'chronicles', 'releases', 'release-contexts', 'regions', 'countries'].includes(
         entry.collection
       )
     ) {

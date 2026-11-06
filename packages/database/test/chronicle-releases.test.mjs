@@ -5,15 +5,15 @@ import { fixture } from './helpers.mjs'
 
 test('выпуск имеет собственный code без rev и может существовать без протоколов и переводов', async (t) => {
   const { database } = await fixture(t)
-  const key = 'chronicle:high-five:part-1'
+  const key = 'release:high-five-part-1'
   const entry = {
-    collection: 'chronicle-releases',
+    collection: 'releases',
     kind: 'entity',
     key,
     value: {
       id: randomUUID(),
       key,
-      code: 'part-1',
+      code: 'high-five-part-1',
       chronicleKey: 'chronicle:high-five'
     }
   }

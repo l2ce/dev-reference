@@ -5,7 +5,7 @@ import { Writable } from 'node:stream'
 import { stripVTControlCharacters } from 'node:util'
 import test from 'node:test'
 import Sqlite from 'better-sqlite3'
-import { importDatabase, snapshotRevision } from '../dist/index.js'
+import { importDatabase, snapshotRevision, collectionSchema } from '../dist/index.js'
 import { createProgress } from '../dist/exchange/progress.js'
 import { createTerminalProgress } from '../dist/cli/progress.js'
 import { progressFrame } from '../dist/cli/progress-view.js'
@@ -32,7 +32,7 @@ test('все коллекции видны заранее, времена отд
   })
   progress.stage('scan')
   progress.plan([packet, profile])
-  assert.equal(events[0].collections.length, 13)
+  assert.equal(events[0].collections.length, collectionSchema.options.length)
   const planned = events.at(-1)
   assert.equal(planned.collections.find((group) => group.collection === 'packets').total, 1)
   progress.stage('read')
@@ -69,7 +69,7 @@ test('все коллекции видны заранее, времена отд
   assert.match(frame, /^  packets \(1\):\s+\[#{28}\] 100%$/m)
   assert.match(frame, /^\[1\/2\] Russian \(ru\)$/m)
   assert.match(frame, /^\[2\/2\] English \(en\)$/m)
-  assert.equal(progressFrame(final).length, 29)
+  assert.equal(progressFrame(final).length, collectionSchema.options.length * 2 + 3)
   const columnPositions = progressFrame(final)
     .filter((line) => line.startsWith('  '))
     .map((line) => line.indexOf('['))
@@ -216,6 +216,6 @@ test('одинаковые коллекции разных языков имею
   singleLanguage.plan([packet], ['ru'])
   const singleFrame = progressFrame(singleLanguageEvents.at(-1))
   assert.equal(singleFrame[0], '[1/1] Russian (ru)')
-  assert.equal(singleFrame.length, 14)
+  assert.equal(singleFrame.length, collectionSchema.options.length + 1)
   assert.doesNotMatch(singleFrame.join('\n'), /English/)
 })

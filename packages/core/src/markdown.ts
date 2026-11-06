@@ -12,6 +12,27 @@ export interface Directive extends EntityReference {
 }
 
 /**
+ * Самодостаточная ссылка на классификатор, релиз или протокол без неявного контекста.
+ */
+export interface CatalogLinkDirective {
+  /** Операция ссылки; группы не разворачиваются как технические документы. */
+  operation: 'link'
+  /** Тип записи из публичного пространства имён. */
+  kind: 'branch' | 'saga' | 'chronicle' | 'release' | 'region' | 'country' | 'protocol'
+  /** Устойчивый код записи, независимый от заголовка и классификации. */
+  id: string
+  /** Каталоговые ссылки не выбирают канал соединения. */
+  server?: never
+  /** Каталоговые ссылки не читают поля технических документов. */
+  field?: never
+}
+
+/**
+ * Директива современного справочника, включая ссылки на записи каталога.
+ */
+export type ReferenceDirective = Directive | CatalogLinkDirective
+
+/**
  * Проверяет одну директиву и её атрибуты; record является публичным именем article.
  * Некорректный синтаксис, повтор атрибута и отсутствие field у value — ошибки.
  */
@@ -49,14 +70,26 @@ function parseDirective(value: string): Directive {
 }
 
 type Node = Root | RootContent | PhrasingContent
-interface Occurrence {
-  directive: Directive
+/**
+ * Проверенная директива с диапазоном в буквальном исходном Markdown.
+ */
+interface Occurrence<D extends ReferenceDirective> {
+  /** Разобранная операция. */
+  directive: D
+  /** Начальная позиция. */
   start: number
+  /** Позиция после директивы. */
   end: number
 }
 
-function occurrences(markdown: string): Occurrence[] {
-  const result: Occurrence[] = []
+/**
+ * Находит директивы только в тексте AST, не затрагивая код и экранированные примеры.
+ */
+function occurrences<D extends ReferenceDirective>(markdown: string, parse: (value: string) => D): Occurrence<D>[] {
+  const result: Occurrence<D>[] = []
+  /**
+   * Обходит текстовые узлы с проверкой положения директивы в документе.
+   */
   function visit(node: Node, ancestors: Node[]) {
     if (node.type === 'text') {
       const start = node.position!.start.offset!
@@ -76,7 +109,7 @@ function occurrences(markdown: string): Occurrence[] {
         if (closing === -1 || raw.slice(opening, closing).includes('\n'))
           throw new Error('Unclosed knowledge directive')
         const token = raw.slice(opening, closing + 2)
-        const directive = parseDirective(token)
+        const directive = parse(token)
         const parent = ancestors.at(-1)
         if (
           directive.operation === 'include' &&
@@ -110,18 +143,30 @@ function occurrences(markdown: string): Occurrence[] {
  * Извлекает проверенные директивы, сохраняя буквальные шаблоны в коде и экранированном тексте.
  */
 export function markdownDirectives(markdown: string): Directive[] {
-  return occurrences(markdown).map((item) => item.directive)
+  return occurrences(markdown, parseDirective).map((item) => item.directive)
 }
 
-export interface MarkdownResolver {
-  link(directive: Directive): string
-  value(directive: Directive): string
-  include(directive: Directive): string
+/**
+ * Адаптер отображения адресов и содержимого, принадлежащий потребителю Markdown.
+ */
+export interface MarkdownResolver<D extends ReferenceDirective = Directive> {
+  /** Отображает ссылку. */
+  link(directive: D): string
+  /** Отображает значение поля. */
+  value(directive: D): string
+  /** Вставляет документ. */
+  include(directive: D): string
 }
 
-/** Replace only directives; preserve the author's lines, whitespace and code verbatim. */
-export function renderMarkdown(markdown: string, resolver: MarkdownResolver): string {
-  const replacements = occurrences(markdown).map((item) => {
+/**
+ * Заменяет только найденные директивы, сохраняя авторские строки и код буквально.
+ */
+function replaceDirectives<D extends ReferenceDirective>(
+  markdown: string,
+  found: Occurrence<D>[],
+  resolver: MarkdownResolver<D>
+): string {
+  const replacements = found.map((item) => {
     const { directive } = item
     let value: string
     if (directive.operation === 'include') value = resolver.include(directive)
@@ -143,4 +188,38 @@ export function renderMarkdown(markdown: string, resolver: MarkdownResolver): st
   }
   parts.push(markdown.slice(offset))
   return parts.join('')
+}
+
+/**
+ * Разбирает ссылку каталога либо совместимую директиву технического знания.
+ */
+function parseReferenceDirective(value: string): ReferenceDirective {
+  const match =
+    /^\{\{link (branch|saga|chronicle|release|region|country|protocol):([a-z0-9]+(?:[.-][a-z0-9]+)*)\}\}$/.exec(value)
+  if (!match) {
+    return parseDirective(value)
+  }
+  // Тип ограничен перечислением регулярного выражения; адрес не содержит родительской группы.
+  return { operation: 'link', kind: match[1] as CatalogLinkDirective['kind'], id: match[2] }
+}
+
+/**
+ * Извлекает директивы современного справочника для проверки логических ссылок.
+ */
+export function referenceMarkdownDirectives(markdown: string): ReferenceDirective[] {
+  return occurrences(markdown, parseReferenceDirective).map((item) => item.directive)
+}
+
+/**
+ * Сохраняет контракт прежнего рендерера технических знаний.
+ */
+export function renderMarkdown(markdown: string, resolver: MarkdownResolver): string {
+  return replaceDirectives(markdown, occurrences(markdown, parseDirective), resolver)
+}
+
+/**
+ * Отображает новые адреса каталога и технические директивы через явный адаптер потребителя.
+ */
+export function renderReferenceMarkdown(markdown: string, resolver: MarkdownResolver<ReferenceDirective>): string {
+  return replaceDirectives(markdown, occurrences(markdown, parseReferenceDirective), resolver)
 }

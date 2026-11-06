@@ -26,10 +26,24 @@ export const metadata = sqliteTable(
       .notNull()
       .references(() => locales.code)
   },
-  (t) => [check('metadata_singleton', sql`${t.id} = 1`), check('metadata_version', sql`${t.schemaVersion} = 20`)]
+  (t) => [check('metadata_singleton', sql`${t.id} = 1`), check('metadata_version', sql`${t.schemaVersion} = 21`)]
 )
 
 export const branches = sqliteTable('branches', { ...commonFields, ...navigationFields }, (t) => [unique().on(t.code)])
+/**
+ * Историческая группа хроник одной ветки, независимая от релизных адресов.
+ */
+export const sagas = sqliteTable(
+  'sagas',
+  {
+    ...commonFields,
+    ...navigationFields,
+    branchId: text('branch_id')
+      .notNull()
+      .references(() => branches.id)
+  },
+  (t) => [unique().on(t.code)]
+)
 export const regions = sqliteTable('regions', { ...commonFields, ...navigationFields }, (t) => [unique().on(t.code)])
 export const countries = sqliteTable('countries', { ...commonFields, ...navigationFields }, (t) => [
   unique().on(t.code)
@@ -41,12 +55,13 @@ export const chronicles = sqliteTable(
     ...navigationFields,
     branchId: text('branch_id')
       .notNull()
-      .references(() => branches.id)
+      .references(() => branches.id),
+    sagaId: text('saga_id').references(() => sagas.id)
   },
   (t) => [unique().on(t.code)]
 )
-export const chronicleReleases = sqliteTable(
-  'chronicle_releases',
+export const releases = sqliteTable(
+  'releases',
   {
     ...commonFields,
     ...navigationFields,
@@ -55,10 +70,7 @@ export const chronicleReleases = sqliteTable(
       .notNull()
       .references(() => chronicles.id)
   },
-  (t) => [
-    unique().on(t.chronicleId, t.code),
-    check('release_status', sql`${t.status} IN ('missing', 'partial', 'documented')`)
-  ]
+  (t) => [unique().on(t.code), check('release_status', sql`${t.status} IN ('missing', 'partial', 'documented')`)]
 )
 export const protocols = sqliteTable(
   'protocols',
@@ -84,9 +96,9 @@ export const releaseContexts = sqliteTable(
     ...commonFields,
     ...navigationFields,
     ...researchFields,
-    releaseId: text('chronicle_release_id')
+    releaseId: text('release_id')
       .notNull()
-      .references(() => chronicleReleases.id),
+      .references(() => releases.id),
     regionId: text('region_id').references(() => regions.id),
     releasedOn: text('released_on')
   },
@@ -183,20 +195,20 @@ export const packetRevisions = revisionTable('packet_revisions', packets, 'packe
 export const scenarioRevisions = revisionTable('scenario_revisions', scenarios, 'scenario_id')
 export const articleRevisions = revisionTable('article_revisions', articles, 'article_id')
 
-export const chronicleReleaseProtocols = sqliteTable(
-  'chronicle_release_protocols',
+export const releaseProtocols = sqliteTable(
+  'release_protocols',
   {
-    chronicleReleaseId: text('chronicle_release_id')
+    releaseId: text('release_id')
       .notNull()
-      .references(() => chronicleReleases.id, { onDelete: 'cascade' }),
+      .references(() => releases.id, { onDelete: 'cascade' }),
     protocolId: text('protocol_id')
       .notNull()
       .references(() => protocols.id),
     position: integer('position').notNull()
   },
   (t) => [
-    primaryKey({ columns: [t.chronicleReleaseId, t.protocolId] }),
-    unique().on(t.chronicleReleaseId, t.position),
+    primaryKey({ columns: [t.releaseId, t.protocolId] }),
+    unique().on(t.releaseId, t.position),
     check('release_protocol_position', sql`${t.position} >= 0`)
   ]
 )
@@ -293,6 +305,7 @@ function translationTable(
   )
 }
 export const branchTranslations = translationTable('branch_translations', branches.id, 'branch_id')
+export const sagaTranslations = translationTable('saga_translations', sagas.id, 'saga_id')
 export const regionTranslations = translationTable('region_translations', regions.id, 'region_id')
 export const countryTranslations = translationTable('country_translations', countries.id, 'country_id')
 export const releaseContextTranslations = translationTable(
@@ -301,11 +314,7 @@ export const releaseContextTranslations = translationTable(
   'release_context_id'
 )
 export const chronicleTranslations = translationTable('chronicle_translations', chronicles.id, 'chronicle_id')
-export const chronicleReleaseTranslations = translationTable(
-  'chronicle_release_translations',
-  chronicleReleases.id,
-  'chronicle_release_id'
-)
+export const releaseTranslations = translationTable('release_translations', releases.id, 'release_id')
 export const protocolTranslations = translationTable('protocol_translations', protocols.id, 'protocol_id')
 export const packetRevisionTranslations = translationTable(
   'packet_revision_translations',

@@ -49,7 +49,7 @@ export const documentationConfigSchema = z.strictObject({
   loginRevisions: z.array(protocolNumberSchema).optional(),
   region: label.nullable(),
   clientBuild: label.nullable(),
-  sources: z.array(sourceSchema).min(1)
+  sources: z.array(sourceSchema).default([])
 })
 
 export const documentationIndexSchema = z.strictObject({

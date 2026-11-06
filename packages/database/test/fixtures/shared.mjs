@@ -53,8 +53,8 @@ export function sharedFixture() {
       branchKey: 'branch:main',
       translations: translations(code)
     })
-    add('chronicle-releases', `chronicle:${code}:base`, {
-      code: 'base',
+    add('releases', `release:${code}`, {
+      code,
       chronicleKey: `chronicle:${code}`,
       protocolKeys: [code === 'c4' ? 'protocol:656' : 'protocol:273'],
       translations: translations(code)
@@ -107,7 +107,7 @@ export function sharedFixture() {
     translations: translations('Framing')
   })
   return validateSnapshot({
-    schemaVersion: 20,
+    schemaVersion: 21,
     dataVersion: 'test',
     defaultLocale: 'ru',
     locales: ['ru', 'en'],

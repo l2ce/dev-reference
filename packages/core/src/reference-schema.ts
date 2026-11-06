@@ -16,6 +16,7 @@ export const referenceProtocolsSchema = z.strictObject({
   query: z.string().max(1000).optional(),
   number: z.number().int().nonnegative().optional(),
   branch: z.string().optional(),
+  saga: z.string().optional(),
   chronicle: z.string().optional(),
   release: z.string().optional(),
   region: z.string().optional(),
@@ -37,10 +38,11 @@ export const referenceReadSchema = z.strictObject({
   keys: z.array(knowledgeReferenceSchema).min(1).max(50)
 })
 export const referenceCatalogSchema = z.strictObject({
-  collection: z.enum(['branches', 'chronicles', 'chronicle-releases', 'release-contexts', 'regions', 'countries']),
+  collection: z.enum(['branches', 'sagas', 'chronicles', 'releases', 'release-contexts', 'regions', 'countries']),
   locale: localeSchema.optional(),
   query: z.string().max(1000).optional(),
   branch: z.string().optional(),
+  saga: z.string().optional(),
   chronicle: z.string().optional(),
   release: z.string().optional(),
   region: z.string().optional(),

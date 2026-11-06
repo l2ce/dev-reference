@@ -31,14 +31,16 @@ export interface ListQuery<C extends Collection = Collection> {
   readonly collection: C
   /* Подстрока вычисляемого ключа, code, названия или аннотации без учёта регистра Unicode. */
   readonly search?: string
-  /* Только chronicles: ключ ветки. */
+  /** Ветка для хроник и саг. */
   readonly branchKey?: string
+  /** Необязательная сага для фильтрации хроник. */
+  readonly sagaKey?: string
   /* Выпуски и ревизии: вычисляемый ключ карточки-владельца. */
   readonly ownerKey?: string
   /* Карточки знаний и редакции: точная применимость к выбранному протоколу. */
   readonly protocolKey?: string
   /* Только protocols: ключ выпуска хроники, определяющего список профилей. */
-  readonly chronicleReleaseKey?: string
+  readonly releaseKey?: string
   /** Регион только для release-contexts; не фильтрует язык перевода. */
   readonly regionKey?: string
   /* Пакеты, сценарии, статьи и их имплементации: принадлежность к Login или Game. */
@@ -71,7 +73,7 @@ export type UpdateOperation =
         readonly target: EntityAddress<C> & { readonly kind: 'entity' }
         /* Изменяемое содержание карточки без UUID и составляющих вычисляемого адреса. */
         readonly patch: Partial<
-          Omit<EntityValue<C>, 'id' | 'key' | 'code' | 'number' | 'variant' | 'rev' | 'chronicleKey' | 'releaseKey'>
+          Omit<EntityValue<C>, 'id' | 'key' | 'code' | 'number' | 'variant' | 'rev' | 'releaseKey'>
         >
       }
     }[EntityCollection]

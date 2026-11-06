@@ -88,7 +88,7 @@
         "branch_id",
         "locale"
       ],
-      "rows": 6
+      "rows": 0
     },
     {
       "name": "branches",
@@ -100,52 +100,7 @@
       "primaryKey": [
         "id"
       ],
-      "rows": 3
-    },
-    {
-      "name": "chronicle_release_protocols",
-      "columns": [
-        "chronicle_release_id",
-        "protocol_id",
-        "position"
-      ],
-      "primaryKey": [
-        "chronicle_release_id",
-        "protocol_id"
-      ],
       "rows": 0
-    },
-    {
-      "name": "chronicle_release_translations",
-      "columns": [
-        "chronicle_release_id",
-        "locale",
-        "title",
-        "summary",
-        "description",
-        "sources_json",
-        "translation_status",
-        "open_questions_json"
-      ],
-      "primaryKey": [
-        "chronicle_release_id",
-        "locale"
-      ],
-      "rows": 232
-    },
-    {
-      "name": "chronicle_releases",
-      "columns": [
-        "id",
-        "code",
-        "sort_order",
-        "status",
-        "chronicle_id"
-      ],
-      "primaryKey": [
-        "id"
-      ],
-      "rows": 116
     },
     {
       "name": "chronicle_translations",
@@ -163,7 +118,7 @@
         "chronicle_id",
         "locale"
       ],
-      "rows": 168
+      "rows": 0
     },
     {
       "name": "chronicles",
@@ -171,12 +126,13 @@
         "id",
         "code",
         "sort_order",
-        "branch_id"
+        "branch_id",
+        "saga_id"
       ],
       "primaryKey": [
         "id"
       ],
-      "rows": 84
+      "rows": 0
     },
     {
       "name": "countries",
@@ -348,7 +304,7 @@
         "protocol_id",
         "locale"
       ],
-      "rows": 248
+      "rows": 0
     },
     {
       "name": "protocols",
@@ -361,7 +317,7 @@
       "primaryKey": [
         "id"
       ],
-      "rows": 124
+      "rows": 0
     },
     {
       "name": "region_translations",
@@ -379,7 +335,7 @@
         "region_id",
         "locale"
       ],
-      "rows": 8
+      "rows": 0
     },
     {
       "name": "regions",
@@ -391,7 +347,7 @@
       "primaryKey": [
         "id"
       ],
-      "rows": 4
+      "rows": 0
     },
     {
       "name": "release_context_countries",
@@ -417,7 +373,7 @@
         "release_context_id",
         "protocol_id"
       ],
-      "rows": 326
+      "rows": 0
     },
     {
       "name": "release_context_translations",
@@ -435,7 +391,7 @@
         "release_context_id",
         "locale"
       ],
-      "rows": 466
+      "rows": 0
     },
     {
       "name": "release_contexts",
@@ -444,14 +400,90 @@
         "code",
         "sort_order",
         "status",
-        "chronicle_release_id",
+        "release_id",
         "region_id",
         "released_on"
       ],
       "primaryKey": [
         "id"
       ],
-      "rows": 233
+      "rows": 0
+    },
+    {
+      "name": "release_protocols",
+      "columns": [
+        "release_id",
+        "protocol_id",
+        "position"
+      ],
+      "primaryKey": [
+        "release_id",
+        "protocol_id"
+      ],
+      "rows": 0
+    },
+    {
+      "name": "release_translations",
+      "columns": [
+        "release_id",
+        "locale",
+        "title",
+        "summary",
+        "description",
+        "sources_json",
+        "translation_status",
+        "open_questions_json"
+      ],
+      "primaryKey": [
+        "release_id",
+        "locale"
+      ],
+      "rows": 0
+    },
+    {
+      "name": "releases",
+      "columns": [
+        "id",
+        "code",
+        "sort_order",
+        "status",
+        "chronicle_id"
+      ],
+      "primaryKey": [
+        "id"
+      ],
+      "rows": 0
+    },
+    {
+      "name": "saga_translations",
+      "columns": [
+        "saga_id",
+        "locale",
+        "title",
+        "summary",
+        "description",
+        "sources_json",
+        "translation_status",
+        "open_questions_json"
+      ],
+      "primaryKey": [
+        "saga_id",
+        "locale"
+      ],
+      "rows": 0
+    },
+    {
+      "name": "sagas",
+      "columns": [
+        "id",
+        "code",
+        "sort_order",
+        "branch_id"
+      ],
+      "primaryKey": [
+        "id"
+      ],
+      "rows": 0
     },
     {
       "name": "scenario_protocols",

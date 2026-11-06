@@ -31,13 +31,14 @@ export const ChronicleScreen = (props: ChronicleScreenProps): JSX.Element => {
   const releaseHint = hasReleases ? messages.datesHint : messages.noReleases
   const sourceItems = detailsData.profile.sources
   const backHref = localePath(locale, '/protocols/')
+  const classificationLabel = [detailsData.branch.title, detailsData.saga?.title].filter(isNonEmptyString).join(' / ')
 
   return (
     <section {...rootAttrs} className={cl(styles.root, className)}>
       <Link href={backHref} className={styles.back}>
         ← {messages.back}
       </Link>
-      <p className={styles.branch}>{detailsData.branch.title}</p>
+      <p className={styles.branch}>{classificationLabel}</p>
       <h1 className={styles.title}>{detailsData.profile.title}</h1>
       <Markdown className={styles.description} markdown={descriptionMarkdown} />
       <h2 className={styles.heading}>{messages.releases}</h2>

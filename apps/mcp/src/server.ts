@@ -93,7 +93,7 @@ export function createServer(manager: DatasetManager): McpServer {
     'get_catalog_record',
     {
       description:
-        'Читает описание, источники и структурированные поля хроники, выпуска, регионального контекста, региона или страны.',
+        'Читает ветку, сагу, хронику-группу, самостоятельный release:… релиз, региональный контекст, регион или страну.',
       inputSchema: z.strictObject({ key: keySchema, locale: localeSchema.optional() }),
       annotations
     },

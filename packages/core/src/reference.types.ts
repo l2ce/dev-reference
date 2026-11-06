@@ -66,6 +66,8 @@ export interface ReferenceCatalogItem {
   readonly status?: EntityValue<'protocols'>['status']
   /* Владелец хроники, если применимо. */
   readonly branchKey?: string
+  /** Необязательная историческая группа хроники. */
+  readonly sagaKey?: string | null
   /* Владелец выпуска, если применимо. */
   readonly chronicleKey?: string
   /* Протоколы выпуска, если применимо. */

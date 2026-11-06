@@ -41,6 +41,8 @@ export type ChronicleDetails = {
   readonly profile: ReferenceCatalogItem
   /** Ветка происхождения. */
   readonly branch: ReferenceCatalogItem
+  /** Историческая группа хроники, если установлена. */
+  readonly saga: ReferenceCatalogItem | null
   /** Выпуски и подтверждённые региональные связи. */
   readonly releases: readonly ChronicleReleaseDetails[]
 }

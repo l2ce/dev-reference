@@ -18,7 +18,7 @@ test('регионы, страны и точность даты принадле
   database.replaceSnapshot(regionalFixture())
   const contexts = database.list({
     collection: 'release-contexts',
-    ownerKey: 'chronicle:high-five:base',
+    ownerKey: 'release:high-five',
     regionKey: 'region:na'
   })
   assert.equal(contexts.total, 1)
@@ -26,8 +26,8 @@ test('регионы, страны и точность даты принадле
   assert.equal(contexts.items[0].releasedOn, '2010-07')
   assert.deepEqual(contexts.items[0].countryKeys, ['country:us'])
   assert.equal('regions' in database.get({ collection: 'protocols', key: 'protocol:273' }), false)
-  assert.equal(database.list({ collection: 'protocols', chronicleReleaseKey: 'chronicle:high-five:base' }).total, 2)
-  assert.equal(database.list({ collection: 'chronicle-releases', protocolKey: 'protocol:152-rev-1' }).total, 1)
+  assert.equal(database.list({ collection: 'protocols', releaseKey: 'release:high-five' }).total, 2)
+  assert.equal(database.list({ collection: 'releases', protocolKey: 'protocol:152-rev-1' }).total, 1)
   assert.equal(database.list({ collection: 'release-contexts', protocolKey: 'protocol:152-rev-1' }).total, 1)
   const sql = new Sqlite(path)
   t.after(() => sql.close())
@@ -38,7 +38,7 @@ test('регионы, страны и точность даты принадле
 test('неизвестный регион и неизвестная дата не подменяются глобальными признаками', async (t) => {
   const { database } = await fixture(t)
   database.replaceSnapshot(regionalFixture())
-  const context = database.get({ collection: 'release-contexts', key: 'chronicle:c4:base:unknown' })
+  const context = database.get({ collection: 'release-contexts', key: 'release-context:c4:unknown' })
   assert.equal(context.regionKey, null)
   assert.equal(context.releasedOn, null)
   assert.deepEqual(context.countryKeys, [])
@@ -63,17 +63,39 @@ test('календарная дата проверяет точность и в�
     assert.equal(releaseDateSchema.safeParse(value).success, false, value)
 })
 
-test('источники, ссылки на регионы и страны обязательны для конкретных утверждений', () => {
+test('ссылки на регионы и страны должны существовать и не повторяться', () => {
   for (const patch of [
     { regionKey: 'region:absent' },
     { countryKeys: ['country:absent'] },
-    { countryKeys: ['country:us', 'country:us'] },
-    { translations: [] }
+    { countryKeys: ['country:us', 'country:us'] }
   ]) {
     const snapshot = regionalFixture()
-    Object.assign(snapshot.entries.find((entry) => entry.key === 'chronicle:high-five:base:na').value, patch)
+    Object.assign(snapshot.entries.find((entry) => entry.key === 'release-context:high-five:na').value, patch)
     assert.throws(() => validateSnapshot(snapshot), { code: 'VALIDATION_ERROR' })
   }
+})
+
+test('регион, дата и страны сохраняются без источников при любом статусе', async (t) => {
+  const { database } = await fixture(t)
+  const snapshot = regionalFixture()
+  const context = snapshot.entries.find((entry) => entry.key === 'release-context:high-five:na')
+  for (const translation of context.value.translations) {
+    delete translation.source
+    translation.description = 'Региональный контекст без референсов.'
+  }
+  for (const status of ['missing', 'partial', 'documented']) {
+    context.value.status = status
+    database.replaceSnapshot(snapshot)
+    const saved = database.get({ collection: context.collection, key: context.key })
+    assert.equal(saved.status, status)
+    assert.equal(saved.regionKey, 'region:na')
+    assert.equal(saved.releasedOn, '2010-07')
+    assert.deepEqual(saved.countryKeys, ['country:us'])
+    assert.deepEqual(saved.translations[0].source, [])
+  }
+  context.value.status = 'partial'
+  context.value.translations = []
+  assert.doesNotThrow(() => validateSnapshot(snapshot))
 })
 
 test('удаление используемого протокола, выпуска или региона защищено; ошибка пакета атомарна', async (t) => {
@@ -82,7 +104,7 @@ test('удаление используемого протокола, выпус
   const before = database.revision()
   for (const [collection, key] of [
     ['protocols', 'protocol:152-rev-1'],
-    ['chronicle-releases', 'chronicle:high-five:base'],
+    ['releases', 'release:high-five'],
     ['regions', 'region:na'],
     ['countries', 'country:us']
   ]) {

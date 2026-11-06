@@ -28,3 +28,32 @@ test('проекция сохраняет UUID и компактные исто�
   )
   for (const source of projected) assert.deepEqual(sourceSchema.parse(source), source)
 })
+
+test('документы, привязки и проекция сайта допускают отсутствие всех источников', async () => {
+  const snapshot = await knowledgeFixture()
+  snapshot.sources = []
+  for (const record of [...snapshot.chronicles, ...snapshot.protocols, ...snapshot.documents]) record.sourceIds = []
+  for (const entity of snapshot.entities) {
+    for (const binding of entity.bindings) binding.sourceIds = []
+  }
+  const checked = validateKnowledge(snapshot)
+  const result = validateDataset(toDocumentationDataset(checked, { renderLink: (target) => target.id }))
+  const profiles = result.bases.flatMap((base) => base.protocols)
+  assert.ok(profiles.length > 0)
+  for (const profile of profiles) assert.deepEqual(profile.sources, [])
+})
+
+test('DTO сайта допускает пустой или отсутствующий список источников', () => {
+  for (const omitted of [false, true]) {
+    const input = dataset()
+    for (const base of input.bases) {
+      for (const profile of base.protocols) {
+        if (omitted) delete profile.sources
+        else profile.sources = []
+      }
+    }
+    for (const base of validateDataset(input).bases) {
+      for (const profile of base.protocols) assert.deepEqual(profile.sources, [])
+    }
+  }
+})
