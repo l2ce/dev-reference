@@ -66,7 +66,8 @@ test('множественное чтение закреплено за прот
       '--protocol',
       '273',
       '--locale',
-      'en'
+      'en',
+      '--allow-missing'
     ])
   )
   assert.equal(read.items.length, 3)
@@ -74,7 +75,8 @@ test('множественное чтение закреплено за прот
     read.items.map((item) => item.availability),
     ['available', 'available', 'not-found']
   )
-  assert.ok(read.items.every((item) => item.protocol === 'protocol:273' && item.locale === 'en'))
+  assert.equal(read.items[0].record.translations[0].locale, 'en')
+  assert.equal(read.items[0].revisionKey, 'packet:key-packet:rev-1')
   const gap = success(await json(['packets', 'get', 'key-packet', '--protocol', '152']))
   assert.equal(gap.items[0].availability, 'unmapped')
   assert.equal(gap.items[0].markdown, null)

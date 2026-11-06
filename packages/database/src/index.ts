@@ -1,4 +1,4 @@
-export { openDatabase } from './api/database.js'
+export { openDatabase, restoreDatabase } from './api/database.js'
 export { databaseStatus } from './api/status.js'
 export { importDatabase, exportDatabase } from './exchange/exchange.js'
 export { validateSnapshot } from './model/validation.js'

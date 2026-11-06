@@ -7,6 +7,9 @@ import { writeFailure, writeSuccess } from '../output/writer.js'
 import type { CommanderOutput, OutputOptions } from '../output/output.types.js'
 import { registerRecordCommands } from './records-program.js'
 import { showCommandHelp } from './options.js'
+import { commandStructure, registerInterface } from './interface-program.js'
+import { GLOBAL_OPTION_IDS, commandOption } from '../help/options.js'
+import { helpRecovery, inspectHelpRequest, writeRequestedHelp } from '../help/service.js'
 
 /**
  * Читает версию установленного пакета, чтобы --version совпадал с package.json.
@@ -22,7 +25,7 @@ function packageVersion(): string {
  */
 export function outputOptions(program: Command): OutputOptions {
   return {
-    json: program.getOptionValue('json') === true,
+    json: program.getOptionValue('json') === true || program.getOptionValue('format') === 'json',
     pretty: program.getOptionValue('pretty') === true
   }
 }
@@ -48,11 +51,6 @@ export function createCliProgram(output: CommanderOutput): Command {
   const program = new Command('protocols-db')
   program
     .description(messages.description)
-    .option('-V, --version', messages.version)
-    .option('--database <path>', messages.flags.database)
-    .option('-l, --locale <locale>', messages.flags.locale)
-    .option('--json', messages.flags.json)
-    .option('--pretty', messages.flags.pretty)
     .helpOption('-h, --help', messages.help)
     .helpCommand('help [command]', messages.help)
     .configureHelp({ showGlobalOptions: true, sortOptions: true })
@@ -73,7 +71,9 @@ export function createCliProgram(output: CommanderOutput): Command {
     .exitOverride()
     .showHelpAfterError(messages.helpHint)
     .hook('preAction', checkOutputOptions)
+  for (const id of GLOBAL_OPTION_IDS.filter((id) => id !== 'help')) program.addOption(commandOption(id))
   registerRecordCommands(program)
+  registerInterface(program)
   program.action(showCommandHelp)
   return program
 }
@@ -88,7 +88,7 @@ function writeInformation(program: Command, output: CommanderOutput, version: bo
   }
   const text = version ? packageVersion() + '\n' : output.stdout
   if (options.json) {
-    writeSuccess(version ? { version: text.trim() } : { help: text }, options)
+    writeSuccess(version ? { version: text.trim() } : { help: text, structure: commandStructure(program) }, options)
   } else {
     process.stdout.write(text)
   }
@@ -99,6 +99,13 @@ function writeInformation(program: Command, output: CommanderOutput, version: bo
  */
 export async function runCli(program: Command, output: CommanderOutput, argv: readonly string[]): Promise<void> {
   try {
+    const help = inspectHelpRequest(program, argv)
+    if (help.requested) {
+      writeRequestedHelp(help)
+      return
+    }
+    if (help.structureOnly || (help.brief && help.command.name() !== 'schema'))
+      throw new DatabaseError('USAGE', '--brief и --structure-only требуют help либо --help; schema допускает --brief.')
     await program.parseAsync([...argv], { from: 'user' })
     checkOutputOptions(program)
     if (output.stdout) {
@@ -113,7 +120,7 @@ export async function runCli(program: Command, output: CommanderOutput, argv: re
       }
       return
     }
-    writeFailure(error, outputOptions(program))
+    writeFailure(error, outputOptions(program), helpRecovery(program, argv, error))
     if (error instanceof CommanderError && !outputOptions(program).json) {
       process.stderr.write(messages.helpHint + '\n')
     }

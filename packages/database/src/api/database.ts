@@ -1,13 +1,16 @@
+import { existsSync } from 'node:fs'
 import { DatabaseError } from '../errors.js'
 import { defaultDatabasePath } from '../paths.js'
 import { snapshotRevision } from '../model/revision.js'
+import { parseEntry } from '../model/entry.js'
 import { validateSnapshot } from '../model/validation.js'
 import { connect } from '../sqlite/connection.js'
 import { prepareDatabase } from '../sqlite/bootstrap.js'
 import { readEntity, readManifest, readSnapshot, readImplementation, listRecords } from '../sqlite/records.js'
 import { restoreSnapshot } from '../sqlite/persistence.js'
 import { sqliteMessages as messages } from '../sqlite/messages.js'
-import { writeChanges } from './mutation.js'
+import { writeChanges, commitSnapshot } from './mutation.js'
+import { readVersion } from '../sqlite/version.js'
 import type {
   Collection,
   EntityCollection,
@@ -31,7 +34,9 @@ import type {
   RecordWritten,
   UpdateInput,
   WriteOptions,
-  WriteResult
+  WriteResult,
+  ProjectionOptions,
+  ProjectedRead
 } from './database.types.js'
 
 /**
@@ -122,6 +127,43 @@ class DatabaseHandle implements Database {
   }
 
   /**
+   * Возвращает токен фиксации, не читая документы ради семантического SHA-256.
+   */
+  version(): string {
+    this.assertOpen()
+    return this.connection.client.transaction(() => readVersion(this.connection))()
+  }
+
+  /**
+   * Выполняет фильтрацию и пагинацию лёгкой проекции до загрузки полных выбранных записей.
+   */
+  readProjection(
+    options: ProjectionOptions,
+    select: (catalog: DatabaseSnapshot, version: string) => readonly string[]
+  ): ProjectedRead {
+    this.assertOpen()
+    return this.connection.client.transaction(() => {
+      const projection = {
+        ...options,
+        locale: options.locale === null ? readManifest(this.connection)?.defaultLocale : options.locale
+      }
+      const catalog = readSnapshot(this.connection, projection)
+      const version = readVersion(this.connection)
+      const selected = new Set(select(catalog, version))
+      const entries = catalog.entries.map((entry) => {
+        if (!selected.has(entry.key)) return entry
+        const fields = { ...projection, description: true, sources: true, questions: true }
+        const value =
+          entry.kind === 'entity'
+            ? readEntity(this.connection, { key: entry.key, collection: entry.collection }, fields)
+            : readImplementation(this.connection, { key: entry.key, collection: entry.collection }, fields)
+        return value ? parseEntry({ ...entry, value }) : entry
+      })
+      return { catalog: { ...catalog, entries }, version }
+    })()
+  }
+
+  /**
    * Проверяет полный снимок до транзакции и атомарно заменяет содержимое базы.
    * Исключение callback до COMMIT откатывает импорт; сам callback не должен менять базу.
    */
@@ -137,6 +179,14 @@ class DatabaseHandle implements Database {
   applyChanges(operations: readonly DatabaseOperation[], options?: WriteOptions): WriteResult {
     this.assertOpen(true)
     return writeChanges(this.connection, operations, options)
+  }
+
+  /**
+   * Сохраняет проверенный план целиком; проверка версии и запись выполняются под одной блокировкой.
+   */
+  commitSnapshot(snapshot: DatabaseSnapshot, options?: WriteOptions): WriteResult {
+    this.assertOpen(true)
+    return commitSnapshot(this.connection, snapshot, options)
   }
 
   /**
@@ -193,5 +243,39 @@ export function openDatabase(options: OpenDatabaseOptions = {}): Database {
   } catch (error) {
     connection.client.close()
     throw error
+  }
+}
+
+/**
+ * Полностью восстанавливает текущую SQL-структуру из проверенного предметного снимка.
+ * В отличие от обычного открытия допускает несовместимую старую схему; проверка версии и DDL атомарны.
+ */
+export function restoreDatabase(
+  input: DatabaseSnapshot,
+  options: Pick<OpenDatabaseOptions, 'database'> & Pick<WriteOptions, 'ifVersion' | 'dryRun'> = {}
+): {
+  /** Версия реально сохранённого либо проверенного основания; null для отсутствующей базы в dryRun. */
+  version: string | null
+  /** Семантический SHA-256 проверенного входа. */
+  revision: string
+} {
+  const snapshot = validateSnapshot(input)
+  const path = options.database ?? defaultDatabasePath
+  if (!existsSync(path) && options.ifVersion) throw new DatabaseError('REVISION_CONFLICT', messages.conflict)
+  if (!existsSync(path) && options.dryRun) return { version: null, revision: snapshotRevision(snapshot) }
+  const connection = connect({ path, readOnly: options.dryRun, create: !options.dryRun })
+  try {
+    if (options.dryRun) {
+      const version = connection.client.transaction(() => readVersion(connection))()
+      if (options.ifVersion && options.ifVersion !== version)
+        throw new DatabaseError('REVISION_CONFLICT', messages.conflict)
+      return { version, revision: snapshotRevision(snapshot) }
+    }
+    return {
+      version: restoreSnapshot(connection, snapshot, undefined, undefined, options.ifVersion),
+      revision: snapshotRevision(snapshot)
+    }
+  } finally {
+    connection.client.close()
   }
 }

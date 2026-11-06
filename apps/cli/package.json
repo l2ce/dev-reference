@@ -12,7 +12,8 @@
   "scripts": {
     "build": "node scripts/build.mjs",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "test": "node --test test/*.test.mjs"
+    "test": "node --test test/*.test.mjs",
+    "help:check": "node scripts/check-help.mjs"
   },
   "dependencies": {
     "commander": "15.0.0",
@@ -21,6 +22,8 @@
     "zod": "4.6.7"
   },
   "devDependencies": {
+    "ajv": "8.20.0",
+    "ajv-formats": "3.0.1",
     "@l2ce/typescript-config": "workspace:*",
     "@types/node": "24.19.2",
     "typescript": "6.0.3"

@@ -12,6 +12,7 @@ import type { DatabaseSnapshot, DatabaseEntry, EntityEntry } from '../model/mode
 import type { InternalIdentities } from './storage.types.js'
 import type { RecordWritten } from '../api/database.types.js'
 import type { Connection } from './sqlite.types.js'
+import { advanceVersion, readVersion } from './version.js'
 
 /**
  * Записывает карточку через конкретную таблицу: состав и тип каждого поля проверяет TypeScript.
@@ -116,18 +117,23 @@ export function restoreSnapshot(
   connection: Connection,
   snapshot: DatabaseSnapshot,
   onRecord?: RecordWritten,
-  onRecordStart?: RecordWritten
-): void {
+  onRecordStart?: RecordWritten,
+  ifVersion?: string
+): string {
   connection.client.pragma('foreign_keys = OFF')
   try {
-    connection.client
+    return connection.client
       .transaction(() => {
+        if (ifVersion && readVersion(connection) !== ifVersion) {
+          throw new DatabaseError('REVISION_CONFLICT', messages.conflict)
+        }
         prepareImportSchema(connection)
         persistSnapshot(connection, snapshot, onRecord, onRecordStart)
         const violations = connection.client.prepare('PRAGMA foreign_key_check').all()
         if (violations.length > 0) {
           throw new DatabaseError('DATABASE_INTEGRITY_ERROR', messages.integrity, { violations })
         }
+        return readVersion(connection)
       })
       .immediate()
   } finally {
@@ -213,4 +219,5 @@ export function persistSnapshot(
     writeEntry(connection, entry, identities)
     onRecord?.(entry, ++completed, snapshot.entries.length)
   }
+  advanceVersion(connection)
 }

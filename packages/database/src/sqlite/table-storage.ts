@@ -10,6 +10,7 @@ import type { Connection } from './sqlite.types.js'
 import type { DatabaseSnapshot } from '../model/model.types.js'
 import type { TableSnapshot } from '../exchange/table.types.js'
 import type { ProgressReporter } from '../exchange/exchange.types.js'
+import { advanceVersion } from './version.js'
 
 /**
  * Сопоставляет динамический манифест с актуальной схемой; входной SQL не исполняется.
@@ -73,6 +74,7 @@ export function restoreTableSnapshot(
         assertTableSchema(connection, snapshot)
         writeTables(connection, snapshot, progress)
         const documents = validateStoredTables(connection, snapshot)
+        advanceVersion(connection)
         const total = snapshot.manifest.tables.reduce((sum, table) => sum + table.rows, 0)
         progress?.stage('commit', total, total)
         return documents

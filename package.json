@@ -18,6 +18,7 @@
     "data:build": "node scripts/turbo.mjs run build --filter=@l2ce/database",
     "database": "pnpm --filter @l2ce/database database",
     "cli:build": "node scripts/turbo.mjs run build --filter=@l2ce/dev-reference-cli",
+    "cli:help:check": "node scripts/turbo.mjs run help:check --filter=@l2ce/dev-reference-cli",
     "cli": "node apps/cli/dist/index.js",
     "cli:local": "node apps/cli/dist/index.js",
     "start:mcp": "node apps/mcp/dist/index.js",

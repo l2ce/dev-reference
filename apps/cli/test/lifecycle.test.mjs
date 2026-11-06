@@ -13,7 +13,7 @@ test('init создаёт ru/en, экспорт и импорт сохраняю
   const output = join(parent, 'export')
   assert.equal(success(await json(['export', '--output', output])).tables, 38)
   success(await json(['protocols', 'create', '268']))
-  success(await json(['import', '--input', output]))
+  success(await json(['import', '--input', output, '--replace']))
   assert.equal(success(await json(['status'])).revision, before)
   assert.equal(success(await json(['validate'])).valid, true)
 })

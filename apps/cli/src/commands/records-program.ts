@@ -10,11 +10,13 @@ import { runCommand } from './run.js'
  */
 async function executeAction(this: Command): Promise<void> {
   const group = groupSchema.safeParse(this.parent?.name())
+  const { format, color: _color, verbose: _verbose, ...legacyOptions } = this.optsWithGlobals()
   const args = argumentSchema.parse({
     command: this.name(),
     group: group.success ? group.data : undefined,
     operands: this.processedArgs.flat(),
-    ...this.optsWithGlobals()
+    ...legacyOptions,
+    json: legacyOptions.json === true || format === 'json'
   })
   writeSuccess(await runCommand(args), {
     json: args.json,
@@ -74,7 +76,7 @@ function textOptions(command: Command): Command {
 export function registerRecordCommands(program: Command): void {
   for (const group of groupSchema.options) {
     const knowledge = ['packets', 'scenarios', 'articles'].includes(group)
-    const parent = program.command(group).description(messages.groups[group]).action(showCommandHelp)
+    const parent = program.command(group, { hidden: true }).description(messages.groups[group]).action(showCommandHelp)
     const list = pageOptions(parent.command('list').description(messages.commands.list))
     if (group === 'protocols') {
       list
@@ -170,27 +172,8 @@ export function registerRecordCommands(program: Command): void {
       }
     }
   }
-  for (const name of ['status', 'init', 'validate'] as const) {
-    program.command(name).description(messages.commands[name]).action(executeAction)
-  }
-  program
-    .command('import')
-    .description(messages.commands.import)
-    .option('--input <directory>', messages.flags.input)
-    .action(executeAction)
-  program
-    .command('export')
-    .description(messages.commands.export)
-    .option('--output <directory>', messages.flags.output)
-    .action(executeAction)
-  writeOptions(program.command('batch').description(messages.commands.batch)).action(executeAction)
   pageOptions(knowledgeOptions(program.command('search').description(messages.commands.search)))
     .addOption(new Option('--status <status>', messages.flags.status).choices(['missing', 'partial', 'documented']))
     .addOption(new Option('--kind <kind>', messages.flags.kind).choices(['packet', 'scenario', 'article']))
-    .action(executeAction)
-  program
-    .command('read <keys...>')
-    .description(messages.commands.read)
-    .requiredOption('--protocol <key>', messages.flags.protocol)
     .action(executeAction)
 }

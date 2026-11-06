@@ -20,6 +20,10 @@ export const operationsSchema = z.array(
 )
 export const writeOptionsSchema = z.strictObject({
   dryRun: z.boolean().optional(),
+  ifVersion: z
+    .string()
+    .regex(/^v1:[a-f0-9]{64}$/)
+    .optional(),
   ifRevision: z
     .string()
     .regex(/^[a-f0-9]{64}$/)

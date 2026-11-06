@@ -120,6 +120,8 @@ export type DatabaseOperation =
  * Оптимистическая проверка всей общей базы перед изменениями.
  */
 export interface WriteOptions {
+  /** Непрозрачное поколение SQLite, полученное через version/readProjection. */
+  readonly ifVersion?: string
   /* Ожидаемый SHA-256 полного снимка; проверяется даже для no-op. */
   readonly ifRevision?: string
   /* Проверить пакет и вычислить результат без сохранения строк. */
@@ -129,6 +131,8 @@ export interface WriteOptions {
  * Результат атомарного пакета; changed включает автоматически удалённые имплементации.
  */
 export interface WriteResult {
+  /** Поколение после фиксации; dryRun возвращает исходное, а не будущую версию. */
+  readonly version: string
   /* Число созданных, изменённых или удалённых адресов. */
   readonly changed: number
   /* Новая ревизия полного многоязычного снимка. */
@@ -176,10 +180,26 @@ export interface Database {
    */
   revision(): string
   /**
+   * Возвращает поколение фиксации без материализации полного снимка.
+   */
+  version(): string
+  /**
+   * Читает лёгкий каталог, выбирает адреса и только затем материализует полные документы одной транзакцией.
+   * Пустые непрошенные поля catalog не являются сохранёнными знаниями или входом для записи.
+   */
+  readProjection(
+    options: ProjectionOptions,
+    select: (catalog: DatabaseSnapshot, version: string) => readonly string[]
+  ): ProjectedRead
+  /**
    * Проверяет и целиком заменяет базу одной транзакцией; callbacks вызываются до COMMIT.
    * onRecordStart сообщает адрес перед записью строки и число ранее записанных строк.
    */
   replaceSnapshot(snapshot: DatabaseSnapshot, onRecord?: RecordWritten, onRecordStart?: RecordWritten): void
+  /**
+   * Проверяет и атомарно сохраняет конечный снимок с защитой версии, включая реестр языков.
+   */
+  commitSnapshot(snapshot: DatabaseSnapshot, options?: WriteOptions): WriteResult
   /**
    * Проверяет конечное состояние всего пакета и атомарно сохраняет общий снимок.
    */
@@ -204,4 +224,28 @@ export interface Database {
    * Освобождает соединение; повторное закрытие допустимо.
    */
   close(): void
+}
+
+/**
+ * Поля переводов, необходимые для поиска и фильтрации до материализации документов.
+ */
+export type ProjectionOptions = {
+  /** Один язык; null выбирает основной под той же транзакцией, отсутствие — все переводы. */
+  readonly locale?: string | null
+  /** Нужен исходный Markdown при поиске или проверке наличия. */
+  readonly description?: boolean
+  /** Нужны объекты источников при поиске или фильтрации. */
+  readonly sources?: boolean
+  /** Нужны открытые вопросы. */
+  readonly questions?: boolean
+}
+
+/**
+ * Каталог с материализованными выбранными документами и версией одного читающего снимка.
+ */
+export type ProjectedRead = {
+  /** Невыбранные записи содержат только запрошенную проекцию, не полный снимок для записи. */
+  readonly catalog: DatabaseSnapshot
+  /** Полный токен поколения SQLite. */
+  readonly version: string
 }

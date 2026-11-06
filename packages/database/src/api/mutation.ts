@@ -11,6 +11,7 @@ import type { DatabaseEntry, DatabaseSnapshot } from '../model/model.types.js'
 import type { DatabaseOperation, WriteOptions, WriteResult } from './database.types.js'
 import type { InputOperation } from './mutation.types.js'
 import type { Connection } from '../sqlite/sqlite.types.js'
+import { readVersion } from '../sqlite/version.js'
 
 /**
  * Применяет изменение к частному индексу. Ссылки проверяются в конечном состоянии всего пакета.
@@ -67,6 +68,36 @@ function countChanges(before: DatabaseSnapshot, after: DatabaseSnapshot): number
 }
 
 /**
+ * Фиксирует конечное состояние предметного плана без обхода валидатора и оптимистической блокировки.
+ */
+export function commitSnapshot(
+  connection: Connection,
+  input: DatabaseSnapshot,
+  options: WriteOptions = {}
+): WriteResult {
+  const checked = writeOptionsSchema.parse(options)
+  const after = validateSnapshot(input)
+  return connection.client
+    .transaction(() => {
+      const before = readSnapshot(connection)
+      const previousRevision = snapshotRevision(before)
+      if (checked.ifVersion && checked.ifVersion !== readVersion(connection)) {
+        throw new DatabaseError('REVISION_CONFLICT', messages.conflict)
+      }
+      if (checked.ifRevision && checked.ifRevision !== previousRevision) {
+        throw new DatabaseError('REVISION_CONFLICT', messages.conflict)
+      }
+      const revision = snapshotRevision(after)
+      const changed = countChanges(before, after)
+      if (revision !== previousRevision && !checked.dryRun) {
+        persistSnapshot(connection, after)
+      }
+      return { changed, revision, version: readVersion(connection) }
+    })
+    .immediate()
+}
+
+/**
  * Проверяет пакет в одной IMMEDIATE-транзакции общей базы. No-op не переписывает строки.
  * Переводы изменяются вместе с общим техническим основанием; проверка ревизии глобальная.
  */
@@ -88,6 +119,9 @@ export function writeChanges(
   return connection.client
     .transaction(() => {
       const before = readSnapshot(connection)
+      if (checked.data.ifVersion && checked.data.ifVersion !== readVersion(connection)) {
+        throw new DatabaseError('REVISION_CONFLICT', messages.conflict)
+      }
       if (checked.data.ifRevision && checked.data.ifRevision !== snapshotRevision(before)) {
         throw new DatabaseError('REVISION_CONFLICT', messages.conflict)
       }
@@ -113,7 +147,7 @@ export function writeChanges(
       if (changed > 0 && !checked.data.dryRun) {
         persistSnapshot(connection, after)
       }
-      return { changed, revision: snapshotRevision(after) }
+      return { changed, revision: snapshotRevision(after), version: readVersion(connection) }
     })
     .immediate()
 }

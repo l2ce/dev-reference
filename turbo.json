@@ -28,6 +28,10 @@
       "dependsOn": ["^build"],
       "outputs": []
     },
+    "help:check": {
+      "dependsOn": ["build"],
+      "outputs": []
+    },
     "@l2ce/dev-reference-mcp#test": {
       "dependsOn": ["build"],
       "outputs": []

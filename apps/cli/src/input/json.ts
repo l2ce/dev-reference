@@ -12,25 +12,26 @@ async function readInputStream(stream: AsyncIterable<unknown>): Promise<string> 
   let bytes = 0
   for await (const chunk of stream) {
     if (typeof chunk !== 'string' && !(chunk instanceof Uint8Array)) {
-      throw new DatabaseError('INVALID_JSON', messages.invalidInputChunk)
+      throw new DatabaseError('INVALID_INPUT', messages.invalidInputChunk)
     }
     const buffer = Buffer.from(chunk)
     bytes += buffer.length
     if (bytes > MAX_INPUT_BYTES) {
-      throw new DatabaseError('INVALID_JSON', messages.inputTooLarge)
+      throw new DatabaseError('INVALID_INPUT', messages.inputTooLarge)
     }
     chunks.push(buffer)
   }
-  return Buffer.concat(chunks).toString('utf8')
+  try {
+    return new TextDecoder('utf-8', { fatal: true, ignoreBOM: true }).decode(Buffer.concat(chunks))
+  } catch (error) {
+    throw new DatabaseError('INVALID_INPUT', 'Ввод должен быть корректным UTF-8.', undefined, error)
+  }
 }
 
 /**
- * Читает ограниченный UTF-8 текст из файла или stdin; '-' означает stdin, TTY отклоняется.
+ * Читает ограниченный UTF-8 текст из файла или stdin; '-' всегда означает stdin.
  */
 export async function readInputText(file = '-'): Promise<string> {
-  if (file === '-' && process.stdin.isTTY) {
-    throw new DatabaseError('USAGE', messages.missingInput)
-  }
   return readInputStream(file === '-' ? process.stdin : createReadStream(file))
 }
 

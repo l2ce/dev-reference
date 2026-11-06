@@ -9,7 +9,7 @@
   отдельные переводы, программный API и мини-CLI записи и обмена JSON.
 - [Предметное ядро](packages/core/README.md) — выбор документов и сборка Markdown.
 - [CLI](apps/cli/README.md) — предметные команды чтения и наполнения справочника.
-  По умолчанию выводится текст; `--json` включает машинный формат.
+  По умолчанию выводится текст; `--format json` включает машинный формат.
 - [Web](apps/web/README.md) — приложение на Next.js с App Router.
 - [MCP](apps/mcp/README.md) — поиск и чтение с автоматическим обновлением из Git.
 
@@ -54,8 +54,8 @@ pnpm run database status
 
 # Предметное чтение и запись:
 pnpm cli:build
-pnpm cli protocols list
-pnpm cli batch --file changes.json
+pnpm cli list --type protocols
+pnpm cli batch --input changes.json --dry-run
 pnpm cli export
 git diff -- packages/database/data
 ```

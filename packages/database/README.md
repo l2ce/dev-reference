@@ -37,9 +37,9 @@
 Коды релизов уникальны независимо от хроники; соглашения `base` нет.
 
 ```bash
-pnpm cli sagas list --branch main
-pnpm cli chronicles list --saga the-chaotic-throne
-pnpm cli releases get the-kamael
+pnpm cli list --type sagas --branch main
+pnpm cli list --type chronicles --saga the-chaotic-throne
+pnpm cli read release:the-kamael
 ```
 
 ### Региональные контексты
@@ -61,25 +61,30 @@ pnpm cli releases get the-kamael
 редактируются в протоколе. `protocol_regions` удалена.
 
 ```bash
-pnpm cli regions list
-pnpm cli contexts list --release high-five
-pnpm cli protocols list --chronicle high-five --region na
-pnpm cli contexts inspect high-five:na --json
-pnpm cli contexts schema --json
+pnpm cli list --type regions
+pnpm cli list --type release-contexts --release high-five
+pnpm cli list --type protocols --chronicle high-five --region na
+pnpm cli read release-context:high-five:na --view edit --format json
+pnpm cli schema create --type release-contexts
 ```
 
-Создание и изменение контекстов выполняются через `contexts create|update`
-с `--file`, а согласованные изменения — через `batch`. UUID, `key`, `code` и
+Создание и изменение контекстов выполняются через `create|update`
+по полному адресу, а согласованные изменения — через `batch --input`. UUID, `key`, `code` и
 `releaseKey` новой записи выводятся из команды. `releasedOn: null` не заменяется
 датой патчноута; отсутствие региона не размножает номера по всем колонкам.
 
 Команды запускаются из корня проекта. Нужны Node.js 24 и pnpm.
 
 Для предметного редактирования используйте [CLI](../../apps/cli/README.md):
-`pnpm cli protocols update`, `pnpm cli releases update`, `pnpm cli batch`.
+`pnpm cli update protocol:152`, `pnpm cli update release:high-five`, `pnpm cli batch --input changes.json`.
 Связанные изменения и удаления выполняйте одним пакетом с `--dry-run` перед
-записью и `ifRevision` для защиты от конкурентных изменений. JSON-снимок вручную
+записью и `--if-version` для защиты от конкурентных изменений. JSON-снимок вручную
 не редактируется: после изменения SQLite выполните экспорт.
+Для знакомства с командами доступны `pnpm cli help update --type protocols --brief`
+и `pnpm cli help update --type protocols --format json --structure-only`.
+Текст записи показывает сохранённую версию для следующего `--if-version`;
+предпросмотр не объявляет будущую версию сохранённой. Команды восстановления
+сохраняют явно выбранный SQLite-файл и не повторяют запись автоматически.
 
 ```bash
 pnpm data:build
@@ -132,6 +137,21 @@ pnpm run database export
 Пустые таблицы включаются в манифест. Содержимое `data/` обновляется экспортом.
 
 ## Разработка
+
+Новый CLI использует `readProjection(options, select)`: лёгкий SQL-каталог читается
+до выбора страницы, полные документы — только для выбранных адресов той же транзакции.
+Непрошенные текстовые поля проекции не являются данными для обратной записи.
+`commitSnapshot(snapshot, { ifVersion, dryRun })` атомарно проверяет и сохраняет
+конечный план, включая реестр языков. `restoreDatabase` также восстанавливает старую
+несовместимую структуру с тем же предусловием версии.
+
+`version()` и `WriteResult.version` — непрозрачное поколение SQLite-файла для CLI.
+Служебный `PRAGMA user_version` увеличивается внутри транзакции на каждом пути
+сохранения/импорта и не меняет предметные таблицы или формат 21. No-op, dry-run и
+экспорт его не меняют. Прямой SQL-write в обход API не поддерживается.
+Семантический SHA-256 `revision/ifRevision` прежнего API остаётся отдельным контрактом;
+его нельзя передавать вместо токена `version/ifVersion`. Операционный токен не
+экспортируется в Git и не переносится между копиями SQLite.
 
 Предметные чтения, фильтры и запись используют Drizzle Query Builder с типами колонок
 из деклараций. Нативный SQL применяется для инспекции SQLite, восстановления структуры

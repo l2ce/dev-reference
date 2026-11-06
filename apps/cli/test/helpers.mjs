@@ -50,6 +50,27 @@ export function jsonCli(args, input = '', options = {}) {
   return cli(['--json', ...args], input, options)
 }
 
+/** Выполняет именно опубликованную CLI shell-команду, включая launcher и экранирование. */
+export function shellCli(command, options = {}) {
+  return new Promise((resolve, reject) => {
+    const child = spawn('/bin/sh', ['-c', command], {
+      cwd: options.cwd ?? temporaryRoot,
+      env: { ...process.env, ...options.env },
+      stdio: ['ignore', 'pipe', 'pipe']
+    })
+    let stdout = ''
+    let stderr = ''
+    child.stdout.setEncoding('utf8').on('data', (chunk) => {
+      stdout += chunk
+    })
+    child.stderr.setEncoding('utf8').on('data', (chunk) => {
+      stderr += chunk
+    })
+    child.once('error', reject)
+    child.once('close', (code) => resolve({ code, stdout, stderr }))
+  })
+}
+
 /**
  * Создаёт изолированную SQLite-базу с синтетическими знаниями и отдельный экспорт.
  * initialize:false оставляет создание базы проверяемой команде CLI.

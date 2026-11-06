@@ -1,4 +1,4 @@
-import { count, eq } from 'drizzle-orm'
+import { and, count, eq } from 'drizzle-orm'
 import { DatabaseError } from '../errors.js'
 import { parseEntry } from '../model/entry.js'
 import { entityAddressSchema, implementationAddressSchema, manifestSchema } from '../model/schema.js'
@@ -24,7 +24,7 @@ import type {
   ImplementationValue,
   ImplementationCollection
 } from '../model/model.types.js'
-import type { RecordPage, ListQuery } from '../api/database.types.js'
+import type { RecordPage, ListQuery, ProjectionOptions } from '../api/database.types.js'
 import type { Connection } from './sqlite.types.js'
 import type { RecordRow, StorageLayout } from './storage.types.js'
 
@@ -62,7 +62,12 @@ export function requireManifest(connection: Connection): DatabaseManifest {
 /**
  * Собирает DTO из декодированной Drizzle строки и связей, затем проверяет предметный контракт.
  */
-function decodeEntry(connection: Connection, layout: StorageLayout, row: RecordRow): DatabaseEntry {
+function decodeEntry(
+  connection: Connection,
+  layout: StorageLayout,
+  row: RecordRow,
+  projection?: ProjectionOptions
+): DatabaseEntry {
   const translations = layout.translations
   const value = {
     ...documentFields(row),
@@ -78,12 +83,25 @@ function decodeEntry(connection: Connection, layout: StorageLayout, row: RecordR
     ...(translations
       ? {
           translations: connection.orm
-            .select()
+            .select({
+              locale: translations.locale,
+              title: translations.title,
+              summary: translations.summary,
+              translationStatus: translations.translationStatus,
+              ...(!projection || projection.description ? { description: translations.description } : {}),
+              ...(!projection || projection.sources ? { source: translations.source } : {}),
+              ...(!projection || projection.questions ? { openQuestions: translations.openQuestions } : {})
+            })
             .from(translations)
-            .where(eq(translations.ownerId, row.id))
+            .where(
+              and(
+                eq(translations.ownerId, row.id),
+                projection?.locale ? eq(translations.locale, projection.locale) : undefined
+              )
+            )
             .orderBy(translations.locale)
             .all()
-            .map(({ ownerId: _ownerId, ...translation }) => translation)
+            .map((translation) => ({ description: '', source: [], openQuestions: [], ...translation }))
         }
       : {})
   }
@@ -98,7 +116,7 @@ function decodeEntry(connection: Connection, layout: StorageLayout, row: RecordR
 /**
  * Читает все предметные таблицы и переводы; согласованной транзакцией владеет вызывающий сценарий.
  */
-export function readSnapshot(connection: Connection): DatabaseSnapshot {
+export function readSnapshot(connection: Connection, projection?: ProjectionOptions): DatabaseSnapshot {
   return {
     ...requireManifest(connection),
     entries: layouts.flatMap((layout) =>
@@ -107,7 +125,7 @@ export function readSnapshot(connection: Connection): DatabaseSnapshot {
         .from(layout.table)
         .orderBy(keyExpression(layout))
         .all()
-        .map((row) => decodeEntry(connection, layout, row))
+        .map((row) => decodeEntry(connection, layout, row, projection))
     )
   }
 }
@@ -117,7 +135,8 @@ export function readSnapshot(connection: Connection): DatabaseSnapshot {
  */
 export function readEntity<C extends EntityCollection>(
   connection: Connection,
-  target: EntityAddress<C>
+  target: EntityAddress<C>,
+  projection?: ProjectionOptions
 ): EntityValue<C> | undefined {
   const address = entityAddressSchema.parse({ ...target, kind: 'entity' })
   const layout = layouts.find((candidate) => candidate.collection === address.collection && candidate.kind === 'entity')
@@ -130,7 +149,7 @@ export function readEntity<C extends EntityCollection>(
     .where(eq(keyExpression(layout), address.key))
     .get()
   // parseEntry проверяет схему той же коллекции C; динамический реестр скрывает корреляцию от TypeScript.
-  return row ? (decodeEntry(connection, layout, row).value as EntityValue<C>) : undefined
+  return row ? (decodeEntry(connection, layout, row, projection).value as EntityValue<C>) : undefined
 }
 
 /**
@@ -138,7 +157,8 @@ export function readEntity<C extends EntityCollection>(
  */
 export function readImplementation<C extends ImplementationCollection>(
   connection: Connection,
-  target: ImplementationAddress<C>
+  target: ImplementationAddress<C>,
+  projection?: ProjectionOptions
 ): ImplementationValue<C> | undefined {
   const address = implementationAddressSchema.parse({
     ...target,
@@ -156,7 +176,7 @@ export function readImplementation<C extends ImplementationCollection>(
     .where(eq(keyExpression(layout), address.key))
     .get()
   // Схема выбранной коллекции проверяет соответствие DTO конкретному C.
-  return row ? (decodeEntry(connection, layout, row).value as ImplementationValue<C>) : undefined
+  return row ? (decodeEntry(connection, layout, row, projection).value as ImplementationValue<C>) : undefined
 }
 
 /**
